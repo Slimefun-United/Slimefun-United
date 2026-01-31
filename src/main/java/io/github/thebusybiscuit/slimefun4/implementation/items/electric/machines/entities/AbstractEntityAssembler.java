@@ -47,7 +47,7 @@ import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
  *
  * @param <T> the type of {@link Entity} this assembler spawns
  * @author TheBusyBiscuit
- * 
+ *
  * @see WitherAssembler
  * @see IronGolemAssembler
  *
@@ -229,11 +229,17 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                         double offset = Double.parseDouble(data.getData(KEY_OFFSET));
 
                         Slimefun.runSync(() -> {
-                            Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
+                            Location loc =
+                                    new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
                             spawnEntity(loc);
 
-                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, getHead().getType());
-                        });
+                                    b.getWorld()
+                                            .playEffect(
+                                                    b.getLocation(),
+                                                    Effect.STEP_SOUND,
+                                                    getHead().getType());
+                                },
+                                b.getLocation());
                     }
                 }
             }
@@ -246,6 +252,11 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             @Override
             public boolean isSynchronized() {
                 return false;
+            }
+
+            @Override
+            public boolean isConcurrent() {
+                return true;
             }
         };
     }

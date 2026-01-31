@@ -11,6 +11,8 @@ description: Slimefun basically turns your entire server into a FTB modpack with
 main: io.github.thebusybiscuit.slimefun4.implementation.Slimefun
 api-version: '1.19'
 
+folia-supported: true
+
 # (Soft) dependencies of Slimefun, we hook into these plugins.
 softdepend:
   - PlaceholderAPI

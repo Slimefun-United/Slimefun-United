@@ -74,9 +74,8 @@ class EnvironmentChecker {
     }
 
     static void scheduleSlimeGlueCheck(@Nonnull Slimefun sf) {
-        Bukkit.getScheduler()
-                .runTaskLater(
-                        sf,
+        sf.getPlatformScheduler()
+                .runLater(
                         () -> {
                             if (Bukkit.getPluginManager().getPlugin("SlimeGlue") == null) {
                                 sf.getLogger().log(Level.WARNING, "SlimeGlue (slime adhesive) is not installed, you will lack additional protection checks for some plugins!");

@@ -4,6 +4,7 @@ import city.norain.slimefun4.api.menu.UniversalMenu;
 import city.norain.slimefun4.api.menu.UniversalMenuPreset;
 import city.norain.slimefun4.utils.InventoryUtil;
 import city.norain.slimefun4.utils.StringUtil;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.IDataSourceAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataScope;
@@ -44,14 +45,15 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 
 /**
- * Controller responsible for Slimefun block data.
+ /**
+ * Block data controller
  * <p>
- * Manages all Slimefun block data within chunks, including {@link SlimefunBlockData} and
- * {@link SlimefunUniversalData} records.
+ * Used to manage Slimefun block data within a chunk.
+ * <p>
+ * {@link SlimefunBlockData}
+ * {@link SlimefunUniversalData}
  *
  * @author Xzavier0722
  * @author NoRainCity
@@ -83,8 +85,11 @@ public class BlockDataController extends ADataController {
     private boolean enableDelayedSaving = false;
 
     private int delayedSecond = 0;
-    private BukkitTask looperTask;
-    /** Chunk data load mode configuration. */
+    private WrappedTask looperTask;
+    /**
+     * Chunk data load mode configuration.
+     * {@link ChunkDataLoadMode}
+     */
     private ChunkDataLoadMode chunkDataLoadMode;
 
     /**
@@ -122,14 +127,13 @@ public class BlockDataController extends ADataController {
             case LOAD_ON_STARTUP -> loadLoadedWorlds();
         }
 
-        Bukkit.getScheduler().runTaskLater(Slimefun.instance(), this::loadUniversalRecord, 1);
+        Slimefun.getPlatformScheduler().runLater(this::loadUniversalRecord, 1);
     }
 
     /** Loads data for every world that is currently loaded on the server. */
     private void loadLoadedWorlds() {
-        Bukkit.getScheduler()
-                .runTaskLater(
-                        Slimefun.instance(),
+        Slimefun.getPlatformScheduler()
+                .runLater(
                         () -> {
                             for (var world : Bukkit.getWorlds()) {
                                 loadWorld(world);
@@ -140,9 +144,8 @@ public class BlockDataController extends ADataController {
 
     /** Loads data for every chunk that is already loaded on the server. */
     private void loadLoadedChunks() {
-        Bukkit.getScheduler()
-                .runTaskLater(
-                        Slimefun.instance(),
+        Slimefun.getPlatformScheduler()
+                .runLater(
                         () -> {
                             for (var world : Bukkit.getWorlds()) {
                                 for (var chunk : world.getLoadedChunks()) {
@@ -160,16 +163,15 @@ public class BlockDataController extends ADataController {
      * @param delayedSecond   initial delay before the first execution
      * @param forceSavePeriod period in seconds for the forced save
      */
-    public void initDelayedSaving(Plugin p, int delayedSecond, int forceSavePeriod) {
+    public void initDelayedSaving(Slimefun p, int delayedSecond, int forceSavePeriod) {
         checkDestroy();
         if (delayedSecond < 1 || forceSavePeriod < 1) {
             throw new IllegalArgumentException("save period second must be greater than 0!");
         }
         enableDelayedSaving = true;
         this.delayedSecond = delayedSecond;
-        looperTask = Bukkit.getScheduler()
-                .runTaskTimerAsynchronously(
-                        p,
+        looperTask = Slimefun.getPlatformScheduler()
+                .runTimerAsync(
                         new DelayedSavingLooperTask(
                                 forceSavePeriod, () -> new HashMap<>(delayedWriteTasks), delayedWriteTasks::remove),
                         20,
@@ -1583,7 +1585,8 @@ public class BlockDataController extends ADataController {
                                     .updateUniversalDataUUID(l.getBlock(), String.valueOf(universalData.getUUID()));
                         }
                     },
-                    10L);
+                    10L,
+                    l);
 
             kvData.forEach(recordSet -> universalData.setData(
                     recordSet.get(FieldKey.DATA_KEY), DataUtils.blockDataDebase64(recordSet.get(FieldKey.DATA_VALUE))));

@@ -1,13 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.network;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
+
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -40,11 +41,11 @@ public abstract class Network {
      */
     protected Location regulator;
 
-    private final Queue<Location> nodeQueue = new ArrayDeque<>();
-    protected final Set<Location> connectedLocations = new HashSet<>();
-    protected final Set<Location> regulatorNodes = new HashSet<>();
-    protected final Set<Location> connectorNodes = new HashSet<>();
-    protected final Set<Location> terminusNodes = new HashSet<>();
+    private final Queue<Location> nodeQueue = new ConcurrentLinkedQueue<>();
+    protected final Set<Location> connectedLocations = ConcurrentHashMap.newKeySet();
+    protected final Set<Location> regulatorNodes = ConcurrentHashMap.newKeySet();
+    protected final Set<Location> connectorNodes = ConcurrentHashMap.newKeySet();
+    protected final Set<Location> terminusNodes = ConcurrentHashMap.newKeySet();
 
     /**
      * This constructs a new {@link Network} at the given {@link Location}.
@@ -230,7 +231,7 @@ public abstract class Network {
     public void display() {
         if (manager.isVisualizerEnabled()) {
             // TODO: Make Color configurable / network-dependent
-            Slimefun.runSync(new NetworkVisualizer(this, Color.BLUE));
+            Slimefun.runSync(new NetworkVisualizer(this, Color.BLUE), this.regulator);
         }
     }
 

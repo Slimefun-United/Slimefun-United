@@ -5,21 +5,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.Validate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
@@ -28,17 +30,21 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 import org.bukkit.scheduler.BukkitTask;
+import io.papermc.lib.PaperLib;
 
 import net.guizhanss.slimefun4.updater.AutoUpdateTask;
-import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.protection.ProtectionManager;
-
 import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.timings.SQLProfiler;
+import com.tcoded.folialib.FoliaLib;
+import com.tcoded.folialib.enums.EntityTaskResult;
+import com.tcoded.folialib.impl.PlatformScheduler;
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import com.xzavier0722.mc.plugin.slimefun4.chat.PlayerChatCatcher;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.BlockStorageMigrator;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.PlayerProfileMigrator;
 import com.xzavier0722.mc.plugin.slimefuncomplib.ICompatibleSlimefun;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
@@ -140,7 +146,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmet
 import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import io.papermc.lib.PaperLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
 
 /**
@@ -173,6 +178,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      * Keep track of whether this is a fresh install or a regular boot up.
      */
     private boolean isNewlyInstalled = false;
+
+    /**
+     * Folia support library
+     */
+    private final FoliaLib foliaLib = new FoliaLib(this);
 
     // Various things we need
     private final SlimefunConfigManager cfgManager = new SlimefunConfigManager(this);
@@ -432,7 +442,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
                                         + ")");
                     }
                 }),
-                0);
+                1);
 
         // Setting up our commands
         try {
@@ -456,7 +466,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         // Starting our tasks
         autoSavingService.start(this, config.getInt("options.auto-save-delay-in-minutes"));
         hologramsService.start();
-        ticker.start(this);
+        ticker.start();
 
         // Loading integrations
         logger.log(Level.INFO, "Loading Third-Party plugin integrations...");
@@ -466,7 +476,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
 
         if (cfgManager.isAutoUpdate()) {
             // Auto update for localized version
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new AutoUpdateTask(this, getFile()));
+            getPlatformScheduler().runNextTick((task) -> new AutoUpdateTask(this, getFile()).run());
         }
 
         // Hooray!
@@ -504,12 +514,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         getSQLProfiler().shutdown();
 
         // Cancel all tasks from this plugin immediately
-        Bukkit.getScheduler().cancelTasks(this);
+        foliaLib.getScheduler().cancelAllTasks();
 
         // TODO: Figure out why this code in commented out
         // Finishes all started movements/removals of block data
-        ticker.setPaused(true);
-        ticker.halt();
+        ticker.shutdown();
         /**try {
          * ticker.halt();
          * ticker.run();
@@ -568,31 +577,39 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This returns the time it took to load Slimefun (given a starting point).
+     * This private method gives us a {@link Collection} of every {@link MinecraftVersion}
+     * that Slimefun is compatible with (as a {@link String} representation).
+     * <p>
+     * Example:
      *
-     * @param timestamp
-     *            The time at which we started to load Slimefun.
+     * <pre>
+     * { 1.14.x, 1.15.x, 1.16.x }
+     * </pre>
      *
-     * @return The total time it took to load Slimefun (in ms or s)
+     * @return A {@link Collection} of all compatible minecraft versions as strings
      */
-    private @Nonnull String getStartupTime(long timestamp) {
-        long ms = (System.nanoTime() - timestamp) / 1000000;
+    static @Nonnull Collection<String> getSupportedVersions() {
+        List<String> list = new ArrayList<>();
 
-        if (ms > 1000) {
-            return NumberUtils.roundDecimalNumber(ms / 1000.0) + 's';
-        } else {
-            return NumberUtils.roundDecimalNumber(ms) + "ms";
+        for (MinecraftVersion version : MinecraftVersion.values()) {
+            if (!version.isVirtual()) {
+                list.add(version.getName());
+            }
         }
+
+        return list;
     }
 
     /**
-     * This method checks if this is currently running in a unit test
-     * environment.
+     * This returns the {@link Logger} instance that Slimefun uses.
+     * <p>
+     * <strong>Any {@link SlimefunAddon} should use their own {@link Logger} instance!</strong>
      *
-     * @return Whether we are inside a unit test
+     * @return Our {@link Logger} instance
      */
-    public boolean isUnitTest() {
-        return minecraftVersion == MinecraftVersion.UNIT_TEST;
+    public static @Nonnull Logger logger() {
+        validateInstance();
+        return instance.getLogger();
     }
 
     /**
@@ -651,27 +668,15 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This private method gives us a {@link Collection} of every {@link MinecraftVersion}
-     * that Slimefun is compatible with (as a {@link String} representation).
-     * <p>
-     * Example:
+     * This returns our {@link GPSNetwork} instance.
+     * The {@link GPSNetwork} is responsible for handling any GPS-related
+     * operations and for managing any {@link GEOResource}.
      *
-     * <pre>
-     * { 1.14.x, 1.15.x, 1.16.x }
-     * </pre>
-     *
-     * @return A {@link Collection} of all compatible minecraft versions as strings
+     * @return Our {@link GPSNetwork} instance
      */
-    static @Nonnull Collection<String> getSupportedVersions() {
-        List<String> list = new ArrayList<>();
-
-        for (MinecraftVersion version : MinecraftVersion.values()) {
-            if (!version.isVirtual()) {
-                list.add(version.getName());
-            }
-        }
-
-        return list;
+    public static @Nonnull GPSNetwork getGPSNetwork() {
+        validateInstance();
+        return instance.gpsNetwork;
     }
 
     /**
@@ -842,15 +847,15 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This returns the {@link Logger} instance that Slimefun uses.
-     * <p>
-     * <strong>Any {@link SlimefunAddon} should use their own {@link Logger} instance!</strong>
+     * This method returns out {@link MinecraftRecipeService} for Slimefun.
+     * This service is responsible for finding/identifying {@link Recipe Recipes}
+     * from vanilla Minecraft.
      *
-     * @return Our {@link Logger} instance
+     * @return Slimefun's {@link MinecraftRecipeService} instance
      */
-    public static @Nonnull Logger logger() {
+    public static @Nonnull MinecraftRecipeService getMinecraftRecipeService() {
         validateInstance();
-        return instance.getLogger();
+        return instance.recipeService;
     }
 
     /**
@@ -879,15 +884,16 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This returns our {@link GPSNetwork} instance.
-     * The {@link GPSNetwork} is responsible for handling any GPS-related
-     * operations and for managing any {@link GEOResource}.
+     * This method returns out world settings service.
+     * That service is responsible for managing item settings per
+     * {@link World}, such as disabling a {@link SlimefunItem} in a
+     * specific {@link World}.
      *
-     * @return Our {@link GPSNetwork} instance
+     * @return Our instance of {@link PerWorldSettingsService}
      */
-    public static @Nonnull GPSNetwork getGPSNetwork() {
+    public static @Nonnull PerWorldSettingsService getWorldSettingsService() {
         validateInstance();
-        return instance.gpsNetwork;
+        return instance.worldSettingsService;
     }
 
     public static @Nonnull TickerTask getTickerTask() {
@@ -906,15 +912,14 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This method returns out {@link MinecraftRecipeService} for Slimefun.
-     * This service is responsible for finding/identifying {@link Recipe Recipes}
-     * from vanilla Minecraft.
+     * This returns our {@link HologramsService} which handles the creation and
+     * cleanup of any holograms.
      *
-     * @return Slimefun's {@link MinecraftRecipeService} instance
+     * @return Our instance of {@link HologramsService}
      */
-    public static @Nonnull MinecraftRecipeService getMinecraftRecipeService() {
+    public static @Nonnull HologramsService getHologramsService() {
         validateInstance();
-        return instance.recipeService;
+        return instance.hologramsService;
     }
 
     public static @Nonnull CustomItemDataService getItemDataService() {
@@ -938,41 +943,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This method returns out world settings service.
-     * That service is responsible for managing item settings per
-     * {@link World}, such as disabling a {@link SlimefunItem} in a
-     * specific {@link World}.
-     *
-     * @return Our instance of {@link PerWorldSettingsService}
-     */
-    public static @Nonnull PerWorldSettingsService getWorldSettingsService() {
-        validateInstance();
-        return instance.worldSettingsService;
-    }
-
-    /**
-     * This returns our {@link HologramsService} which handles the creation and
-     * cleanup of any holograms.
-     *
-     * @return Our instance of {@link HologramsService}
-     */
-    public static @Nonnull HologramsService getHologramsService() {
-        validateInstance();
-        return instance.hologramsService;
-    }
-
-    /**
-     * This returns our {@link  SoundService} which handles the configuration of all sounds used in Slimefun
-     *
-     * @return Our instance of {@link SoundService}
-     */
-    @Nonnull
-    public static SoundService getSoundService() {
-        validateInstance();
-        return instance.soundService;
-    }
-
-    /**
      * This returns our instance of {@link IntegrationsManager}.
      * This is responsible for managing any integrations with third party {@link Plugin plugins}.
      *
@@ -991,6 +961,44 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      */
     public static @Nonnull ProtectionManager getProtectionManager() {
         return getIntegrations().getProtectionManager();
+    }
+
+    /**
+     * This returns our {@link  SoundService} which handles the configuration of all sounds used in Slimefun
+     *
+     * @return Our instance of {@link SoundService}
+     */
+    @Nonnull
+    public static SoundService getSoundService() {
+        validateInstance();
+        return instance.soundService;
+    }
+
+    /**
+     * This returns our {@link NetworkManager} which is responsible
+     * for handling the Cargo and Energy networks.
+     *
+     * @return Our {@link NetworkManager} instance
+     */
+    public static @Nonnull NetworkManager getNetworkManager() {
+        validateInstance();
+        return instance.networkManager;
+    }
+
+    /**
+     * This returns the time it took to load Slimefun (given a starting point).
+     *
+     * @param timestamp The time at which we started to load Slimefun.
+     * @return The total time it took to load Slimefun (in ms or s)
+     */
+    private @Nonnull String getStartupTime(long timestamp) {
+        long ms = (System.nanoTime() - timestamp) / 1000000;
+
+        if (ms > 1000) {
+            return NumberUtils.roundDecimalNumber(ms / 1000.0) + 's';
+        } else {
+            return NumberUtils.roundDecimalNumber(ms) + "ms";
+        }
     }
 
     /**
@@ -1038,15 +1046,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This returns our {@link NetworkManager} which is responsible
-     * for handling the Cargo and Energy networks.
+     * This method checks if this is currently running in a unit test
+     * environment.
      *
-     * @return Our {@link NetworkManager} instance
+     * @return Whether we are inside a unit test
      */
-
-    public static @Nonnull NetworkManager getNetworkManager() {
-        validateInstance();
-        return instance.networkManager;
+    public boolean isUnitTest() {
+        return minecraftVersion == MinecraftVersion.UNIT_TEST;
     }
 
     public static @Nonnull SlimefunConfigManager getConfigManager() {
@@ -1163,7 +1169,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      *
      * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
      */
-    public static @Nullable BukkitTask runSync(@Nonnull Runnable runnable, long delay) {
+    public static @Nullable WrappedTask runSync(@Nonnull Runnable runnable, long delay) {
         Validate.notNull(runnable, "Cannot run null");
         Validate.isTrue(delay >= 0, "The delay cannot be negative");
 
@@ -1177,7 +1183,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             return null;
         }
 
-        return instance.getServer().getScheduler().runTaskLater(instance, runnable, delay);
+        return getPlatformScheduler().runLater(runnable, Math.max(1, delay));
     }
 
     /**
@@ -1192,7 +1198,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      *
      * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
      */
-    public static @Nullable BukkitTask runSync(@Nonnull Runnable runnable) {
+    public static @Nullable CompletableFuture<Void> runSync(@Nonnull Runnable runnable) {
         Validate.notNull(runnable, "Cannot run null");
 
         // Run the task instantly within a Unit Test
@@ -1205,12 +1211,88 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             return null;
         }
 
-        return instance.getServer().getScheduler().runTask(instance, runnable);
+        return instance.getPlatformScheduler().runNextTick((task) -> runnable.run());
+    }
+
+    /**
+     * This method schedules a synchronous task for Slimefun.
+     * <strong>For Slimefun only, not for addons.</strong>
+     *
+     * This method should only be invoked by Slimefun itself.
+     * Addons must schedule their own tasks using their own {@link Plugin} instance.
+     *
+     * @param runnable The {@link Runnable} to run
+     * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
+     */
+    public static @Nullable CompletableFuture<EntityTaskResult> runSync(@Nonnull Runnable runnable, Entity entity) {
+        Validate.notNull(runnable, "Cannot run null");
+
+        // Run the task instantly within a Unit Test
+        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            runnable.run();
+            return null;
+        }
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return instance.getPlatformScheduler().runAtEntity(entity, (task) -> runnable.run());
+    }
+
+    /**
+     * This method schedules a synchronous task for Slimefun.
+     * <strong>For Slimefun only, not for addons.</strong>
+     *
+     * This method should only be invoked by Slimefun itself.
+     * Addons must schedule their own tasks using their own {@link Plugin} instance.
+     *
+     * @param runnable The {@link Runnable} to run
+     * @return The resulting {@link BukkitTask} or null if Slimefun was disabled
+     */
+    public static @Nullable CompletableFuture<Void> runSync(@Nonnull Runnable runnable, Location l) {
+        Validate.notNull(runnable, "Cannot run null");
+
+        // Run the task instantly within a Unit Test
+        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            runnable.run();
+            return null;
+        }
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return instance.getPlatformScheduler().runAtLocation(l, (task) -> runnable.run());
+    }
+
+    public static @Nullable CompletableFuture<Void> runSync(@Nonnull Runnable runnable, long delay, Location l) {
+        Validate.notNull(runnable, "Cannot run null");
+
+        // Run the task instantly within a Unit Test
+        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            runnable.run();
+            return null;
+        }
+
+        if (instance == null || !instance.isEnabled()) {
+            return null;
+        }
+
+        return getPlatformScheduler().runAtLocationLater(l, (task) -> runnable.run(), delay);
     }
 
     @Nonnull
     public File getFile() {
         return super.getFile();
+    }
+
+    public static boolean isFolia() {
+        return instance.foliaLib.isFolia();
+    }
+
+    public static PlatformScheduler getPlatformScheduler() {
+        return instance.foliaLib.getScheduler();
     }
 
     public static @Nonnull PlayerChatCatcher getChatCatcher() {

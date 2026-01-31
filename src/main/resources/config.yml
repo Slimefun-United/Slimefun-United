@@ -66,6 +66,14 @@ URID:
   info-delay: 3000
   custom-ticker-delay: 10
   enable-tickers: true
+  # Asynchronous thread‑pool configuration for custom tickers
+  custom-async-ticker:
+    # Initial number of threads in the pool; recommended value is the host's CPU core count
+    init-size: 4
+    # Maximum number of threads; recommended value is CPU core count * 2
+    max-size: 8
+    # Task queue size for each thread pool; larger values allow more tasks per thread but increase overall latency
+    queue-size: 1024
 
 networks:
   max-size: 200

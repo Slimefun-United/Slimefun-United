@@ -6,6 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -14,19 +18,19 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Setter;
 import org.apache.commons.lang.Validate;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.scheduler.BukkitScheduler;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.blocks.ChunkPosition;
-
+import city.norain.slimefun4.utils.SlimefunPoolExecutor;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.attributes.UniversalBlock;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.ticker.TickLocation;
@@ -56,24 +60,71 @@ public class TickerTask implements Runnable {
      */
     private final Map<BlockPosition, Integer> bugs = new ConcurrentHashMap<>();
 
-    private int tickRate;
-    private boolean halted = false;
-    private boolean running = false;
+    private final ThreadFactory tickerThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("SF-Ticker-%d")
+            .setDaemon(true)
+            .setUncaughtExceptionHandler(
+                    (t, e) -> Slimefun.logger().log(Level.SEVERE, e, () -> "tick 时发生异常 (@" + t.getName() + ")"))
+            .build();
 
+    /**
+     * The {@link ExecutorService} instance responsible for concurrently running the Tick tasks that can be executed asynchronously.
+     */
+    private ExecutorService asyncTickerService;
+
+    private ExecutorService fallbackTickerService;
+
+    private int tickRate;
+
+    /**
+     * This flag indicates that the TickerTask has been terminated.
+     */
+    private volatile boolean halted = false;
+
+    /**
+     * This flag indicates that the TickerTask is currently running.
+     */
+    private volatile boolean running = false;
+
+    /**
+     * This flag indicates that the TickerTask is temporarily paused.
+     */
     @Setter
     private volatile boolean paused = false;
 
     /**
      * This method starts the {@link TickerTask} on an asynchronous schedule.
-     *
-     * @param plugin
-     *            The instance of our {@link Slimefun}
      */
-    public void start(@Nonnull Slimefun plugin) {
+    public void start() {
         this.tickRate = Slimefun.getCfg().getInt("URID.custom-ticker-delay");
 
-        BukkitScheduler scheduler = plugin.getServer().getScheduler();
-        scheduler.runTaskTimerAsynchronously(plugin, this, 100L, tickRate);
+        var initSize = Slimefun.getConfigManager().getAsyncTickerInitSize();
+        var maxSize = Slimefun.getConfigManager().getAsyncTickerMaxSize();
+        var poolSize = Slimefun.getConfigManager().getAsyncTickerQueueSize();
+
+        this.asyncTickerService = new SlimefunPoolExecutor(
+                "Slimefun-Ticker-Pool",
+                initSize - 1,
+                maxSize - 1,
+                1,
+                TimeUnit.MINUTES,
+                new LinkedBlockingQueue<>(poolSize),
+                tickerThreadFactory,
+                (r, e) -> {
+                    // The task queue is full; using the backup single‑threaded pool to execute this task.
+                    fallbackTickerService.submit(r);
+                });
+
+        this.fallbackTickerService = new SlimefunPoolExecutor(
+                "Slimefun-Ticker-Fallback-Service",
+                1,
+                1,
+                0,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(),
+                tickerThreadFactory);
+
+        Slimefun.getPlatformScheduler().runTimerAsync(this, 100L, tickRate);
     }
 
     /**
@@ -103,9 +154,7 @@ public class TickerTask implements Runnable {
             if (!halted) {
                 Set<Map.Entry<ChunkPosition, Set<TickLocation>>> loc;
 
-                synchronized (tickingLocations) {
-                    loc = new HashSet<>(tickingLocations.entrySet());
-                }
+                loc = new HashSet<>(tickingLocations.entrySet());
 
                 for (Map.Entry<ChunkPosition, Set<TickLocation>> entry : loc) {
                     tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
@@ -117,7 +166,6 @@ public class TickerTask implements Runnable {
                 ticker.startNewTick();
             }
 
-            reset();
             Slimefun.getProfiler().stop();
         } catch (Exception | LinkageError x) {
             Slimefun.logger()
@@ -126,6 +174,7 @@ public class TickerTask implements Runnable {
                             x,
                             () -> "An Exception was caught while ticking the Block Tickers Task for Slimefun v"
                                     + Slimefun.getVersion());
+        } finally {
             reset();
         }
     }
@@ -209,16 +258,36 @@ public class TickerTask implements Runnable {
                      * We are inserting a new timestamp because synchronized actions
                      * are always ran with a 50ms delay (1 game tick)
                      */
-                    Slimefun.runSync(() -> {
-                        if (data.isPendingRemove()) {
-                            return;
-                        }
-                        tickBlock(l, item, data, System.nanoTime());
-                    });
+                    Slimefun.runSync(
+                            () -> {
+                                if (data.isPendingRemove()) {
+                                    return;
+                                }
+                                tickBlock(l, item, data, System.nanoTime());
+                            },
+                            l);
                 } else {
                     long timestamp = Slimefun.getProfiler().newEntry();
                     item.getBlockTicker().update();
-                    tickBlock(l, item, data, timestamp);
+
+                    Runnable func = () -> {
+                        try {
+                            if (Slimefun.isFolia()) {
+                                Slimefun.getPlatformScheduler()
+                                        .runAtLocation(l, task -> tickBlock(l, item, data, timestamp));
+                            } else {
+                                tickBlock(l, item, data, timestamp);
+                            }
+                        } catch (Exception x) {
+                            reportErrors(l, item, x);
+                        }
+                    };
+
+                    if (item.getBlockTicker().isConcurrent()) {
+                        asyncTickerService.execute(func);
+                    } else {
+                        fallbackTickerService.execute(func);
+                    }
                 }
 
                 tickers.add(item.getBlockTicker());
@@ -231,7 +300,7 @@ public class TickerTask implements Runnable {
     @ParametersAreNonnullByDefault
     private void tickBlock(Location l, SlimefunItem item, ASlimefunDataContainer data, long timestamp) {
         try {
-            if (item.getBlockTicker().isUniversal()) {
+            if (item.getBlockTicker().useUniversalData()) {
                 if (data instanceof SlimefunUniversalData universalData) {
                     item.getBlockTicker().tick(l.getBlock(), item, universalData);
                 } else {
@@ -342,15 +411,19 @@ public class TickerTask implements Runnable {
     }
 
     /**
-     * Returns a <strong>read-only</strong> {@link Set} of all ticking {@link TickLocation} in a given chunk
-     * that have the {@link UniversalBlock} property.
+     * Returns a <strong>read‑only</strong> {@link Map} for the given chunk,
+     * representing the set of {@link Location} values where items with
+     * {@link UniversalBlock} properties exist within each {@link ChunkPosition}
+     * for ticking.
      *
-     * The returned {@link Location} can be from loaded or unloaded {@link Chunk}s.
+     * The contained {@link Location} instances may belong to either loaded or
+     * unloaded {@link Chunk}s.
      *
      * @param chunk
-     *            {@link Chunk}
+     *            the {@link Chunk}
      *
-     * @return A read-only {@link Set} containing all machine Tick {@link TickLocation locations}
+     * @return a read‑only {@link Map} containing all machine tick
+     *         {@link TickLocation} positions
      */
     @Nonnull
     public Set<TickLocation> getTickLocations(@Nonnull Chunk chunk) {
@@ -438,6 +511,33 @@ public class TickerTask implements Runnable {
 
         synchronized (tickingLocations) {
             tickingLocations.values().forEach(loc -> loc.removeIf(tk -> uuid.equals(tk.getUuid())));
+        }
+    }
+
+    public void shutdown() {
+        setPaused(true);
+        halt();
+
+        try {
+            asyncTickerService.shutdown();
+            if (!asyncTickerService.awaitTermination(10, TimeUnit.SECONDS)) {
+                asyncTickerService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            asyncTickerService.shutdownNow();
+        } finally {
+            asyncTickerService = null;
+        }
+
+        try {
+            fallbackTickerService.shutdown();
+            if (!fallbackTickerService.awaitTermination(10, TimeUnit.SECONDS)) {
+                fallbackTickerService.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            fallbackTickerService.shutdownNow();
+        } finally {
+            fallbackTickerService = null;
         }
     }
 }
