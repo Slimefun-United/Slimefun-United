@@ -10,11 +10,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
 
 /**
@@ -42,7 +41,7 @@ public class IcyBow extends SlimefunBow {
                     return;
                 }
 
-                if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+                if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
                     player.setFreezeTicks(60);
                 }
             }

@@ -1,13 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.EntityKillHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -23,6 +21,8 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+
+import city.norain.slimefun4.SlimefunExtended;
 
 /**
  * The {@link SwordOfBeheading} is a special kind of sword which allows you to obtain
@@ -80,7 +80,7 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
                     }
                 }
                 case PIGLIN -> {
-                    if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)
+                    if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20)
                             && random.nextInt(100) < chancePiglin.getValue()) {
                         e.getDrops().add(new ItemStack(Material.PIGLIN_HEAD));
                     }

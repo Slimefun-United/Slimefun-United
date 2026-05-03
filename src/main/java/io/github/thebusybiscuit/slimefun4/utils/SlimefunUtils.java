@@ -565,7 +565,7 @@ public final class SlimefunUtils {
         }
 
         if (itemMeta instanceof PotionMeta potionMeta && sfitemMeta instanceof PotionMeta sfPotionMeta) {
-            if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)) {
+            if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 5)) {
                 if (!potionMeta.hasBasePotionType() && !sfPotionMeta.hasBasePotionType()) {
                     return true;
                 }
@@ -762,7 +762,7 @@ public final class SlimefunUtils {
      * @return True if the inventory is empty and false otherwise
      */
     public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 16)) {
             return inventory.isEmpty();
         } else {
             for (ItemStack is : inventory.getStorageContents()) {

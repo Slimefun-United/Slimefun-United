@@ -46,9 +46,9 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -174,7 +174,7 @@ public class TalismanListener implements Listener {
         /*
          * Return because allay is so cute, DO NOT KILL THEM.
          */
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19) && entity instanceof Allay) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19) && entity instanceof Allay) {
             return;
         }
 

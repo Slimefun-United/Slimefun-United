@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.Nonnull;
@@ -9,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
 import org.bukkit.event.inventory.SmithItemEvent;
+
+import city.norain.slimefun4.SlimefunExtended;
 
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
@@ -43,7 +44,7 @@ public class SmithingTableListener implements SlimefunCraftingListener {
     }
 
     private int materialSlot() {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20)) {
             return 2;
         }
         return 1;

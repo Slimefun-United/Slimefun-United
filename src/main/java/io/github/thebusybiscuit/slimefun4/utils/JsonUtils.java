@@ -2,8 +2,8 @@ package io.github.thebusybiscuit.slimefun4.utils;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
+import city.norain.slimefun4.SlimefunExtended;
 import javax.annotation.Nonnull;
 
 /**
@@ -30,7 +30,7 @@ public final class JsonUtils {
      */
     @SuppressWarnings("deprecation")
     public static @Nonnull JsonElement parseString(@Nonnull String json) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 18)) {
             /*
              * As of 1.18 Spigot includes a newer version of Gson that
              * favours static method access.

@@ -5,14 +5,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotDiagonallyRotatable;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
@@ -78,7 +77,7 @@ public class ElectricPress extends AContainer implements RecipeDisplayItem, NotD
 
         addRecipe(16, new ItemStack(Material.NETHERITE_INGOT, 9), new ItemStack(Material.NETHERITE_BLOCK));
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             addRecipe(4, new ItemStack(Material.AMETHYST_SHARD, 4), new ItemStack(Material.AMETHYST_BLOCK));
 
             addRecipe(5, new ItemStack(Material.COPPER_INGOT, 9), new ItemStack(Material.COPPER_BLOCK));

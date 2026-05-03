@@ -18,9 +18,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -117,7 +117,7 @@ public class OreCrusher extends MultiBlockMachine {
         recipes.add(SlimefunItems.COMPRESSED_CARBON.item());
         recipes.add(new SlimefunItemStack(SlimefunItems.CARBON, 4).item());
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             recipes.add(new ItemStack(Material.COBBLED_DEEPSLATE, 8));
             recipes.add(new ItemStack(Material.SAND, 1));
         }
@@ -150,7 +150,7 @@ public class OreCrusher extends MultiBlockMachine {
         displayRecipes.add(doubleOres.getGoldNuggets());
 
         // Raw metal ores (1.17+)
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             displayRecipes.add(new ItemStack(Material.RAW_IRON));
             displayRecipes.add(SlimefunItems.IRON_DUST.item());
 
@@ -162,7 +162,7 @@ public class OreCrusher extends MultiBlockMachine {
         }
 
         // Deepslate Ores (1.17+)
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             // @formatter:off
             displayRecipes.addAll(Arrays.asList(
                 new ItemStack(Material.DEEPSLATE_COAL_ORE), doubleOres.getCoal(),

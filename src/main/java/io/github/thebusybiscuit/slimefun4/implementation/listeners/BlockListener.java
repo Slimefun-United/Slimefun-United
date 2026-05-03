@@ -29,7 +29,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.protection.Interaction;
-
+import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.compatibillty.CompatibilityUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
@@ -39,7 +39,6 @@ import io.github.thebusybiscuit.slimefun4.api.events.ExplosiveToolBreakBlocksEve
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockBreakEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.SlimefunBlockPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotCardinallyRotatable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotDiagonallyRotatable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotRotatable;
@@ -416,7 +415,7 @@ public class BlockListener implements Listener {
      */
     @ParametersAreNonnullByDefault
     private boolean isSupported(BlockData blockData, Block block) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19)) {
             return blockData.isSupported(block);
         } else {
             // TODO: Make 1.16-1.18 version. BlockData::isSupported is 1.19+.

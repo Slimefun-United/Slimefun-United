@@ -7,7 +7,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -23,6 +22,8 @@ import io.github.bakedlibs.dough.blocks.Vein;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -205,7 +206,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             case BUBBLE_COLUMN:
                 ItemStack waterBottle = new ItemStack(Material.POTION);
                 PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
-                if (Slimefun.getMinecraftVersion().isBefore(20, 2)) {
+                if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 2)) {
                     meta.setBasePotionData(new PotionData(PotionType.WATER));
                 } else {
                     meta.setBasePotionType(PotionType.WATER);

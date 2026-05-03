@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.inventory.ItemStack;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -119,7 +120,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
             displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
         }

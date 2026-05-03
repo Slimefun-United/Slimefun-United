@@ -52,16 +52,28 @@ public enum MinecraftVersion {
     MINECRAFT_1_20(20, "1.20.x"),
 
     /**
+     * This constant represents Minecraft (Java Edition) Version 1.20.2
+     * ("The Trails &amp; Tales Update")
+     */
+    MINECRAFT_1_20_2(20, 2, "1.20.2"),
+
+    /**
      * This constant represents Minecraft (Java Edition) Version 1.20.5
      * ("The Armored Paws Update")
      */
     MINECRAFT_1_20_5(20, 5, "1.20.5+"),
 
-     /**
+    /**
      * This constant represents Minecraft (Java Edition) Version 1.21
      * ("Tricky Trials")
      */
     MINECRAFT_1_21(21, "1.21.x"),
+
+    /**
+     * This constant represents Minecraft (Java Edition) Version 26.1
+     * ("Tiny Takeover")
+     */
+    MINECRAFT_26_1(261, "26.1.x"),
 
     /**
      * This constant represents an exceptional state in which we were unable
@@ -73,9 +85,7 @@ public enum MinecraftVersion {
      * This is a very special state that represents the environment being a Unit
      * Test and not an actual running Minecraft Server.
      */
-    UNIT_TEST("Unit Test Environment", true);
-
-    private final String name;
+    UNIT_TEST("Unit Test Environment", true);        private final String name;
     private final boolean virtual;
     private final int majorVersion;
     private final int minorVersion;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -610,8 +609,15 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
 
             // Now check the actual Version of Minecraft
-            int version = PaperLib.getMinecraftVersion();
-            int patchVersion = PaperLib.getMinecraftPatchVersion();
+            String versionString = Bukkit.getMinecraftVersion();
+            String[] versionParts = versionString.split("\\.");
+
+            // for minecraft 1.21.11 the version is 21 and minor is 11
+            // for minecraft 26.1.2 the version is 261 and minor is 2
+            int version = versionParts[0].equals("1")
+                ? Integer.parseInt(versionParts[1])
+                : Integer.parseInt(versionParts[0] + versionParts[1]);
+            int patchVersion = versionParts.length > 2 ? Integer.parseInt(versionParts[2]) : 0;
 
             if (version > 0) {
                 // Check all supported versions of Minecraft

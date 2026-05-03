@@ -8,6 +8,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.xzavier0722.mc.plugin.slimefun4.autocrafter.CrafterSmartPort;
+
+import city.norain.slimefun4.SlimefunExtended;
+
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -848,7 +851,7 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
-        if (Slimefun.getMinecraftVersion().isBefore(20, 2)) {
+        if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 2)) {
             meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
         } else {
             meta.setBasePotionType(PotionType.WEAKNESS);

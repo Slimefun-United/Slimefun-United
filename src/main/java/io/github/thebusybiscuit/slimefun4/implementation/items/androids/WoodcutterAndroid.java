@@ -5,7 +5,6 @@ import city.norain.slimefun4.api.menu.UniversalMenu;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.blocks.Vein;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -126,7 +125,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             default -> {}
         }
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19)) {
             switch (logType) {
                 case MANGROVE_LOG, STRIPPED_MANGROVE_LOG -> {
                     saplingType = Material.MANGROVE_PROPAGULE;
@@ -136,7 +135,7 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             }
         }
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20)) {
             switch (logType) {
                 case CHERRY_LOG, STRIPPED_CHERRY_LOG -> {
                     saplingType = Material.CHERRY_SAPLING;

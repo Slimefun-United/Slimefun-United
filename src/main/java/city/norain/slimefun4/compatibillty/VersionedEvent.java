@@ -1,6 +1,5 @@
 package city.norain.slimefun4.compatibillty;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -14,6 +13,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
+import city.norain.slimefun4.SlimefunExtended;
 
 @UtilityClass
 public class VersionedEvent {
@@ -23,7 +23,7 @@ public class VersionedEvent {
     private Method GET_CLICKED_INVENTORY;
 
     public void init() {
-        if (Slimefun.getMinecraftVersion().isBefore(MinecraftVersion.MINECRAFT_1_21)) {
+        if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
             try {
                 BLOCK_EXPLODE_EVENT_CONSTRUCTOR =
                         BlockExplodeEvent.class.getConstructor(Block.class, List.class, float.class);
@@ -45,7 +45,7 @@ public class VersionedEvent {
 
     @SneakyThrows
     public BlockExplodeEvent newBlockExplodeEvent(Block block, List<Block> affectedBlock, float yield) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
             return new BlockExplodeEvent(block, block.getState(), affectedBlock, yield, ExplosionResult.DESTROY);
         } else {
             if (BLOCK_EXPLODE_EVENT_CONSTRUCTOR == null) {
@@ -60,7 +60,7 @@ public class VersionedEvent {
      */
     @SneakyThrows
     public Inventory getTopInventory(InventoryEvent event) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
             return event.getView().getTopInventory();
         } else {
             if (GET_TOP_INVENTORY == null) {
@@ -73,7 +73,7 @@ public class VersionedEvent {
 
     @SneakyThrows
     public Inventory getClickedInventory(InventoryClickEvent event) {
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_21)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
             return event.getClickedInventory();
         } else {
             if (GET_CLICKED_INVENTORY == null) {

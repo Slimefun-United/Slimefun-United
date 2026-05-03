@@ -16,9 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -100,7 +100,7 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.BASALT, 2));
         recipes.add(new ItemStack(Material.BLACKSTONE));
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
 

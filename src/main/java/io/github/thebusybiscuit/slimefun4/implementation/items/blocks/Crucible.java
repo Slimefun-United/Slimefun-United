@@ -1,8 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -92,7 +93,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         items.add(new ItemStack(Material.BASALT, 12));
         items.add(new ItemStack(Material.LAVA_BUCKET));
 
-        if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
+        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
             items.add(new ItemStack(Material.COBBLED_DEEPSLATE, 12));
             items.add(new ItemStack(Material.LAVA_BUCKET));
 
