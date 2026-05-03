@@ -616,7 +616,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
 
             // Now check the actual Version of Minecraft
-            MinecraftVersion minecraftVersion = SlimefunExtended.getMinecraftVersion();
+            MinecraftVersion minecraftVersion = MinecraftVersion.of(instance.getServer());
             int version = minecraftVersion.getMajorVersion();
             int minorVersion = minecraftVersion.getMinorVersion();
 
