@@ -1,15 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
+import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
+import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -22,17 +23,13 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.Plugin;
 
-import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
-import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
-import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
-
 /**
  * This Service is responsible for accessing a {@link RecipeSnapshot}.
  * This snapshot contains a compiled list of all recipes that could be found on the
  * Server at the time the Service was loaded.
- * 
+ *
  * This Service is primarily used by the {@link SurvivalSlimefunGuide}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -58,7 +55,7 @@ public class MinecraftRecipeService {
      * Slimefun already has a {@link MinecraftRecipeService} so creating your own won't be
      * of much use unless you wanna expand upon it. It is advised to use Slimefun's built-in
      * {@link MinecraftRecipeService} though.
-     * 
+     *
      * @param plugin
      *            The {@link Plugin} that requests this Service
      */
@@ -81,7 +78,7 @@ public class MinecraftRecipeService {
      * This method subscribes to the underlying {@link RecipeSnapshot}.
      * When the {@link Server} has finished loading and a {@link Collection} of all
      * {@link Recipe Recipes} is created, the given callback will be run.
-     * 
+     *
      * @param subscription
      *            A callback to run when the {@link RecipeSnapshot} has been created.
      */
@@ -93,10 +90,10 @@ public class MinecraftRecipeService {
     /**
      * This method returns an {@link Optional} describing the output of a {@link FurnaceRecipe}
      * with the given {@link ItemStack} as an input.
-     * 
+     *
      * @param input
      *            The input {@link ItemStack}
-     * 
+     *
      * @return An {@link Optional} describing the furnace output of the given {@link ItemStack}
      */
     public @Nonnull Optional<ItemStack> getFurnaceOutput(@Nullable ItemStack input) {
@@ -109,10 +106,10 @@ public class MinecraftRecipeService {
 
     /**
      * This returns whether a given {@link ItemStack} can be smelted in a {@link FurnaceRecipe}.
-     * 
+     *
      * @param input
      *            The {@link ItemStack} to test
-     * 
+     *
      * @return Whether this item can be smelted
      */
     public boolean isSmeltable(@Nullable ItemStack input) {
@@ -125,10 +122,10 @@ public class MinecraftRecipeService {
      * {@link RecipeSnapshot#getRecipeInput(Recipe)}.
      * For a {@link ShapedRecipe} this method will fix the order so it matches a
      * 3x3 crafting grid.
-     * 
+     *
      * @param recipe
      *            The {@link Recipe} to get the shape from
-     * 
+     *
      * @return An Array of {@link RecipeChoice} representing the shape of this {@link Recipe}
      */
     public @Nonnull RecipeChoice[] getRecipeShape(@Nonnull Recipe recipe) {
@@ -159,10 +156,10 @@ public class MinecraftRecipeService {
     /**
      * This returns an array containing all {@link Recipe Recipes} for crafting the given
      * {@link ItemStack}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} for which to get the recipes
-     * 
+     *
      * @return An array of {@link Recipe Recipes} to craft the given {@link ItemStack}
      */
     public @Nonnull Recipe[] getRecipesFor(@Nullable ItemStack item) {
@@ -178,10 +175,10 @@ public class MinecraftRecipeService {
      * If no {@link Recipe} was found, null will be returned.
      * This is a significantly faster method over {@link Bukkit#getRecipe(NamespacedKey)} since we
      * operate on a cached {@link HashMap}
-     * 
+     *
      * @param key
      *            The {@link NamespacedKey}
-     * 
+     *
      * @return The corresponding {@link Recipe} or null
      */
     public @Nullable Recipe getRecipe(@Nonnull NamespacedKey key) {
@@ -194,5 +191,4 @@ public class MinecraftRecipeService {
             return Bukkit.getRecipe(key);
         }
     }
-
 }

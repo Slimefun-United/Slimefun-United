@@ -454,9 +454,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.Slimefun-United.Dough-United</groupId>
+            <groupId>io.github.slimefun-united</groupId>
             <artifactId>dough-api</artifactId>
-            <version>1.4-SNAPSHOT-6445025</version>
+            <version>1.5-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

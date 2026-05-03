@@ -90,7 +90,8 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
 
         preset.addItem(
                 2,
-                ItemStackFactory.create(Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
+                ItemStackFactory.create(
+                        Material.PAPER, "&3Items", "", "&bPut in all Items you want to", "&bblacklist/whitelist"),
                 ChestMenuUtils.getEmptyClickHandler());
     }
 
@@ -101,14 +102,20 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
         String filterType = blockData.getData(FILTER_TYPE);
 
         if (filterType == null || filterType.equals("whitelist")) {
-            menu.replaceExistingItem(15, ItemStackFactory.create(Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
+            menu.replaceExistingItem(
+                    15,
+                    ItemStackFactory.create(
+                            Material.WHITE_WOOL, "&7Type: &rWhitelist", "", "&e> Click to change it to Blacklist"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), FILTER_TYPE, "blacklist");
                 updateBlockMenu(menu, b);
                 return false;
             });
         } else {
-            menu.replaceExistingItem(15, ItemStackFactory.create(Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
+            menu.replaceExistingItem(
+                    15,
+                    ItemStackFactory.create(
+                            Material.BLACK_WOOL, "&7Type: &8Blacklist", "", "&e> Click to change it to Whitelist"));
             menu.addMenuClickHandler(15, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), FILTER_TYPE, "whitelist");
                 updateBlockMenu(menu, b);
@@ -120,7 +127,12 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
 
         if (lore == null || lore.equals(String.valueOf(true))) {
             menu.replaceExistingItem(
-                    25, ItemStackFactory.create(Material.MAP, "&7Include Lore: &2\u2714", "", "&e> Click to toggle whether the Lore has to match"));
+                    25,
+                    ItemStackFactory.create(
+                            Material.MAP,
+                            "&7Include Lore: &2\u2714",
+                            "",
+                            "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), FILTER_LORE, String.valueOf(false));
                 updateBlockMenu(menu, b);
@@ -128,7 +140,12 @@ abstract class AbstractFilterNode extends AbstractCargoNode {
             });
         } else {
             menu.replaceExistingItem(
-                    25, ItemStackFactory.create(Material.MAP, "&7Include Lore: &4\u2718", "", "&e> Click to toggle whether the Lore has to match"));
+                    25,
+                    ItemStackFactory.create(
+                            Material.MAP,
+                            "&7Include Lore: &4\u2718",
+                            "",
+                            "&e> Click to toggle whether the Lore has to match"));
             menu.addMenuClickHandler(25, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), FILTER_LORE, String.valueOf(true));
                 updateBlockMenu(menu, b);

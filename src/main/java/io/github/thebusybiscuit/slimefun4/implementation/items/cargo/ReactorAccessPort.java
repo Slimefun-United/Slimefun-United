@@ -72,7 +72,13 @@ public class ReactorAccessPort extends SlimefunItem {
                 if (reactor != null) {
                     menu.replaceExistingItem(
                             INFO_SLOT,
-                            ItemStackFactory.create(Material.GREEN_WOOL, "&7Reactor", "", "&6Detected", "", "&7> Click to view Reactor"));
+                            ItemStackFactory.create(
+                                    Material.GREEN_WOOL,
+                                    "&7Reactor",
+                                    "",
+                                    "&6Detected",
+                                    "",
+                                    "&7> Click to view Reactor"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         if (reactor != null) {
                             reactor.open(p);
@@ -87,7 +93,13 @@ public class ReactorAccessPort extends SlimefunItem {
                             INFO_SLOT,
                             ItemStackFactory.create(
                                     Material.RED_WOOL,
-                                    "&7Reactor", "", "&cNot detected", "", "&7Reactor must be", "&7placed 3 blocks below", "&7the access port!"));
+                                    "&7Reactor",
+                                    "",
+                                    "&cNot detected",
+                                    "",
+                                    "&7Reactor must be",
+                                    "&7placed 3 blocks below",
+                                    "&7the access port!"));
                     menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                         newInstance(menu, b);
                         return false;
@@ -145,16 +157,31 @@ public class ReactorAccessPort extends SlimefunItem {
 
         preset.addItem(
                 1,
-                ItemStackFactory.create(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
+                ItemStackFactory.create(
+                        SlimefunItems.URANIUM,
+                        "&7Fuel Slot",
+                        "",
+                        "&rThis Slot accepts radioactive Fuel such as:",
+                        "&2Uranium &ror &aNeptunium"),
                 ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(
                 22,
-                ItemStackFactory.create(SlimefunItems.PLUTONIUM, "&7Byproduct Slot", "", "&rThis Slot contains the Reactor's Byproduct", "&rsuch as &aNeptunium &ror &7Plutonium"),
+                ItemStackFactory.create(
+                        SlimefunItems.PLUTONIUM,
+                        "&7Byproduct Slot",
+                        "",
+                        "&rThis Slot contains the Reactor's Byproduct",
+                        "&rsuch as &aNeptunium &ror &7Plutonium"),
                 ChestMenuUtils.getEmptyClickHandler());
         preset.addItem(
                 7,
                 ItemStackFactory.create(
-                        SlimefunItems.REACTOR_COOLANT_CELL, "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"),
+                        SlimefunItems.REACTOR_COOLANT_CELL,
+                        "&bCoolant Slot",
+                        "",
+                        "&rThis Slot accepts Coolant Cells",
+                        "&4Without any Coolant Cells, your Reactor",
+                        "&4will explode"),
                 ChestMenuUtils.getEmptyClickHandler());
     }
 

@@ -818,7 +818,7 @@ public class BlockDataController extends ADataController {
 
         loadChunkData(chunkData);
 
-    // Load block data grouped by chunk
+        // Load block data grouped by chunk
 
         var key = new RecordKey(DataScope.BLOCK_RECORD);
         key.addField(FieldKey.LOCATION);
@@ -861,8 +861,9 @@ public class BlockDataController extends ADataController {
         getData(key, true).forEach(data -> chunkKeys.add(data.get(FieldKey.CHUNK)));
 
         chunkKeys.forEach(cKey -> loadChunk(LocationUtils.toChunk(world, cKey), false, true));
-        logger.log(
-                Level.INFO, "World {0} data loaded in {1}ms", new Object[] {worldName, (System.currentTimeMillis() - start)});
+        logger.log(Level.INFO, "World {0} data loaded in {1}ms", new Object[] {
+            worldName, (System.currentTimeMillis() - start)
+        });
     }
 
     public void loadUniversalRecord() {
@@ -1042,7 +1043,7 @@ public class BlockDataController extends ADataController {
             return;
         }
 
-    // Build query conditions for universal data key-value storage
+        // Build query conditions for universal data key-value storage
         var key = new RecordKey(DataScope.UNIVERSAL_DATA);
         key.addCondition(FieldKey.UNIVERSAL_UUID, uniData.getKey());
         key.addField(FieldKey.DATA_KEY);

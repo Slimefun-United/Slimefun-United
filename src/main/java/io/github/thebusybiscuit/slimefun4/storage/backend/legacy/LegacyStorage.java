@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.storage.backend.legacy;
 
+import com.google.common.annotations.Beta;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
@@ -7,19 +8,15 @@ import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.storage.Storage;
 import io.github.thebusybiscuit.slimefun4.storage.data.PlayerData;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.inventory.ItemStack;
-
-import com.google.common.annotations.Beta;
-import javax.annotation.Nonnull;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.inventory.ItemStack;
 
 @Beta
 public class LegacyStorage implements Storage {
@@ -107,18 +104,16 @@ public class LegacyStorage implements Storage {
             if (data.getResearches().contains(research)) {
                 playerFile.setValue("researches." + research.getID(), true);
 
-            // Remove the research if it's no longer researched
-            // ----
-            // We have a duplicate ID (173) used for both Coal Gen and Bio Reactor
-            // If you researched the Goal Gen we would remove it on save if you didn't also have the Bio Reactor
-            // Due to the fact we would set it as researched (true in the branch above) on Coal Gen
-            // but then go into this branch and remove it if you didn't have Bio Reactor
-            // Sooooo we're gonna hack this for now while we move away from the Legacy Storage
-            // Let's make sure the user doesn't have _any_ research with this ID and _then_ remove it
-            } else if (
-                playerFile.contains("researches." + research.getID())
-                && !data.getResearches().stream().anyMatch((r) -> r.getID() == research.getID())
-            ) {
+                // Remove the research if it's no longer researched
+                // ----
+                // We have a duplicate ID (173) used for both Coal Gen and Bio Reactor
+                // If you researched the Goal Gen we would remove it on save if you didn't also have the Bio Reactor
+                // Due to the fact we would set it as researched (true in the branch above) on Coal Gen
+                // but then go into this branch and remove it if you didn't have Bio Reactor
+                // Sooooo we're gonna hack this for now while we move away from the Legacy Storage
+                // Let's make sure the user doesn't have _any_ research with this ID and _then_ remove it
+            } else if (playerFile.contains("researches." + research.getID())
+                    && !data.getResearches().stream().anyMatch((r) -> r.getID() == research.getID())) {
                 playerFile.setValue("researches." + research.getID(), null);
             }
         }
@@ -132,7 +127,7 @@ public class LegacyStorage implements Storage {
                 if (item != null) {
                     playerFile.setValue("backpacks." + backpack.getId() + ".contents." + i, item);
 
-                // Remove the item if it's no longer in the inventory
+                    // Remove the item if it's no longer in the inventory
                 } else if (playerFile.contains("backpacks." + backpack.getId() + ".contents." + i)) {
                     playerFile.setValue("backpacks." + backpack.getId() + ".contents." + i, null);
                 }

@@ -79,7 +79,10 @@ class EnvironmentChecker {
                         sf,
                         () -> {
                             if (Bukkit.getPluginManager().getPlugin("SlimeGlue") == null) {
-                                sf.getLogger().log(Level.WARNING, "SlimeGlue (slime adhesive) is not installed, you will lack additional protection checks for some plugins!");
+                                sf.getLogger()
+                                        .log(
+                                                Level.WARNING,
+                                                "SlimeGlue (slime adhesive) is not installed, you will lack additional protection checks for some plugins!");
                                 sf.getLogger().log(Level.WARNING, "Download: https://github.com/Xzavier0722/SlimeGlue");
                             }
                         },

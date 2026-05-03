@@ -5,7 +5,6 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunChunkData;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
@@ -86,7 +85,7 @@ public class ResourceManager {
             Slimefun.getRegistry().getGEOResources().add(resource);
         }
 
-        if (Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
+        if (!Slimefun.instance().isUnitTest()) {
             config.save();
         }
     }

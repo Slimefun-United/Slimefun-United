@@ -38,7 +38,7 @@ public class CrafterSmartPort extends SlimefunItem {
     public CrafterSmartPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-    new BlockMenuPreset("CRAFTER_SMART_PORT", "&aAuto-Crafter Smart Interface") {
+        new BlockMenuPreset("CRAFTER_SMART_PORT", "&aAuto-Crafter Smart Interface") {
             @Override
             public void init() {
                 addItem(6, getCountItem(), (p, slot, item, action) -> false);
@@ -134,7 +134,7 @@ public class CrafterSmartPort extends SlimefunItem {
     private ItemStack getCountItem() {
         ItemStack countItem = new ItemStack(Material.CLOCK);
         ItemMeta im = countItem.getItemMeta();
-    im.setDisplayName(ChatColor.BLUE + "Crafting table ingredient count");
+        im.setDisplayName(ChatColor.BLUE + "Crafting table ingredient count");
         countItem.setItemMeta(im);
         return countItem;
     }

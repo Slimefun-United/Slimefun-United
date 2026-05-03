@@ -198,7 +198,14 @@ public abstract class Reactor extends AbstractEnergyProvider
 
         if (port != null) {
             menu.replaceExistingItem(
-                    INFO_SLOT, ItemStackFactory.create(Material.GREEN_WOOL, "&7Access Port", "", "&6Connected", "", "&7> Click to view access port"));
+                    INFO_SLOT,
+                    ItemStackFactory.create(
+                            Material.GREEN_WOOL,
+                            "&7Access Port",
+                            "",
+                            "&6Connected",
+                            "",
+                            "&7> Click to view access port"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 port.open(p);
                 updateInventory(menu, b);
@@ -208,7 +215,14 @@ public abstract class Reactor extends AbstractEnergyProvider
         } else {
             menu.replaceExistingItem(
                     INFO_SLOT,
-                    ItemStackFactory.create(Material.RED_WOOL, "&7Access Port", "", "&cNot Connected", "", "&7The port must be placed", "&73 blocks above the reactor!"));
+                    ItemStackFactory.create(
+                            Material.RED_WOOL,
+                            "&7Access Port",
+                            "",
+                            "&cNot Connected",
+                            "",
+                            "&7The port must be placed",
+                            "&73 blocks above the reactor!"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 updateInventory(menu, b);
                 menu.open(p);
@@ -237,12 +251,19 @@ public abstract class Reactor extends AbstractEnergyProvider
         }
 
         preset.addItem(
-                22, ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+                22,
+                ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "),
+                ChestMenuUtils.getEmptyClickHandler());
 
         if (this instanceof NuclearReactor) {
             preset.addItem(
                     1,
-                    ItemStackFactory.create(getFuelIcon(), "&7Fuel Slot", "", "&fThis Slot accepts radioactive Fuel such as:", "&2Uranium &for &aNeptunium"),
+                    ItemStackFactory.create(
+                            getFuelIcon(),
+                            "&7Fuel Slot",
+                            "",
+                            "&fThis Slot accepts radioactive Fuel such as:",
+                            "&2Uranium &for &aNeptunium"),
                     ChestMenuUtils.getEmptyClickHandler());
         } else if (this instanceof NetherStarReactor) {
             preset.addItem(
@@ -251,9 +272,14 @@ public abstract class Reactor extends AbstractEnergyProvider
                     ChestMenuUtils.getEmptyClickHandler());
         } else {
             preset.addItem(
-                1,
-                ItemStackFactory.create(getFuelIcon(), "&7Fuel Slot", "", "&fThis Slot accepts radioactive Fuel such as:", "&2Uranium &for &aNeptunium"),
-                ChestMenuUtils.getEmptyClickHandler());
+                    1,
+                    ItemStackFactory.create(
+                            getFuelIcon(),
+                            "&7Fuel Slot",
+                            "",
+                            "&fThis Slot accepts radioactive Fuel such as:",
+                            "&2Uranium &for &aNeptunium"),
+                    ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_2) {
@@ -265,13 +291,22 @@ public abstract class Reactor extends AbstractEnergyProvider
 
         if (needsCooling()) {
             preset.addItem(
-                    7, ItemStackFactory.create(getCoolant(), "&bCoolant Slot", "", "&fPlace Coolant here", "&4Without Coolant, your reactor", "&4will explode instantly"));
+                    7,
+                    ItemStackFactory.create(
+                            getCoolant(),
+                            "&bCoolant Slot",
+                            "",
+                            "&fPlace Coolant here",
+                            "&4Without Coolant, your reactor",
+                            "&4will explode instantly"));
         } else {
             preset.addItem(7, ItemStackFactory.create(Material.BARRIER, "&bCoolant", "", "&fPlace Coolant here"));
 
             for (int i : border_4) {
                 preset.addItem(
-                        i, ItemStackFactory.create(Material.BARRIER, "&cNo Coolant required"), ChestMenuUtils.getEmptyClickHandler());
+                        i,
+                        ItemStackFactory.create(Material.BARRIER, "&cNo Coolant required"),
+                        ChestMenuUtils.getEmptyClickHandler());
             }
         }
     }

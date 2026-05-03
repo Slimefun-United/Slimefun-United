@@ -103,7 +103,7 @@ public class BlockStorageMigrator implements IMigrator {
     }
 
     private void migrateWorld(World w) {
-    Slimefun.logger().log(Level.INFO, "Starting block data migration: " + w.getName());
+        Slimefun.logger().log(Level.INFO, "Starting block data migration: " + w.getName());
         var fList = new File(blockFolder, w.getName()).listFiles();
         if (fList == null) {
             return;
@@ -114,8 +114,7 @@ public class BlockStorageMigrator implements IMigrator {
         for (var f : fList) {
             var id = f.getName();
             id = id.substring(0, id.length() - 4);
-            Slimefun.logger()
-                    .log(Level.INFO, "Migrating block data: " + id + " (" + ++count + "/" + total + ")");
+            Slimefun.logger().log(Level.INFO, "Migrating block data: " + id + " (" + ++count + "/" + total + ")");
 
             if (SlimefunItem.getById(id) == null) {
                 Slimefun.logger().log(Level.WARNING, "Detected unknown block ID (" + id + "); skipping migration.");

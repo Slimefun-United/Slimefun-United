@@ -1,18 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
+import city.norain.slimefun4.SlimefunExtended;
+import io.github.bakedlibs.dough.versions.MinecraftVersion;
 import java.lang.reflect.Field;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.bukkit.potion.PotionType;
-
-import io.github.bakedlibs.dough.versions.MinecraftVersion;
-import city.norain.slimefun4.SlimefunExtended;
 
 // https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/legacy/FieldRename.java?until=2a6207fe150b6165722fce94c83cc1f206620ab5&untilPath=src%2Fmain%2Fjava%2Forg%2Fbukkit%2Fcraftbukkit%2Flegacy%2FFieldRename.java#242-250
 public class VersionedPotionType {
-    
+
     public static final PotionType LEAPING;
     public static final PotionType SWIFTNESS;
     public static final PotionType HEALING;
@@ -22,29 +19,18 @@ public class VersionedPotionType {
     static {
         MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
 
-        LEAPING = version.isAtLeast(1, 20, 5)
-            ? PotionType.LEAPING
-            : getKey("JUMP");
+        LEAPING = version.isAtLeast(1, 20, 5) ? PotionType.LEAPING : getKey("JUMP");
 
-        SWIFTNESS = version.isAtLeast(1, 20, 5)
-            ? PotionType.SWIFTNESS
-            : getKey("SPEED");
+        SWIFTNESS = version.isAtLeast(1, 20, 5) ? PotionType.SWIFTNESS : getKey("SPEED");
 
-        HEALING = version.isAtLeast(1, 20, 5)
-            ? PotionType.HEALING
-            : getKey("INSTANT_HEAL");
+        HEALING = version.isAtLeast(1, 20, 5) ? PotionType.HEALING : getKey("INSTANT_HEAL");
 
-        HARMING = version.isAtLeast(1, 20, 5)
-            ? PotionType.HARMING
-            : getKey("INSTANT_DAMAGE");
+        HARMING = version.isAtLeast(1, 20, 5) ? PotionType.HARMING : getKey("INSTANT_DAMAGE");
 
-        REGENERATION = version.isAtLeast(1, 20, 5)
-            ? PotionType.REGENERATION
-            : getKey("REGEN");
+        REGENERATION = version.isAtLeast(1, 20, 5) ? PotionType.REGENERATION : getKey("REGEN");
     }
 
-    @Nullable
-    private static PotionType getKey(@Nonnull String key) {
+    @Nullable private static PotionType getKey(@Nonnull String key) {
         try {
             Field field = PotionType.class.getDeclaredField(key);
             return (PotionType) field.get(null);

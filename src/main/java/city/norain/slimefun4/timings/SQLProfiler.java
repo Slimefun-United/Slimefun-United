@@ -24,9 +24,9 @@ import org.bukkit.command.CommandSender;
 
 public class SQLProfiler {
     private final ExecutorService reportExecutor = Executors.newFixedThreadPool(1, r -> {
-    Thread t = new Thread(r, "Slimefun SQL Reporter");
-    t.setUncaughtExceptionHandler((et, e) -> Slimefun.logger()
-        .log(Level.SEVERE, "An error occurred in SQL report generator thread " + et.getName(), e));
+        Thread t = new Thread(r, "Slimefun SQL Reporter");
+        t.setUncaughtExceptionHandler((et, e) -> Slimefun.logger()
+                .log(Level.SEVERE, "An error occurred in SQL report generator thread " + et.getName(), e));
         return t;
     });
 
@@ -176,17 +176,17 @@ public class SQLProfiler {
             }
 
             var totalTime = Duration.ofNanos(System.nanoTime()).minus(Duration.ofNanos(startTime));
-        writer.append("Runtime elapsed: ")
+            writer.append("Runtime elapsed: ")
                     .append(String.format(
                             "%dh%dm%dns", totalTime.toHours(), totalTime.toMinutesPart(), totalTime.toSecondsPart()));
             writer.newLine();
-        writer.append("Total elapsed time: ")
+            writer.append("Total elapsed time: ")
                     .append(String.format(
                             "%dm%ds%dms",
                             sqlTotalTime.toSeconds(), sqlTotalTime.toMillisPart(), sqlTotalTime.toNanosPart()));
             writer.newLine();
             var avg = sqlTotalTime.dividedBy(entryCount);
-        writer.append("Average elapsed time: ")
+            writer.append("Average elapsed time: ")
                     .append(String.format("%dm%ds%dms", avg.toSeconds(), avg.toMillisPart(), avg.toNanosPart()));
         } catch (IOException e) {
             Slimefun.logger().log(Level.WARNING, "Unable to create sql timing report!", e);

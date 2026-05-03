@@ -1,33 +1,29 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.geo;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalInt;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotDiagonallyRotatable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.rotations.NotDiagonallyRotatable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalInt;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class OilPump extends AContainer implements RecipeDisplayItem, NotDiagonallyRotatable {
 
@@ -53,11 +49,16 @@ public class OilPump extends AContainer implements RecipeDisplayItem, NotDiagona
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                if (!(p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK))) {
+                if (!(p.hasPermission("slimefun.inventory.bypass")
+                        || Slimefun.getProtectionManager()
+                                .hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK))) {
                     return false;
                 }
 
-                if (!Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4).isPresent()) {
+                if (!Slimefun.getGPSNetwork()
+                        .getResourceManager()
+                        .getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4)
+                        .isPresent()) {
                     Slimefun.getLocalization().sendMessage(p, "gps.geo.scan-required", true);
                     return false;
                 }
@@ -98,10 +99,13 @@ public class OilPump extends AContainer implements RecipeDisplayItem, NotDiagona
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), emptyBucket, true, false)) {
-                    OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+                    OptionalInt supplies = Slimefun.getGPSNetwork()
+                            .getResourceManager()
+                            .getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET.item() });
+                        MachineRecipe recipe = new MachineRecipe(
+                                26, new ItemStack[] {emptyBucket}, new ItemStack[] {SlimefunItems.OIL_BUCKET.item()});
 
                         inv.consumeItem(slot);
                         Slimefun.getGPSNetwork()

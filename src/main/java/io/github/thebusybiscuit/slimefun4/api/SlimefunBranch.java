@@ -1,10 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-
 import io.github.bakedlibs.dough.common.CommonPatterns;
+import javax.annotation.Nonnull;
+import org.apache.commons.lang.Validate;
 
 /**
  * This enum represents the branch this Slimefun build is on.

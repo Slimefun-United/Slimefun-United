@@ -1,5 +1,6 @@
 package city.norain.slimefun4.compatibillty;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -13,7 +14,6 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.inventory.Inventory;
-import city.norain.slimefun4.SlimefunExtended;
 
 @UtilityClass
 public class VersionedEvent {
@@ -38,7 +38,10 @@ public class VersionedEvent {
 
             } catch (NoSuchMethodException | ClassNotFoundException e) {
                 Slimefun.logger()
-                        .log(Level.WARNING, "Unable to initialize event version compatibility module. Some features may not work correctly.", e);
+                        .log(
+                                Level.WARNING,
+                                "Unable to initialize event version compatibility module. Some features may not work correctly.",
+                                e);
             }
         }
     }

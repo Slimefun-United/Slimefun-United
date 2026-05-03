@@ -11,20 +11,18 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun4.utils.RadiationUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * The {@link RadiationTask} handles radioactivity for
@@ -57,7 +55,8 @@ public class RadiationTask extends AbstractArmorTask {
                 }
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
                 if (sfItem instanceof Radioactive radioactiveItem) {
-                    exposureTotal += item.getAmount() * radioactiveItem.getRadioactivity().getExposureModifier();
+                    exposureTotal += item.getAmount()
+                            * radioactiveItem.getRadioactivity().getExposureModifier();
                 }
             }
             int exposureLevelBefore = RadiationUtils.getExposure(p);

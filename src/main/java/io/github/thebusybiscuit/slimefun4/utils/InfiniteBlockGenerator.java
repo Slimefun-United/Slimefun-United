@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.bakedlibs.dough.versions.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.papermc.lib.PaperLib;
 import java.util.function.Predicate;

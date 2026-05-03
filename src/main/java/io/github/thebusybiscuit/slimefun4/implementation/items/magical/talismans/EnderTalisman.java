@@ -1,31 +1,51 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.EnderChest;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.NamespacedKey;
+import org.bukkit.block.EnderChest;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * An {@link EnderTalisman} is a special version of {@link Talisman}
  * that works while it is in your {@link EnderChest}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
 class EnderTalisman extends Talisman {
 
-    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "ender_talismans"), ItemStackFactory.create(SlimefunItems.ENDER_TALISMAN.item(), "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_ITEMGROUP.getKey());
+    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(
+            new NamespacedKey(Slimefun.instance(), "ender_talismans"),
+            ItemStackFactory.create(SlimefunItems.ENDER_TALISMAN.item(), "&7Talismans - &aTier II"),
+            3,
+            Talisman.TALISMANS_ITEMGROUP.getKey());
 
     @ParametersAreNonnullByDefault
     public EnderTalisman(Talisman parent, SlimefunItemStack item) {
-        super(ENDER_TALISMANS_ITEMGROUP, item, new ItemStack[] { SlimefunItems.ENDER_LUMP_3.item(), null, SlimefunItems.ENDER_LUMP_3.item(), null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3.item(), null, SlimefunItems.ENDER_LUMP_3.item() }, parent.isConsumable(), parent.isEventCancelled(), parent.getMessageSuffix(), parent.getChance(), parent.getEffects());
+        super(
+                ENDER_TALISMANS_ITEMGROUP,
+                item,
+                new ItemStack[] {
+                    SlimefunItems.ENDER_LUMP_3.item(),
+                    null,
+                    SlimefunItems.ENDER_LUMP_3.item(),
+                    null,
+                    parent.getItem(),
+                    null,
+                    SlimefunItems.ENDER_LUMP_3.item(),
+                    null,
+                    SlimefunItems.ENDER_LUMP_3.item()
+                },
+                parent.isConsumable(),
+                parent.isEventCancelled(),
+                parent.getMessageSuffix(),
+                parent.getChance(),
+                parent.getEffects());
     }
 
     @Override

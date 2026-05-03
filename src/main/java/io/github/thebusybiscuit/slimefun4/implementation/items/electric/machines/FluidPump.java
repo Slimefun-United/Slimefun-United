@@ -1,29 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionType;
-
-import io.github.bakedlibs.dough.blocks.Vein;
-
+import city.norain.slimefun4.SlimefunExtended;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-
-import city.norain.slimefun4.SlimefunExtended;
+import io.github.bakedlibs.dough.blocks.Vein;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -36,11 +16,25 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 /**
  * This machine collects liquids from the {@link World} and puts them
@@ -55,9 +49,9 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
     private static final int ENERGY_CONSUMPTION = 32;
     private static final int RANGE = 42;
 
-    private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22 };
-    private final int[] inputBorder = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
-    private final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+    private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44, 22};
+    private final int[] inputBorder = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
+    private final int[] outputBorder = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
     private final ItemStack emptyBucket = ItemStackWrapper.wrap(new ItemStack(Material.BUCKET));
     private final ItemStack emptyBottle = ItemStackWrapper.wrap(new ItemStack(Material.GLASS_BOTTLE));
@@ -105,12 +99,12 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
 
     @Override
     public int[] getInputSlots() {
-        return new int[] { 19, 20 };
+        return new int[] {19, 20};
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 24, 25 };
+        return new int[] {24, 25};
     }
 
     @Override
@@ -174,8 +168,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         }
     }
 
-    @Nullable
-    private Block findNextFluid(@Nonnull Block fluid) {
+    @Nullable private Block findNextFluid(@Nonnull Block fluid) {
         if (fluid.getType() == Material.WATER || fluid.getType() == Material.BUBBLE_COLUMN) {
             /**
              * With water we can be sure to find an infinite source whenever we

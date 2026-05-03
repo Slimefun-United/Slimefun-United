@@ -1,11 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -13,16 +7,19 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreWasher;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link ElectricDustWasher} serves as an electrical {@link OreWasher}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see OreWasher
  *
  */
@@ -53,16 +50,25 @@ public class ElectricDustWasher extends AContainer {
                     return null;
                 }
 
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.SIFTED_ORE.item() }, new ItemStack[] { oreWasher.getRandomDust() });
+                recipe = new MachineRecipe(
+                        4 / getSpeed(),
+                        new ItemStack[] {SlimefunItems.SIFTED_ORE.item()},
+                        new ItemStack[] {oreWasher.getRandomDust()});
 
                 if (!legacyMode || menu.fits(recipe.getOutput()[0], getOutputSlots())) {
                     menu.consumeItem(slot);
                     return recipe;
                 }
             } else if (SlimefunUtils.isItemSimilar(input, SlimefunItems.PULVERIZED_ORE.item(), true)) {
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { SlimefunItems.PULVERIZED_ORE.item() }, new ItemStack[] { SlimefunItems.PURE_ORE_CLUSTER.item() });
+                recipe = new MachineRecipe(
+                        4 / getSpeed(),
+                        new ItemStack[] {SlimefunItems.PULVERIZED_ORE.item()},
+                        new ItemStack[] {SlimefunItems.PURE_ORE_CLUSTER.item()});
             } else if (SlimefunUtils.isItemSimilar(input, new ItemStack(Material.SAND), true)) {
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { new ItemStack(Material.SAND) }, new ItemStack[] { SlimefunItems.SALT.item() });
+                recipe = new MachineRecipe(
+                        4 / getSpeed(),
+                        new ItemStack[] {new ItemStack(Material.SAND)},
+                        new ItemStack[] {SlimefunItems.SALT.item()});
             }
 
             if (recipe != null && menu.fits(recipe.getOutput()[0], getOutputSlots())) {
@@ -90,5 +96,4 @@ public class ElectricDustWasher extends AContainer {
     public @Nonnull String getMachineIdentifier() {
         return "ELECTRIC_DUST_WASHER";
     }
-
 }

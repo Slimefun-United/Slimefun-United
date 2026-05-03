@@ -1,31 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 /**
  * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
  * if a Server Owner configured Slimefun to use those.
  * We simply use {@link ItemMeta#setCustomModelData(Integer)} for this.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -51,20 +48,25 @@ public class CustomTextureService {
 
     /**
      * This creates a new {@link CustomTextureService} for the provided {@link Config}
-     * 
+     *
      * @param config
      *            The {@link Config} to read custom model data from
      */
     public CustomTextureService(@Nonnull Config config) {
         this.config = config;
-        config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n" + "There is no official Slimefun resource pack at the moment.");
+        config.getConfiguration()
+                .options()
+                .header("This file is used to assign items from Slimefun or any of its addons\n"
+                        + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n"
+                        + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n"
+                        + "There is no official Slimefun resource pack at the moment.");
         config.getConfiguration().options().copyHeader(true);
     }
 
     /**
      * This method registers the given {@link SlimefunItem SlimefunItems} to this {@link CustomTextureService}.
      * If saving is enabled, it will save them to the {@link Config} file.
-     * 
+     *
      * @param items
      *            The {@link SlimefunItem SlimefunItems} to register
      * @param save
@@ -106,15 +108,14 @@ public class CustomTextureService {
         }
     }
 
-    @Nullable
-    public String getVersion() {
+    @Nullable public String getVersion() {
         return version;
     }
 
     /**
      * This returns true if any custom model data was configured.
      * If every item id has no configured custom model data, it will return false.
-     * 
+     *
      * @return Whether any custom model data was configured
      */
     public boolean isActive() {
@@ -123,10 +124,10 @@ public class CustomTextureService {
 
     /**
      * This returns the configured custom model data for a given id.
-     * 
+     *
      * @param id
      *            The id to get the data for
-     * 
+     *
      * @return The configured custom model data
      */
     public int getModelData(@Nonnull String id) {
@@ -138,7 +139,7 @@ public class CustomTextureService {
     /**
      * This method sets the custom model data for this {@link ItemStack}
      * to the value configured for the provided item id.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to set the custom model data for
      * @param id
@@ -156,7 +157,7 @@ public class CustomTextureService {
     /**
      * This method sets the custom model data for this {@link ItemMeta}
      * to the value configured for the provided item id.
-     * 
+     *
      * @param im
      *            The {@link ItemMeta} to set the custom model data for
      * @param id
@@ -169,5 +170,4 @@ public class CustomTextureService {
         int data = getModelData(id);
         im.setCustomModelData(data == 0 ? null : data);
     }
-
 }

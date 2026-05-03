@@ -1,17 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.items.groups;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import java.time.LocalDate;
 import java.time.Month;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 
 /**
  * Represents a {@link ItemGroup} that is only displayed in the Guide during

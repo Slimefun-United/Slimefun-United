@@ -50,17 +50,17 @@ class PerformanceSummary {
 
     public void send(@Nonnull PerformanceInspector sender) {
         sender.sendMessage("");
-    sender.sendMessage(ChatColor.GREEN + "===== Slimefun Performance Profiler =====");
+        sender.sendMessage(ChatColor.GREEN + "===== Slimefun Performance Profiler =====");
         sender.sendMessage(
-        ChatColor.GOLD + "Total tick time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
+                ChatColor.GOLD + "Total tick time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
         sender.sendMessage(ChatColor.GOLD
-        + "Ticker runtime: "
+                + "Ticker runtime: "
                 + ChatColor.YELLOW
                 + NumberUtils.roundDecimalNumber(tickRate / 20.0)
                 + "s ("
                 + tickRate
                 + " ticks)");
-    sender.sendMessage(ChatColor.GOLD + "Performance rating: " + getPerformanceRating());
+        sender.sendMessage(ChatColor.GOLD + "Performance rating: " + getPerformanceRating());
         sender.sendMessage("");
 
         summarizeTimings(totalTickedBlocks, "block", sender, items, entry -> {

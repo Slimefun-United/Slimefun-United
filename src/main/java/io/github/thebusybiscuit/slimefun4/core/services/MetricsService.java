@@ -1,5 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -21,18 +26,9 @@ import java.util.List;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Flow.Subscription;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.bukkit.plugin.Plugin;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -83,7 +79,7 @@ public class MetricsService {
 
     /**
      * This constructs a new instance of our {@link MetricsService}.
-     * 
+     *
      * @param plugin
      *            Our {@link Slimefun} instance
      */
@@ -116,7 +112,9 @@ public class MetricsService {
              * Load the jar file into a child class loader using the Slimefun
              * PluginClassLoader as a parent.
              */
-            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
+            moduleClassLoader = URLClassLoader.newInstance(
+                    new URL[] {metricsModuleFile.toURI().toURL()},
+                    plugin.getClass().getClassLoader());
             Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
             metricVersion = metricsClass.getPackage().getImplementationVersion();
@@ -141,7 +139,11 @@ public class MetricsService {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
                 } catch (InvocationTargetException e) {
-                    plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting the metrics module", e.getCause());
+                    plugin.getLogger()
+                            .log(
+                                    Level.WARNING,
+                                    "An exception was thrown while starting the metrics module",
+                                    e.getCause());
                 } catch (Exception | LinkageError e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
@@ -161,7 +163,8 @@ public class MetricsService {
                 moduleClassLoader.close();
             }
         } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
+            plugin.getLogger()
+                    .log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
         }
     }
 
@@ -171,11 +174,12 @@ public class MetricsService {
      *
      * @param currentVersion
      *            The current version which is being used.
-     * 
+     *
      * @return if there is an update available.
      */
     public boolean checkForUpdate(@Nullable String currentVersion) {
-        if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
+        if (currentVersion == null
+                || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
 
@@ -198,7 +202,8 @@ public class MetricsService {
      */
     private int getLatestVersion() {
         try {
-            HttpResponse<String> response = client.send(buildBaseRequest(URI.create(RELEASES_URL)), HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response =
+                    client.send(buildBaseRequest(URI.create(RELEASES_URL)), HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 return -1;
@@ -231,12 +236,12 @@ public class MetricsService {
             }
 
             HttpResponse<Path> response = client.send(
-                buildBaseRequest(URI.create(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar")),
-                downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath()))
-            );
+                    buildBaseRequest(URI.create(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar")),
+                    downloadMonitor(HttpResponse.BodyHandlers.ofFile(file.toPath())));
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
-                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
+                plugin.getLogger()
+                        .log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] {JAR_NAME, version});
 
                 // Replace the metric file with the new one
                 cleanUp();
@@ -246,12 +251,24 @@ public class MetricsService {
                 hasDownloadedUpdate = true;
                 return true;
             } else {
-                plugin.getLogger().log(Level.WARNING, "Failed to download the latest jar file from GitHub. Response code: {0}", response.statusCode());
+                plugin.getLogger()
+                        .log(
+                                Level.WARNING,
+                                "Failed to download the latest jar file from GitHub. Response code: {0}",
+                                response.statusCode());
             }
         } catch (InterruptedException | JsonParseException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}",
+                            e.getMessage());
         } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}",
+                            e.getMessage());
         }
 
         return false;
@@ -264,8 +281,7 @@ public class MetricsService {
      *
      * @return The current version or null if not loaded.
      */
-    @Nullable
-    public String getVersion() {
+    @Nullable public String getVersion() {
         return metricVersion;
     }
 
@@ -302,12 +318,17 @@ public class MetricsService {
             @Override
             public void onNext(List<ByteBuffer> item) {
                 bytesWritten += item.stream().mapToLong(ByteBuffer::capacity).sum();
-                long totalBytes = info.headers().firstValue("Content-Length").map(Long::parseLong).orElse(-1L);
+                long totalBytes = info.headers()
+                        .firstValue("Content-Length")
+                        .map(Long::parseLong)
+                        .orElse(-1L);
 
                 int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
 
                 if (percent != 0 && percent != lastPercentPosted) {
-                    plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
+                    plugin.getLogger()
+                            .info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes
+                                    + " bytes)");
                     lastPercentPosted = percent;
                 }
 
@@ -317,7 +338,6 @@ public class MetricsService {
             @Override
             public void onError(Throwable throwable) {
                 delegateSubscriber.onError(throwable);
-
             }
 
             @Override

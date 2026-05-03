@@ -1,18 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.storage.data;
 
 import com.google.common.annotations.Beta;
-
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nonnull;
-
 import org.apache.commons.lang.Validate;
 
 /**

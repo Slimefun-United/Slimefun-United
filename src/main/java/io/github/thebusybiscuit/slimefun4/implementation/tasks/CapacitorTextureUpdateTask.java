@@ -1,23 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import io.github.thebusybiscuit.slimefun4.utils.Utils;
+import io.papermc.lib.PaperLib;
 import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
-import io.papermc.lib.PaperLib;
-
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-import io.github.thebusybiscuit.slimefun4.utils.Utils;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 
 /**
  * This task is run whenever a {@link Capacitor} needs to update their texture.
  * <strong>This must be executed on the main {@link Server} {@link Thread}!</strong>
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -36,7 +34,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
 
     /**
      * This creates a new {@link CapacitorTextureUpdateTask} with the given parameters.
-     * 
+     *
      * @param l
      *            The {@link Location} of the {@link Capacitor}
      * @param charge

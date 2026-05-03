@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import city.norain.slimefun4.SlimefunExtended;
+import io.github.bakedlibs.dough.versions.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 import org.bukkit.World.Environment;
@@ -23,9 +23,9 @@ class SaltResource extends AbstractResource {
 
     SaltResource() {
         super("salt", "Salt", SlimefunItems.SALT.item(), 18, true);
-        MinecraftVersion version = Slimefun.getMinecraftVersion();
+        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
 
-        if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_18)) {
+        if (version.isAtLeast(1, 18)) {
             // 1.18+ renamed most biomes
             biomes = getBiomeMap(this, "/biome-maps/salt_v1.18.json");
         } else {

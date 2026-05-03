@@ -1,44 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-import org.bukkit.scheduler.BukkitTask;
-
-import net.guizhanss.slimefun4.updater.AutoUpdateTask;
-import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.protection.ProtectionManager;
-
 import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.timings.SQLProfiler;
 import com.xzavier0722.mc.plugin.slimefun4.chat.PlayerChatCatcher;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.BlockStorageMigrator;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.PlayerProfileMigrator;
 import com.xzavier0722.mc.plugin.slimefuncomplib.ICompatibleSlimefun;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
+import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.bakedlibs.dough.versions.SemanticVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
@@ -140,7 +111,33 @@ import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
+import net.guizhanss.slimefun4.updater.AutoUpdateTask;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * This is the main class of Slimefun.
@@ -164,9 +161,9 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     private static Slimefun instance;
 
     /**
-     * Keep track of which {@link MinecraftVersion} we are on.
+     * unit tests
      */
-    private MinecraftVersion minecraftVersion = MinecraftVersion.UNKNOWN;
+    private boolean isUnitTest = false;
 
     /**
      * Keep track of whether this is a fresh install or a regular boot up.
@@ -228,9 +225,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
 
         // Check that we got loaded by MockBukkit rather than Bukkit's loader
         // TODO: This is very much a hack and we can hopefully move to a more native way in the future
-        if (getClassLoader().getClass().getPackageName().startsWith("org.mockbukkit.mockbukkit")) {
-            minecraftVersion = MinecraftVersion.UNIT_TEST;
-        }
+        isUnitTest = getClassLoader().getClass().getPackageName().startsWith("org.mockbukkit.mockbukkit");
     }
 
     /**
@@ -250,7 +245,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         super(loader, description, dataFolder, file);
 
         // This is only invoked during a Unit Test
-        minecraftVersion = MinecraftVersion.UNIT_TEST;
+        isUnitTest = true;
     }
 
     /**
@@ -364,7 +359,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
 
         // Make sure that the network size is a valid input
         if (networkSize < 1) {
-            logger.log(Level.WARNING, "'networks.max-size' is configured incorrectly! It must be greater than 1, but you set it to: {0}", networkSize);
+            logger.log(
+                    Level.WARNING,
+                    "'networks.max-size' is configured incorrectly! It must be greater than 1, but you set it to: {0}",
+                    networkSize);
             networkSize = 1;
         }
 
@@ -423,9 +421,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
                         logger.log(
                                 Level.SEVERE,
                                 x,
-                                () -> "An Exception occured while iterating through the Recipe list on Minecraft"
-                                        + " Version "
-                                        + minecraftVersion.getName()
+                                () -> "An Exception occured while iterating through the Recipe list on "
+                                        + SlimefunExtended.getMinecraftVersion().getAsString()
                                         + " (Slimefun v"
                                         + getVersion()
                                         + ")");
@@ -495,7 +492,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     @Override
     public void onDisable() {
         // Slimefun never loaded successfully, so we don't even bother doing stuff here
-        if (instance() == null || minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        if (instance() == null || instance.isUnitTest()) {
             return;
         }
 
@@ -591,8 +588,18 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      * @return Whether we are inside a unit test
      */
     public boolean isUnitTest() {
-        return minecraftVersion == MinecraftVersion.UNIT_TEST;
+        return isUnitTest;
     }
+
+    private static final List<SemanticVersion> SUPPORTED_MINECRAFT_VERSIONS = List.of(
+            new SemanticVersion(1, 16, 0),
+            new SemanticVersion(1, 17, 0),
+            new SemanticVersion(1, 18, 0),
+            new SemanticVersion(1, 19, 0),
+            new SemanticVersion(1, 20, 0),
+            new SemanticVersion(1, 20, 5),
+            new SemanticVersion(1, 21, 0),
+            new SemanticVersion(26, 1, 0));
 
     /**
      * This method checks for the {@link MinecraftVersion} of the {@link Server}.
@@ -609,23 +616,14 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
 
             // Now check the actual Version of Minecraft
-            String versionString = Bukkit.getMinecraftVersion();
-            String[] versionParts = versionString.split("\\.");
-
-            // for minecraft 1.21.11 the version is 21 and minor is 11
-            // for minecraft 26.1.2 the version is 261 and minor is 2
-            int version = versionParts[0].equals("1")
-                ? Integer.parseInt(versionParts[1])
-                : Integer.parseInt(versionParts[0] + versionParts[1]);
-            int patchVersion = versionParts.length > 2 ? Integer.parseInt(versionParts[2]) : 0;
+            MinecraftVersion minecraftVersion = SlimefunExtended.getMinecraftVersion();
+            int version = minecraftVersion.getMajorVersion();
+            int minorVersion = minecraftVersion.getMinorVersion();
 
             if (version > 0) {
                 // Check all supported versions of Minecraft
-                for (MinecraftVersion supportedVersion : MinecraftVersion.values()) {
-                    if (supportedVersion.isMinecraftVersion(version, patchVersion)) {
-                        minecraftVersion = supportedVersion;
-                        return false;
-                    }
+                if (SUPPORTED_MINECRAFT_VERSIONS.contains(new SemanticVersion(version, minorVersion, 0))) {
+                    return false;
                 }
 
                 // Looks like you are using an unsupported Minecraft Version
@@ -645,11 +643,11 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
         } catch (Exception | LinkageError x) {
             getLogger()
-            .log(
-                Level.SEVERE,
-                x,
-                () -> "error: Could not recognize server Minecraft version, Slimefun v"
-                    + getDescription().getVersion());
+                    .log(
+                            Level.SEVERE,
+                            x,
+                            () -> "error: Could not recognize server Minecraft version, Slimefun v"
+                                    + getDescription().getVersion());
 
             // We assume "unsupported" if something went wrong.
             return true;
@@ -671,10 +669,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     static @Nonnull Collection<String> getSupportedVersions() {
         List<String> list = new ArrayList<>();
 
-        for (MinecraftVersion version : MinecraftVersion.values()) {
-            if (!version.isVirtual()) {
-                list.add(version.getName());
-            }
+        for (SemanticVersion version : SUPPORTED_MINECRAFT_VERSIONS) {
+            list.add(version.getAsString());
         }
 
         return list;
@@ -684,8 +680,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      * This method creates all necessary directories (and sub directories) for Slimefun.
      */
     private void createDirectories() {
-        String[] storageFolders = { "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
+        String[] storageFolders = {"waypoints", "block-backups"};
+        String[] pluginFolders = {"scripts", "error-reports", "cache/github", "world-settings"};
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
@@ -1049,7 +1045,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      *
      * @return Our {@link NetworkManager} instance
      */
-
     public static @Nonnull NetworkManager getNetworkManager() {
         validateInstance();
         return instance.networkManager;
@@ -1112,16 +1107,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     }
 
     /**
-     * This returns the currently installed version of Minecraft.
-     *
-     * @return The current version of Minecraft
-     */
-    public static @Nonnull MinecraftVersion getMinecraftVersion() {
-        validateInstance();
-        return instance.minecraftVersion;
-    }
-
-    /**
      * This method returns whether this version of Slimefun was newly installed.
      * It will return true if this {@link Server} uses Slimefun for the very first time.
      *
@@ -1174,7 +1159,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         Validate.isTrue(delay >= 0, "The delay cannot be negative");
 
         // Run the task instantly within a Unit Test
-        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (instance.isUnitTest()) {
             runnable.run();
             return null;
         }
@@ -1202,7 +1187,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         Validate.notNull(runnable, "Cannot run null");
 
         // Run the task instantly within a Unit Test
-        if (getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+        if (instance.isUnitTest()) {
             runnable.run();
             return null;
         }

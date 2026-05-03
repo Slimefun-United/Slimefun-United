@@ -206,8 +206,8 @@ public final class TeleportationManager {
         long speed = 50_000 + (long) complexity * (long) complexity;
         long unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
 
-    // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
-    // Fixes #1138 - Ensure the teleportation time does not overflow
+        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
+        // Fixes #1138 - Ensure the teleportation time does not overflow
         return Math.max(1, NumberUtils.longToInt(unsafeTime));
     }
 

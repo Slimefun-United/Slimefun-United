@@ -1,11 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.machines;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,22 +16,15 @@ import org.bukkit.block.Block;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.api.events.AsyncMachineOperationFinishEvent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.MachineProcessHolder;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-
 /**
  * A {@link MachineProcessor} manages different {@link MachineOperation}s and handles
  * their progress.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @param <T>
  *            The type of {@link MachineOperation} this processor can hold.
- * 
+ *
  * @see MachineOperation
  * @see MachineProcessHolder
  */
@@ -41,7 +37,7 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This creates a new {@link MachineProcessor}.
-     * 
+     *
      * @param owner
      *            The owner of this {@link MachineProcessor}.
      */
@@ -53,7 +49,7 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This returns the owner of this {@link MachineProcessor}.
-     * 
+     *
      * @return The owner / holder
      */
     public @Nonnull MachineProcessHolder<T> getOwner() {
@@ -63,7 +59,7 @@ public class MachineProcessor<T extends MachineOperation> {
     /**
      * This returns the progress bar icon for this {@link MachineProcessor}
      * or null if no progress bar was set.
-     * 
+     *
      * @return The progress bar icon or null
      */
     public @Nullable ItemStack getProgressBar() {
@@ -73,7 +69,7 @@ public class MachineProcessor<T extends MachineOperation> {
     /**
      * This sets the progress bar icon for this {@link MachineProcessor}.
      * You can also set it to null to clear the progress bar.
-     * 
+     *
      * @param progressBar
      *            An {@link ItemStack} or null
      */
@@ -83,12 +79,12 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This method will start a {@link MachineOperation} at the given {@link Location}.
-     * 
+     *
      * @param loc
      *            The {@link Location} at which our machine is located.
      * @param operation
      *            The {@link MachineOperation} to start
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
      *         {@link MachineOperation} has already been started at that {@link Location}.
      */
@@ -101,12 +97,12 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This method will start a {@link MachineOperation} at the given {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block} at which our machine is located.
      * @param operation
      *            The {@link MachineOperation} to start
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
      *         {@link MachineOperation} has already been started at that {@link Block}.
      */
@@ -119,12 +115,12 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This method will actually start the {@link MachineOperation}.
-     * 
+     *
      * @param pos
      *            The {@link BlockPosition} of our machine
      * @param operation
      *            The {@link MachineOperation} to start
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully started. This will return false if another
      *         {@link MachineOperation} has already been started at that {@link BlockPosition}.
      */
@@ -137,10 +133,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This returns the current {@link MachineOperation} at that given {@link Location}.
-     * 
+     *
      * @param loc
      *            The {@link Location} at which our machine is located.
-     * 
+     *
      * @return The current {@link MachineOperation} or null.
      */
     public @Nullable T getOperation(@Nonnull Location loc) {
@@ -151,10 +147,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This returns the current {@link MachineOperation} at that given {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block} at which our machine is located.
-     * 
+     *
      * @return The current {@link MachineOperation} or null.
      */
     public @Nullable T getOperation(@Nonnull Block b) {
@@ -165,10 +161,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This returns the current {@link MachineOperation} at that given {@link BlockPosition}.
-     * 
+     *
      * @param pos
      *            The {@link BlockPosition} at which our machine is located.
-     * 
+     *
      * @return The current {@link MachineOperation} or null.
      */
     public @Nullable T getOperation(@Nonnull BlockPosition pos) {
@@ -179,10 +175,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This will end the {@link MachineOperation} at the given {@link Location}.
-     * 
+     *
      * @param loc
      *            The {@link Location} at which our machine is located.
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
      *         {@link MachineOperation} to begin with.
      */
@@ -194,10 +190,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This will end the {@link MachineOperation} at the given {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block} at which our machine is located.
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
      *         {@link MachineOperation} to begin with.
      */
@@ -209,10 +205,10 @@ public class MachineProcessor<T extends MachineOperation> {
 
     /**
      * This will end the {@link MachineOperation} at the given {@link BlockPosition}.
-     * 
+     *
      * @param pos
      *            The {@link BlockPosition} at which our machine is located.
-     * 
+     *
      * @return Whether the {@link MachineOperation} was successfully ended. This will return false if there was no
      *         {@link MachineOperation} to begin with.
      */
@@ -257,5 +253,4 @@ public class MachineProcessor<T extends MachineOperation> {
             ChestMenuUtils.updateProgressbar(inv, slot, remainingTicks, totalTicks, getProgressBar());
         }
     }
-
 }

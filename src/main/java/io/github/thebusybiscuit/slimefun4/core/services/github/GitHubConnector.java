@@ -1,5 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,21 +19,14 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 
 /**
  * The {@link GitHubConnector} is used to connect to the GitHub API service.
  * It can be extended by subclasses, this just serves as an abstract super class for
  * other connectors.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  */
@@ -45,7 +42,7 @@ abstract class GitHubConnector {
 
     /**
      * This creates a new {@link GitHubConnector} for the given repository.
-     * 
+     *
      * @param github
      *            Our instance of {@link GitHubService}
      * @param repository
@@ -58,7 +55,7 @@ abstract class GitHubConnector {
 
     /**
      * This returns the name of our cache {@link File}.
-     * 
+     *
      * @return The cache {@link File} name
      */
     @Nonnull
@@ -67,7 +64,7 @@ abstract class GitHubConnector {
     /**
      * This is our {@link URL} endpoint.
      * It is the suffix of the {@link URL} we want to connect to.
-     * 
+     *
      * @return Our endpoint
      */
     @Nonnull
@@ -75,7 +72,7 @@ abstract class GitHubConnector {
 
     /**
      * This {@link Map} contains the query parameters for our {@link URL}.
-     * 
+     *
      * @return A {@link Map} with our query parameters
      */
     @Nonnull
@@ -83,7 +80,7 @@ abstract class GitHubConnector {
 
     /**
      * This method is called when the connection finished successfully.
-     * 
+     *
      * @param response
      *            The response
      */
@@ -110,16 +107,15 @@ abstract class GitHubConnector {
 
         try {
             String params = getParameters().entrySet().stream()
-                .map(p -> p.getKey() + "=" + p.getValue())
-                .reduce((p1, p2) -> p1 + "&" + p2)
-                .map(s -> "?" + s)
-                .orElse("");
+                    .map(p -> p.getKey() + "=" + p.getValue())
+                    .reduce((p1, p2) -> p1 + "&" + p2)
+                    .map(s -> "?" + s)
+                    .orElse("");
             URI uri = new URI(url + params);
 
             HttpResponse<String> response = client.send(
-                HttpRequest.newBuilder(uri).header("User-Agent", USER_AGENT).build(),
-                HttpResponse.BodyHandlers.ofString()
-            );
+                    HttpRequest.newBuilder(uri).header("User-Agent", USER_AGENT).build(),
+                    HttpResponse.BodyHandlers.ofString());
             JsonElement element = JsonUtils.parseString(response.body());
 
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
@@ -127,7 +123,9 @@ abstract class GitHubConnector {
                 writeCacheFile(element);
             } else {
                 if (github.isLoggingEnabled()) {
-                    Slimefun.logger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] { url, response.statusCode(), element });
+                    Slimefun.logger().log(Level.WARNING, "Failed to fetch {0}: {1} - {2}", new Object[] {
+                        url, response.statusCode(), element
+                    });
                 }
 
                 // It has the cached file, let's just read that then
@@ -159,12 +157,14 @@ abstract class GitHubConnector {
         }
     }
 
-    @Nullable
-    private JsonElement readCacheFile() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+    @Nullable private JsonElement readCacheFile() {
+        try (BufferedReader reader =
+                new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
             return JsonUtils.parseString(reader.readLine());
         } catch (IOException | JsonParseException e) {
-            Slimefun.logger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] { file.getName(), e.getClass().getSimpleName(), e.getMessage() });
+            Slimefun.logger().log(Level.WARNING, "Failed to read Github cache file: {0} - {1}: {2}", new Object[] {
+                file.getName(), e.getClass().getSimpleName(), e.getMessage()
+            });
             return null;
         }
     }
@@ -173,7 +173,9 @@ abstract class GitHubConnector {
         try (FileOutputStream output = new FileOutputStream(file)) {
             output.write(node.toString().getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
-            Slimefun.logger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] { e.getClass().getSimpleName(), e.getMessage() });
+            Slimefun.logger().log(Level.WARNING, "Failed to populate GitHub cache: {0} - {1}", new Object[] {
+                e.getClass().getSimpleName(), e.getMessage()
+            });
         }
     }
 }

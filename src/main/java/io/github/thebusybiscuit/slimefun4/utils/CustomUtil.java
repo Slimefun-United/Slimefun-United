@@ -1,14 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
-
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.UUID;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 
 public class CustomUtil {
     private CustomUtil() {}

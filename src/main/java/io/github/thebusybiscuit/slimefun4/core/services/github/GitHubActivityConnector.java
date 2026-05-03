@@ -1,16 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 
 class GitHubActivityConnector extends GitHubConnector {
 

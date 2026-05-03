@@ -62,10 +62,17 @@ final class StartupWarnings {
         logger.log(Level.WARNING, BORDER);
         logger.log(Level.WARNING, PREFIX + "The Java version in use (Java {0}) is outdated.", javaVersion);
         logger.log(Level.WARNING, PREFIX);
-        logger.log(Level.WARNING, PREFIX + "Due to newer Minecraft versions requiring Java {0},", recommendedJavaVersion);
-        logger.log(Level.WARNING, PREFIX + "we strongly recommend upgrading to Java {0} as soon as possible.", recommendedJavaVersion);
+        logger.log(
+                Level.WARNING, PREFIX + "Due to newer Minecraft versions requiring Java {0},", recommendedJavaVersion);
+        logger.log(
+                Level.WARNING,
+                PREFIX + "we strongly recommend upgrading to Java {0} as soon as possible.",
+                recommendedJavaVersion);
         logger.log(Level.WARNING, PREFIX + "To take advantage of features in newer Java versions,");
-        logger.log(Level.WARNING, PREFIX + "Slimefun will also require Java {0} in the near future.", recommendedJavaVersion);
+        logger.log(
+                Level.WARNING,
+                PREFIX + "Slimefun will also require Java {0} in the near future.",
+                recommendedJavaVersion);
         logger.log(Level.WARNING, PREFIX + "To avoid issues later, please update soon!");
         logger.log(Level.WARNING, BORDER);
     }

@@ -1,15 +1,25 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
+import city.norain.slimefun4.SlimefunExtended;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,20 +31,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
  * ores it finds in a given range underneath where it was placed.
@@ -43,7 +39,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * long-time deprecated Digital Miner.</i>
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see AdvancedIndustrialMiner
  * @see MiningTask
  *
@@ -80,7 +76,7 @@ public class IndustrialMiner extends MultiBlockMachine {
                 BlockFace.UP);
         // @formatter:on
 
-        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());
+        this.oreDictionary = OreDictionary.forVersion(SlimefunExtended.getMinecraftVersion());
         this.range = range;
         this.silkTouch = silkTouch;
 
@@ -208,9 +204,9 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block northern = chest.getRelative(BlockFace.NORTH);
 
         if (northern.getType() == Material.PISTON) {
-            return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };
+            return new Block[] {northern, chest.getRelative(BlockFace.SOUTH)};
         } else {
-            return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
+            return new Block[] {chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST)};
         }
     }
 
@@ -223,12 +219,12 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
      */
     public boolean canMine(@Nonnull Block block) {
-        MinecraftVersion version = Slimefun.getMinecraftVersion();
+        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
         Material type = block.getType();
 
         if (type == Material.ANCIENT_DEBRIS) {
             return canMineAncientDebris.getValue() && !StorageCacheUtils.hasSlimefunBlock(block.getLocation());
-        } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
+        } else if (version.isAtLeast(1, 17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
             return canMineDeepslateOres.getValue() && !StorageCacheUtils.hasSlimefunBlock(block.getLocation());
         } else {
             return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type)

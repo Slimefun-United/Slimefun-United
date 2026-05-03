@@ -1,20 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
+import io.github.bakedlibs.dough.updater.PluginUpdater;
+import io.github.bakedlibs.dough.versions.PrefixedVersion;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.io.File;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
-
 import org.bukkit.plugin.Plugin;
-
-import io.github.bakedlibs.dough.updater.BlobBuildUpdater;
-import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.updater.PluginUpdater;
-import io.github.bakedlibs.dough.versions.PrefixedVersion;
-
-import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This Class represents our {@link PluginUpdater} Service.
@@ -144,9 +140,14 @@ public class UpdaterService {
             updater.start();
         } else {
             printBorder();
-            plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
-            plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
-            plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun to any official sources.");
+            plugin.getLogger()
+                    .log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
+            plugin.getLogger()
+                    .log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Do not report bugs encountered in this Version of Slimefun to any official sources.");
             printBorder();
         }
     }
@@ -172,7 +173,10 @@ public class UpdaterService {
         plugin.getLogger().log(Level.WARNING, "We respect your decision.");
 
         if (branch != SlimefunBranch.STABLE) {
-            plugin.getLogger().log(Level.WARNING, "If you are just scared of Slimefun breaking, then please consider using a \"stable\" build instead of disabling auto-updates.");
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "If you are just scared of Slimefun breaking, then please consider using a \"stable\" build instead of disabling auto-updates.");
         }
 
         printBorder();

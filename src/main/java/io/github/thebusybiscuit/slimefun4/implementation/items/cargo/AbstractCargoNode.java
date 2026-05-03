@@ -96,7 +96,11 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
 
         menu.replaceExistingItem(
                 slotPrev,
-                ItemStackFactory.create(HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(), "&bPrevious Channel", "", "&e> Click to decrease the Channel ID by 1"));
+                ItemStackFactory.create(
+                        HeadTexture.CARGO_ARROW_LEFT.getAsItemStack(),
+                        "&bPrevious Channel",
+                        "",
+                        "&e> Click to decrease the Channel ID by 1"));
         menu.addMenuClickHandler(slotPrev, (p, slot, item, action) -> {
             int newChannel = channel - 1;
 
@@ -112,17 +116,23 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
         if (channel == 16) {
             menu.replaceExistingItem(
                     slotCurrent,
-                    ItemStackFactory.create(HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
+                    ItemStackFactory.create(
+                            HeadTexture.CHEST_TERMINAL.getAsItemStack(), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         } else {
             menu.replaceExistingItem(
-                    slotCurrent, ItemStackFactory.create(ColoredMaterial.WOOL.get(channel), "&bChannel ID: &3" + (channel + 1)));
+                    slotCurrent,
+                    ItemStackFactory.create(ColoredMaterial.WOOL.get(channel), "&bChannel ID: &3" + (channel + 1)));
             menu.addMenuClickHandler(slotCurrent, ChestMenuUtils.getEmptyClickHandler());
         }
 
         menu.replaceExistingItem(
                 slotNext,
-        ItemStackFactory.create(HeadTexture.CARGO_ARROW_RIGHT.getAsItemStack(), "&bNext Channel", "", "&e> Click to increase channel ID"));
+                ItemStackFactory.create(
+                        HeadTexture.CARGO_ARROW_RIGHT.getAsItemStack(),
+                        "&bNext Channel",
+                        "",
+                        "&e> Click to increase channel ID"));
         menu.addMenuClickHandler(slotNext, (p, slot, item, action) -> {
             int newChannel = channel + 1;
 

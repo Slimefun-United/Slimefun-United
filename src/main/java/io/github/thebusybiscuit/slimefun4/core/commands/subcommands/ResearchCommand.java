@@ -2,17 +2,15 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 
 import io.github.bakedlibs.dough.common.PlayerList;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.api.researches.PlayerResearchTask;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -100,14 +98,16 @@ class ResearchCommand extends SubCommand {
             res.unlock(p, true, false, false);
         }
 
-        Slimefun.getLocalization()
-            .sendMessage(p, "messages.unlocked-all", true, msg -> msg);
+        Slimefun.getLocalization().sendMessage(p, "messages.unlocked-all", true, msg -> msg);
 
         FireworkUtils.launchRandom(p, 1);
 
-        Slimefun.getLocalization().sendMessage(sender, "messages.give-research-all", true,
-            msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName())
-        );
+        Slimefun.getLocalization()
+                .sendMessage(
+                        sender,
+                        "messages.give-research-all",
+                        true,
+                        msg -> msg.replace(PLACEHOLDER_PLAYER, p.getName()));
     }
 
     @ParametersAreNonnullByDefault

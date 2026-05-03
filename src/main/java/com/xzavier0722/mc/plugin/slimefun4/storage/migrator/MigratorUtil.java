@@ -34,7 +34,10 @@ class MigratorUtil {
                             zs.closeEntry();
                         } catch (IOException e) {
                             Slimefun.logger()
-                                    .log(Level.WARNING, "An issue occurred while backing up old data " + dir.getName() + '.', e);
+                                    .log(
+                                            Level.WARNING,
+                                            "An issue occurred while backing up old data " + dir.getName() + '.',
+                                            e);
                         }
                     });
                 }

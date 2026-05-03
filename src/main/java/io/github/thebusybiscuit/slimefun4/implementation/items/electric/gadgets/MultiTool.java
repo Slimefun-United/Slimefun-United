@@ -1,21 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -26,6 +12,17 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedEntityType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * The {@link MultiTool} is an electric device which can mimic
@@ -120,14 +117,9 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
-                Slimefun.getLocalization().sendMessage(
-                        p,
-                        "messages.multi-tool.mode-change",
-                        true,
-                        msg -> msg
-                                .replace("%device%", "Multi Tool")
-                                .replace("%mode%", ChatColor.stripColor(itemName))
-                );
+                Slimefun.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace(
+                                "%device%", "Multi Tool")
+                        .replace("%mode%", ChatColor.stripColor(itemName)));
 
                 PersistentDataAPI.setString(meta, key, modes.get(index).getItemId());
 
@@ -173,7 +165,7 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                     || type == EntityType.SHEEP) {
                 Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
                 e.setCancelled(true);
-                    e.setCancelled(true);
+                e.setCancelled(true);
             }
         };
     }

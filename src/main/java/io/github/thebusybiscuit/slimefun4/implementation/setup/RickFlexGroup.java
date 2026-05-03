@@ -1,19 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import java.time.LocalDate;
-import java.time.Month;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import java.time.LocalDate;
+import java.time.Month;
+import javax.annotation.Nonnull;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 
 /**
  * A super ordinary class.

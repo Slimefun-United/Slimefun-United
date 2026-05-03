@@ -1,10 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveTool;
 import java.util.List;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,13 +13,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.implementation.items.tools.ExplosiveTool;
-
 /**
  * This {@link Event} is called when an {@link ExplosiveTool} is used to break blocks.
  *
  * @author GallowsDove
- * 
+ *
  * @see ExplosiveTool
  *
  */
@@ -35,7 +32,8 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
     private boolean cancelled;
 
     @ParametersAreNonnullByDefault
-    public ExplosiveToolBreakBlocksEvent(Player player, Block block, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
+    public ExplosiveToolBreakBlocksEvent(
+            Player player, Block block, List<Block> blocks, ItemStack item, ExplosiveTool explosiveTool) {
         super(player);
 
         Validate.notNull(block, "The center block cannot be null!");
@@ -53,7 +51,7 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
      * This returns the primary {@link Block} that was broken.
      * This {@link Block} triggered this {@link Event} and is not included
      * in {@link #getAdditionalBlocks()}.
-     * 
+     *
      * @return The primary broken {@link Block}
      */
     @Nonnull
@@ -63,7 +61,7 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link Block} {@link List} of blocks destroyed in this event.
-     * 
+     *
      * @return The broken blocks
      */
     @Nonnull
@@ -73,7 +71,7 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link ExplosiveTool} which triggered this event
-     * 
+     *
      * @return the {@link ExplosiveTool} that was involved
      */
     @Nonnull
@@ -83,7 +81,7 @@ public class ExplosiveToolBreakBlocksEvent extends PlayerEvent implements Cancel
 
     /**
      * Gets the {@link ItemStack} of the tool used to destroy this block
-     * 
+     *
      * @return The {@link ItemStack} in the hand of the {@link Player}
      */
     @Nonnull

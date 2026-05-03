@@ -108,11 +108,11 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
 
         menu.addItem(
                 0,
-        ItemStackFactory.create(
-            Material.NAME_TAG,
-            "&7Displayed Text &e(Click to edit)",
-            "",
-            "&f" + ChatColors.color(StorageCacheUtils.getData(projector.getLocation(), "text"))));
+                ItemStackFactory.create(
+                        Material.NAME_TAG,
+                        "&7Displayed Text &e(Click to edit)",
+                        "",
+                        "&f" + ChatColors.color(StorageCacheUtils.getData(projector.getLocation(), "text"))));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -138,13 +138,13 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
                 1,
                 ItemStackFactory.create(
                         Material.CLOCK,
-            "&7Height: &e"
+                        "&7Height: &e"
                                 + NumberUtils.reparseDouble(Double.parseDouble(
                                                 StorageCacheUtils.getData(projector.getLocation(), OFFSET_PARAMETER))
                                         + 1.0D),
                         "",
-            "&fLeft Click: &7+0.1",
-            "&fRight Click: &7-0.1"));
+                        "&fLeft Click: &7+0.1",
+                        "&fRight Click: &7-0.1"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             var blockData = StorageCacheUtils.getBlock(projector.getLocation());
             double offset = NumberUtils.reparseDouble(

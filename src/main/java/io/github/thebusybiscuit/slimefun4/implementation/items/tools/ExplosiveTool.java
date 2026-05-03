@@ -110,12 +110,12 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
         ExplosiveToolBreakBlocksEvent event = new ExplosiveToolBreakBlocksEvent(p, b, blocksToDestroy, item, this);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-    /*
-     * Fix: https://github.com/SlimefunGuguProject/Slimefun4/issues/853
-     *
-     * To address the issue we sort the list so that player heads are processed first.
-     * See breakBlock for the detailed handling logic.
-     */
+        /*
+         * Fix: https://github.com/SlimefunGuguProject/Slimefun4/issues/853
+         *
+         * To address the issue we sort the list so that player heads are processed first.
+         * See breakBlock for the detailed handling logic.
+         */
         if (Bukkit.getPluginManager().isPluginEnabled("ExoticGarden")) {
             blocksToDestroy.sort((block1, block2) -> Boolean.compare(
                     block2.getType().equals(Material.PLAYER_HEAD),

@@ -1,23 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.networks.cargo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
@@ -25,6 +12,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
@@ -33,7 +28,7 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
  * @author TheBusyBiscuit
  * @author StarWishsama
  * @author Xzavier0722
- * 
+ *
  * @see CargoNet
  * @see CargoNetworkTask
  *
@@ -71,7 +66,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This creates a new {@link ItemFilter} for the given {@link Block}.
      * This will copy all settings from that {@link Block} to this filter.
-     * 
+     *
      * @param b
      *            The {@link Block}
      */
@@ -82,7 +77,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This updates or refreshes the {@link ItemFilter} to copy the settings
      * from the given {@link Block}. It takes a new snapshot.
-     * 
+     *
      * @param b
      *            The {@link Block}
      */
@@ -171,7 +166,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This will clear the {@link ItemFilter} and reject <strong>any</strong>
      * {@link ItemStack}.
-     * 
+     *
      * @param rejectOnMatch
      *            Whether the item should be rejected on matches
      */
@@ -232,7 +227,9 @@ class ItemFilter implements Predicate<ItemStack> {
         }
 
         if (potentialMatches == 1) {
-            return SlimefunUtils.isItemSimilar(item, singleCandidate, checkLore, false) ? !rejectOnMatch : rejectOnMatch;
+            return SlimefunUtils.isItemSimilar(item, singleCandidate, checkLore, false)
+                    ? !rejectOnMatch
+                    : rejectOnMatch;
         }
 
         final ItemStack subject = ItemStackWrapper.wrap(item);

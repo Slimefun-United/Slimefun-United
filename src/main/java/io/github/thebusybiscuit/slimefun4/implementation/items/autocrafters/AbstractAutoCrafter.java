@@ -665,14 +665,14 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             SlimefunItem recipeResult = SlimefunItem.getByItem(recipe.getResult());
 
             if (recipeResult == null) {
-        Slimefun.logger()
-            .log(
-                Level.WARNING,
-                "An issue occurred while handling crafting recipe "
-                    + recipe
-                    + " with result "
-                    + recipe.getResult()
-                    + ", the crafted result is not a Slimefun item.");
+                Slimefun.logger()
+                        .log(
+                                Level.WARNING,
+                                "An issue occurred while handling crafting recipe "
+                                        + recipe
+                                        + " with result "
+                                        + recipe.getResult()
+                                        + ", the crafted result is not a Slimefun item.");
                 return 0;
             }
 

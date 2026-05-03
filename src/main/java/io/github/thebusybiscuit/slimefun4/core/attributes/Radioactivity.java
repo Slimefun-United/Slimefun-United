@@ -71,7 +71,7 @@ public enum Radioactivity {
     }
 
     public @Nonnull String getLore() {
-    return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation Level: " + color + displayName;
+        return ChatColor.GREEN + "\u2622" + ChatColor.GRAY + " Radiation Level: " + color + displayName;
     }
 
     /**

@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -21,8 +22,6 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-
-import city.norain.slimefun4.SlimefunExtended;
 
 /**
  * The {@link SwordOfBeheading} is a special kind of sword which allows you to obtain

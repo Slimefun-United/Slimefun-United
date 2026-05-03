@@ -69,7 +69,9 @@ public class PlayerProfileMigrator implements IMigrator {
 
                 if (!p.hasPlayedBefore()) {
                     Slimefun.logger()
-                            .log(Level.INFO, "Detected data for a player who has never joined the server; skipping: " + uuid);
+                            .log(
+                                    Level.INFO,
+                                    "Detected data for a player who has never joined the server; skipping: " + uuid);
                     total--;
                     continue;
                 }
@@ -77,25 +79,34 @@ public class PlayerProfileMigrator implements IMigrator {
                 migratePlayerProfile(p);
 
                 migratedCount++;
-        Slimefun.logger()
-            .log(Level.INFO, "Successfully migrated player data: " + p.getName() + " (" + migratedCount + "/" + total + ")");
+                Slimefun.logger()
+                        .log(
+                                Level.INFO,
+                                "Successfully migrated player data: " + p.getName() + " (" + migratedCount + "/" + total
+                                        + ")");
             } catch (IllegalArgumentException ignored) {
                 result = MigrateStatus.FAILED;
-        Slimefun.logger()
-            .log(Level.WARNING, "Detected improperly named player data file: '" + file.getName() + "'");
+                Slimefun.logger()
+                        .log(Level.WARNING, "Detected improperly named player data file: '" + file.getName() + "'");
                 // illegal player name, skip
             }
         }
 
         if (MigratorUtil.createDirBackup(playerFolder)) {
             Slimefun.logger()
-                    .log(Level.INFO, "Successfully migrated {0} player data files! Original data stored in ./data-storage/Slimefun/old_data.", migratedCount);
+                    .log(
+                            Level.INFO,
+                            "Successfully migrated {0} player data files! Original data stored in ./data-storage/Slimefun/old_data.",
+                            migratedCount);
             try {
                 Files.deleteIfExists(playerFolder.toPath());
             } catch (IOException e) {
                 result = MigrateStatus.FAILED;
                 Slimefun.logger()
-                        .log(Level.WARNING, "Failed to delete old player data directory; please remove it manually.", e);
+                        .log(
+                                Level.WARNING,
+                                "Failed to delete old player data directory; please remove it manually.",
+                                e);
             }
         }
 

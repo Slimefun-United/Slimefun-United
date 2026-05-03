@@ -1,14 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.talismans;
 
+import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivateEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,21 +35,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.api.events.TalismanActivateEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
 public class Talisman extends SlimefunItem {
 
-    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), ItemStackFactory.create(SlimefunItems.COMMON_TALISMAN.item(), "&7Talismans - &aTier I"), 2);
+    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(
+            new NamespacedKey(Slimefun.instance(), "talismans"),
+            ItemStackFactory.create(SlimefunItems.COMMON_TALISMAN.item(), "&7Talismans - &aTier I"),
+            2);
     private static final String WIKI_PAGE = "Talismans";
 
     private final SlimefunItemStack enderTalisman;
@@ -104,7 +104,8 @@ public class Talisman extends SlimefunItem {
         addOfficialWikipage(WIKI_PAGE);
 
         if (!(this instanceof EnderTalisman)) {
-            String name = "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
+            String name =
+                    "&5Ender " + ChatColor.stripColor(getItem().getItemMeta().getDisplayName());
             List<String> lore = new ArrayList<>();
             lore.add("&7&oEnder Infused");
             lore.add("");
@@ -151,8 +152,7 @@ public class Talisman extends SlimefunItem {
         return cancel;
     }
 
-    @Nullable
-    private SlimefunItemStack getEnderVariant() {
+    @Nullable private SlimefunItemStack getEnderVariant() {
         return enderTalisman;
     }
 
@@ -226,7 +226,8 @@ public class Talisman extends SlimefunItem {
             }
 
             EnderTalisman enderTalisman = enderTalismanItem.getItem(EnderTalisman.class);
-            if (enderTalisman != null && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem.item(), true)) {
+            if (enderTalisman != null
+                    && SlimefunUtils.containsSimilarItem(p.getEnderChest(), enderTalismanItem.item(), true)) {
                 if (talisman.canUse(p, true)) {
                     activateTalisman(e, p, p.getEnderChest(), enderTalisman, enderTalismanItem.item(), sendMessage);
                     return true;
@@ -299,8 +300,7 @@ public class Talisman extends SlimefunItem {
         return getMessageSuffix() == null;
     }
 
-    @Nullable
-    protected final String getMessageSuffix() {
+    @Nullable protected final String getMessageSuffix() {
         return suffix;
     }
 
@@ -343,8 +343,7 @@ public class Talisman extends SlimefunItem {
         return true;
     }
 
-    @Nullable
-    private static Player getPlayerByEventType(@Nonnull Event e) {
+    @Nullable private static Player getPlayerByEventType(@Nonnull Event e) {
         if (e instanceof EntityDeathEvent entityDeathEvent) {
             return entityDeathEvent.getEntity().getKiller();
         } else if (e instanceof BlockBreakEvent blockBreakEvent) {

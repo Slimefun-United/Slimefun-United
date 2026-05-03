@@ -1,19 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
 import java.util.function.Predicate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 
 /**
  * This enum is used to quantify Slimefun's performance impact. This way we can assign a
  * "grade" to each timings report and also use this for metrics collection.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunProfiler
  *
  */
@@ -54,5 +52,4 @@ public enum PerformanceRating implements Predicate<Float> {
     public ChatColor getColor() {
         return color;
     }
-
 }

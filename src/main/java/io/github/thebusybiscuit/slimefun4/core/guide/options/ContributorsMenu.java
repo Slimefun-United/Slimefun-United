@@ -1,26 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 /**
  * This menu shows a list of every {@link Contributor} to this project.
@@ -40,13 +36,17 @@ final class ContributorsMenu {
 
         ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
 
-        menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.settings")));
+        menu.addItem(
+                1,
+                ChestMenuUtils.getBackButton(
+                        p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.settings")));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             SlimefunGuideSettings.openSettings(pl, p.getInventory().getItemInMainHand());
             return false;
         });
 
-        List<Contributor> contributors = new ArrayList<>(Slimefun.getGitHubService().getContributors().values());
+        List<Contributor> contributors =
+                new ArrayList<>(Slimefun.getGitHubService().getContributors().values());
         contributors.sort(Comparator.comparingInt(Contributor::getPosition));
 
         for (int i = page * 36; i < contributors.size() && i < (page + 1) * 36; i++) {
@@ -108,7 +108,8 @@ final class ContributorsMenu {
             }
 
             if (entry.getValue() > 0) {
-                String commits = Slimefun.getLocalization().getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits" : "commit"));
+                String commits = Slimefun.getLocalization()
+                        .getMessage(p, "guide.credits." + (entry.getValue() > 1 ? "commits" : "commit"));
 
                 info += " &7(" + entry.getValue() + ' ' + commits + ')';
             }
@@ -118,12 +119,12 @@ final class ContributorsMenu {
 
         if (contributor.getProfile() != null) {
             lore.add("");
-            lore.add(ChatColors.color("&7\u21E8 &e") + Slimefun.getLocalization().getMessage(p, "guide.credits.profile-link"));
+            lore.add(ChatColors.color("&7\u21E8 &e")
+                    + Slimefun.getLocalization().getMessage(p, "guide.credits.profile-link"));
         }
 
         meta.setLore(lore);
         skull.setItemMeta(meta);
         return skull;
     }
-
 }

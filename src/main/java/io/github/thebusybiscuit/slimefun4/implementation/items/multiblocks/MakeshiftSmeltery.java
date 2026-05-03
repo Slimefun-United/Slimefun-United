@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,10 +13,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 
 /**
  * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.

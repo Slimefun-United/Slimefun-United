@@ -305,7 +305,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
      * This will open the {@link Inventory} of this backpack to every {@link Player}
      * that was passed onto this method.
      * <p>
-    * Binary compatible
+     * Binary compatible
      *
      * @param p The player who this Backpack will be shown to
      */
@@ -365,8 +365,8 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
      * @return new {@link Inventory}
      */
     private Inventory newInv() {
-    return Bukkit.createInventory(
-        this, size, (name.isEmpty() ? "Backpack" : ChatColors.color(name + "&r")) + " [Size " + size + "]");
+        return Bukkit.createInventory(
+                this, size, (name.isEmpty() ? "Backpack" : ChatColors.color(name + "&r")) + " [Size " + size + "]");
     }
 
     private void updateInv() {
