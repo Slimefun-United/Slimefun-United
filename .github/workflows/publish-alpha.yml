@@ -59,10 +59,10 @@ jobs:
         id: jar
         run: echo "JAR_FILE=target/slimefun-united-${{ steps.version.outputs.MAVEN }}.jar" >> $GITHUB_OUTPUT
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v5
+      - name: Set up JDK 25
+        uses: actions/setup-java@v6
         with:
-          java-version: 21
+          java-version: 25
           distribution: adopt
           java-package: jdk
           architecture: x64
@@ -87,4 +87,6 @@ jobs:
             1.19.x
             1.20.x
             1.21.x
+            26.1.1
+            26.1.2
           files: ${{ steps.jar.outputs.JAR_FILE }}
