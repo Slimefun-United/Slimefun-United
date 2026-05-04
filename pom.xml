@@ -243,31 +243,6 @@
             </plugin>
 
             <plugin>
-                <groupId>com.diffplug.spotless</groupId>
-                <artifactId>spotless-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <java>
-                        <palantirJavaFormat>
-                            <version>2.38.0</version>
-                            <style>PALANTIR</style>
-                        </palantirJavaFormat>
-
-                        <removeUnusedImports />
-                        <formatAnnotations />
-                    </java>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>apply</goal>
-                        </goals>
-                        <phase>validate</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
                 <version>9.0.1</version>
