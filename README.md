@@ -73,8 +73,8 @@ Here are the differences between the two types of versions:
 
 |                       | Development (alpha) builds                                                                 | Releases                                                                                                |
 |-----------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
-| **Minecraft Version** | :video_game: 1.19.X - 1.21.11                                                              | :video_game: 1.19.X - 1.21.11                                                                           |
-| **Java Version**      | :computer: **Java 17+**                                                                    | :computer: **Java 17+**                                                                                 |
+| **Minecraft Version** | :video_game: 26.1.2                                                              | :video_game: 26.1.2                                                                           |
+| **Java Version**      | :computer: **Java 25+**                                                                    | :computer: **Java 25+**                                                                                 |
 | **Stability**         | :x: **DO NOT USE IN PRODUCTION!**                                                          | :heavy_check_mark:                                                                                      |
 | **Auto-Updates**      | :heavy_check_mark:                                                                         | :heavy_check_mark:                                                                                      |
 | **Frequent Updates**  | :heavy_check_mark:                                                                         | :heavy_check_mark:                                                                                      |

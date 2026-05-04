@@ -25,11 +25,11 @@
         <!-- UTF-8 is our standard encoding for source files -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Target Java 17 -->
-        <maven.compiler.release>17</maven.compiler.release>
+        <!-- Target Java 25 for Minecraft/Paper 26.1.2 -->
+        <maven.compiler.release>25</maven.compiler.release>
 
         <!-- Paper properties -->
-        <paper.version>1.21.10</paper.version>
+        <paper.version>[26.1.2.build,)</paper.version>
         <paper.javadocs>https://papermc.io/javadocs</paper.javadocs>
 
         <!-- Default settings for sonarcloud.io -->
@@ -118,13 +118,12 @@
                         <!-- We can safely exclude them from the final jar -->
                         <exclude>**/package-info.java</exclude>
                     </excludes>
-                    <source>17</source>
-                    <target>17</target>
+                    <release>${maven.compiler.release}</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.34</version>
+                            <version>1.18.40</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -426,7 +425,7 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>${paper.version}-R0.1-SNAPSHOT</version>
+            <version>${paper.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -441,7 +440,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.34</version>
+            <version>1.18.40</version>
             <scope>provided</scope>
         </dependency>
 

@@ -44,8 +44,8 @@ For testers and early adopters.
 
 | Category  | Supported           |
 |-----------|---------------------|
-| Minecraft | 🎮 1.19.x – 1.21.11 |
-| Java      | 💻 Java 17+         |
+| Minecraft | 🎮 26.1.2 |
+| Java      | 💻 Java 25+         |
 
 You can check for older versions on [Modrinth](https://modrinth.com/plugin/slimefun-united/versions) or [Hangar](https://hangar.papermc.io/Slimefun-United/Slimefun-United/versions).
 
