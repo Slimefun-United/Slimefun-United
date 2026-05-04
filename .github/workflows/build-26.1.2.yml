@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - master
+      - dev
 
 jobs:
   build:
@@ -27,7 +28,7 @@ jobs:
 
       - name: Build jar
         run: ./mvnw -B clean package -DskipTests -Dspotless.apply.skip=true -Dspotless.check.skip=true -Dspotless.skip=true
-        
+
       - name: Collect plugin jar
         run: |
           mkdir -p build-output
