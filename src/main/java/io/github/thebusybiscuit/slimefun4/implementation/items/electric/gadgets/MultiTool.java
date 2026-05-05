@@ -165,7 +165,6 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                     || type == EntityType.SHEEP) {
                 Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.multi-tool.not-shears");
                 e.setCancelled(true);
-                e.setCancelled(true);
             }
         };
     }
