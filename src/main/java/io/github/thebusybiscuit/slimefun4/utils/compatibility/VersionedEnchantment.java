@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.NamespacedKey;
@@ -19,7 +20,7 @@ public class VersionedEnchantment {
     public static final Enchantment FORTUNE;
 
     static {
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         // DIG_SPEED is renamed to EFFICIENCY in 1.20.5
         EFFICIENCY = version.isAtLeast(1, 20, 5) ? Enchantment.EFFICIENCY : getKey("DIG_SPEED");

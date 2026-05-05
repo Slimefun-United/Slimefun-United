@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import city.norain.slimefun4.SlimefunExtended;
 import com.xzavier0722.mc.plugin.slimefun4.autocrafter.CrafterSmartPort;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
@@ -2119,7 +2118,7 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
-        if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 2)) {
+        if (!Slimefun.getMinecraftVersion().isAtLeast(1, 20, 2)) {
             meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
         } else {
             meta.setBasePotionType(PotionType.WEAKNESS);
@@ -7915,7 +7914,7 @@ public final class SlimefunItemSetup {
                         })
                 .register(plugin);
 
-        MinecraftVersion minecraftVersion = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion minecraftVersion = Slimefun.getMinecraftVersion();
 
         new SlimefunItem(itemGroups.magicalArmor, SlimefunItems.BEE_HELMET, RecipeType.ARMOR_FORGE, new ItemStack[] {
                     SlimefunItems.GOLD_8K.item(),

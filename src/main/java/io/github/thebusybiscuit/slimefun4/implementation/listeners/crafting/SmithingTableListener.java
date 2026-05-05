@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.Nonnull;
@@ -43,7 +42,7 @@ public class SmithingTableListener implements SlimefunCraftingListener {
     }
 
     private int materialSlot() {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 20)) {
             return 2;
         }
         return 1;

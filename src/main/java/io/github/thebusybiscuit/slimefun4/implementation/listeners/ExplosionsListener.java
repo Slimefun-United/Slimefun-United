@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import city.norain.slimefun4.SlimefunExtended;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
@@ -48,7 +47,7 @@ public class ExplosionsListener implements Listener {
          * Wind charge **doesn't** break block but spigot still give us break list,
          * so we just ignore it.
          */
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21)
                 && (e.getEntityType() == EntityType.WIND_CHARGE
                         || e.getEntityType() == EntityType.BREEZE_WIND_CHARGE)) {
             return;
@@ -59,7 +58,7 @@ public class ExplosionsListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onBlockExplode(BlockExplodeEvent e) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21)
                 && e.getExplosionResult() == ExplosionResult.TRIGGER_BLOCK) {
             return;
         }

@@ -10,6 +10,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
 import io.github.bakedlibs.dough.versions.SemanticVersion;
+import io.github.bakedlibs.dough.versions.UnknownServerVersionException;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
@@ -111,6 +112,8 @@ import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import lombok.Getter;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -161,7 +164,14 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     private static Slimefun instance;
 
     /**
-     * unit tests
+     * Keep track of which {@link MinecraftVersion} we are on.
+     * Pulled from SlimefunExtended
+     */
+    @Getter
+    private static MinecraftVersion minecraftVersion;
+
+    /**
+     * Keep track of if we are in a Unit Test environment or not.
      */
     private boolean isUnitTest = false;
 
@@ -422,7 +432,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
                                 Level.SEVERE,
                                 x,
                                 () -> "An Exception occured while iterating through the Recipe list on "
-                                        + SlimefunExtended.getMinecraftVersion().getAsString()
+                                        + Slimefun.getMinecraftVersion().getAsString()
                                         + " (Slimefun v"
                                         + getVersion()
                                         + ")");
@@ -616,7 +626,12 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
 
             // Now check the actual Version of Minecraft
-            MinecraftVersion minecraftVersion = MinecraftVersion.of(instance.getServer());
+            try {
+                minecraftVersion = MinecraftVersion.of(getServer());
+            } catch (UnknownServerVersionException e) {
+                getLogger().log(Level.WARNING, "Unable to recognize your server version :(");
+                return false;
+            }
             int version = minecraftVersion.getMajorVersion();
             int minorVersion = minecraftVersion.getMinorVersion();
 
@@ -744,7 +759,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21, 5)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21, 5)) {
             new VersionedMiddleClickListener(this);
         } else {
             new MiddleClickListener(this);

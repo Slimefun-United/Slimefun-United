@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -170,7 +169,7 @@ public class TalismanListener implements Listener {
         /*
          * Return because allay is so cute, DO NOT KILL THEM.
          */
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19) && entity instanceof Allay) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 19) && entity instanceof Allay) {
             return;
         }
 

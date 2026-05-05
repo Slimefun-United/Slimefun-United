@@ -1,6 +1,5 @@
 package city.norain.slimefun4.compatibillty;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -23,7 +22,7 @@ public class VersionedEvent {
     private Method GET_CLICKED_INVENTORY;
 
     public void init() {
-        if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
+        if (!Slimefun.getMinecraftVersion().isAtLeast(1, 21)) {
             try {
                 BLOCK_EXPLODE_EVENT_CONSTRUCTOR =
                         BlockExplodeEvent.class.getConstructor(Block.class, List.class, float.class);
@@ -48,7 +47,7 @@ public class VersionedEvent {
 
     @SneakyThrows
     public BlockExplodeEvent newBlockExplodeEvent(Block block, List<Block> affectedBlock, float yield) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21)) {
             return new BlockExplodeEvent(block, block.getState(), affectedBlock, yield, ExplosionResult.DESTROY);
         } else {
             if (BLOCK_EXPLODE_EVENT_CONSTRUCTOR == null) {
@@ -63,7 +62,7 @@ public class VersionedEvent {
      */
     @SneakyThrows
     public Inventory getTopInventory(InventoryEvent event) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21)) {
             return event.getView().getTopInventory();
         } else {
             if (GET_TOP_INVENTORY == null) {
@@ -76,7 +75,7 @@ public class VersionedEvent {
 
     @SneakyThrows
     public Inventory getClickedInventory(InventoryClickEvent event) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21)) {
             return event.getClickedInventory();
         } else {
             if (GET_CLICKED_INVENTORY == null) {

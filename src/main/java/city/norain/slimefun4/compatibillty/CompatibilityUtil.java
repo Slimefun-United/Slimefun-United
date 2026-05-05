@@ -1,6 +1,5 @@
 package city.norain.slimefun4.compatibillty;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
@@ -24,7 +23,7 @@ public class CompatibilityUtil {
      * @return the material used when placing this block
      */
     public Material getPlacementMaterial(BlockData blockData) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19, 4)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 19, 4)) {
             return blockData.getPlacementMaterial();
         } else {
             switch (blockData.getMaterial()) {
@@ -66,7 +65,7 @@ public class CompatibilityUtil {
      * @return {@code true} if the connection for that player is active
      */
     public boolean isConnected(OfflinePlayer player) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20)
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 20)
                 && Slimefun.instance().getServer().getOnlineMode()) {
             return player.isConnected();
         } else {
@@ -81,7 +80,7 @@ public class CompatibilityUtil {
      * @return the attribute representing maximum health
      */
     public static Attribute getMaxHealth() {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21, 3)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 21, 3)) {
             return Registry.ATTRIBUTE.get(NamespacedKey.fromString("max_health"));
         } else {
             return Attribute.valueOf("GENERIC_MAX_HEALTH");

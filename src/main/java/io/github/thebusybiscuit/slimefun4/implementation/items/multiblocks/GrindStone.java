@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -97,7 +96,7 @@ public class GrindStone extends MultiBlockMachine {
         recipes.add(new ItemStack(Material.BASALT, 2));
         recipes.add(new ItemStack(Material.BLACKSTONE));
 
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 17)) {
             recipes.add(new ItemStack(Material.AMETHYST_BLOCK));
             recipes.add(new ItemStack(Material.AMETHYST_SHARD, 4));
 

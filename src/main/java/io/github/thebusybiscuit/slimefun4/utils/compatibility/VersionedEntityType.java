@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.NamespacedKey;
@@ -16,7 +17,7 @@ public class VersionedEntityType {
     public static final EntityType FIREWORK;
 
     static {
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         // MUSHROOM_COW is renamed to MOOSHROOM in 1.20.5
         MOOSHROOM = version.isAtLeast(1, 20, 5) ? EntityType.MOOSHROOM : getKey("MUSHROOM_COW");

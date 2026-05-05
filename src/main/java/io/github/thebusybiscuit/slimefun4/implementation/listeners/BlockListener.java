@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.compatibillty.CompatibilityUtil;
 import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
@@ -412,7 +411,7 @@ public class BlockListener implements Listener {
      */
     @ParametersAreNonnullByDefault
     private boolean isSupported(BlockData blockData, Block block) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 19)) {
             return blockData.isSupported(block);
         } else {
             // TODO: Make 1.16-1.18 version. BlockData::isSupported is 1.19+.

@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
@@ -11,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -60,7 +60,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     protected void registerDefaultRecipes() {
         // Milk from adult cows and goats
         addProduce(new AnimalProduce(new ItemStack(Material.BUCKET), new ItemStack(Material.MILK_BUCKET), n -> {
-            MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+            MinecraftVersion version = Slimefun.getMinecraftVersion();
 
             if (n instanceof Cow || (version.isAtLeast(1, 17) && n instanceof Goat)) {
                 return ((Ageable) n).isAdult();
@@ -115,7 +115,7 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
         displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 17)) {
             displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
             displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
         }

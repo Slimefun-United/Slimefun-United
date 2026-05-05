@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import city.norain.slimefun4.SlimefunExtended;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.blocks.Vein;
@@ -11,6 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
@@ -199,7 +199,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
             case BUBBLE_COLUMN:
                 ItemStack waterBottle = new ItemStack(Material.POTION);
                 PotionMeta meta = (PotionMeta) waterBottle.getItemMeta();
-                if (!SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 2)) {
+                if (!Slimefun.getMinecraftVersion().isAtLeast(1, 20, 2)) {
                     meta.setBasePotionData(new PotionData(PotionType.WATER));
                 } else {
                     meta.setBasePotionType(PotionType.WATER);

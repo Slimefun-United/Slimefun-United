@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import city.norain.slimefun4.SlimefunExtended;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.ItemStackFactory;
@@ -76,7 +75,7 @@ public class IndustrialMiner extends MultiBlockMachine {
                 BlockFace.UP);
         // @formatter:on
 
-        this.oreDictionary = OreDictionary.forVersion(SlimefunExtended.getMinecraftVersion());
+        this.oreDictionary = OreDictionary.forVersion(Slimefun.getMinecraftVersion());
         this.range = range;
         this.silkTouch = silkTouch;
 
@@ -219,7 +218,7 @@ public class IndustrialMiner extends MultiBlockMachine {
      * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
      */
     public boolean canMine(@Nonnull Block block) {
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
         Material type = block.getType();
 
         if (type == Material.ANCIENT_DEBRIS) {

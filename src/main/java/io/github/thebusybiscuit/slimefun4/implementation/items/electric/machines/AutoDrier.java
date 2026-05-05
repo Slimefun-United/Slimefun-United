@@ -1,11 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,7 @@ public class AutoDrier extends AContainer implements RecipeDisplayItem, NotHoppe
         recipeList.add(new ItemStack(Material.COOKED_SALMON));
         recipeList.add(SlimefunItems.FISH_JERKY.item());
 
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 19)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 19)) {
             recipeList.add(new ItemStack(Material.MUD));
             recipeList.add(new ItemStack(Material.CLAY));
         }

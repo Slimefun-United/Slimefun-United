@@ -1,8 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.resources;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
 import org.bukkit.World.Environment;
@@ -23,7 +23,7 @@ class UraniumResource extends AbstractResource {
     UraniumResource() {
         super("uranium", "Small Chunks of Uranium", SlimefunItems.SMALL_URANIUM.item(), 2, true);
 
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         if (version.isAtLeast(1, 18)) {
             // 1.18+ renamed most biomes

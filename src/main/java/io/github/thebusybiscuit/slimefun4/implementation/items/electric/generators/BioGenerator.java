@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.generators;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
@@ -67,7 +67,7 @@ public class BioGenerator extends AGenerator {
         registerFuel(new MachineFuel(2, new ItemStack(Material.WARPED_FUNGUS)));
         registerFuel(new MachineFuel(16, SlimefunItems.STRANGE_NETHER_GOO.item()));
 
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 17)) {
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 17)) {
             registerFuel(new MachineFuel(2, new ItemStack(Material.GLOW_BERRIES)));
             registerFuel(new MachineFuel(3, new ItemStack(Material.SMALL_DRIPLEAF)));
             registerFuel(new MachineFuel(3, new ItemStack(Material.BIG_DRIPLEAF)));

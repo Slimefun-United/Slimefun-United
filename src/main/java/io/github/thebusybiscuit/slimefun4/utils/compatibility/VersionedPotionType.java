@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ public class VersionedPotionType {
     public static final PotionType REGENERATION;
 
     static {
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         LEAPING = version.isAtLeast(1, 20, 5) ? PotionType.LEAPING : getKey("JUMP");
 

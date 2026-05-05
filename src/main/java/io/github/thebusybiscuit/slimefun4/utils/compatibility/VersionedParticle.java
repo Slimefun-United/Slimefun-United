@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
-import city.norain.slimefun4.SlimefunExtended;
 import io.github.bakedlibs.dough.versions.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+
 import java.lang.reflect.Field;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ public class VersionedParticle {
     public static final Particle ENCHANT;
 
     static {
-        MinecraftVersion version = SlimefunExtended.getMinecraftVersion();
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         // REDSTONE is renamed to DUST in 1.20.5
         DUST = version.isAtLeast(1, 20, 5) ? Particle.DUST : getKey("REDSTONE");

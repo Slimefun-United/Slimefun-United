@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
-import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.compatibillty.VersionedEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -17,7 +16,7 @@ import org.bukkit.inventory.Inventory;
 
 public class VanillaCrafterListener implements SlimefunCraftingListener {
     public VanillaCrafterListener(@Nonnull Slimefun plugin) {
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 3))
+        if (Slimefun.getMinecraftVersion().isAtLeast(1, 20, 3))
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
