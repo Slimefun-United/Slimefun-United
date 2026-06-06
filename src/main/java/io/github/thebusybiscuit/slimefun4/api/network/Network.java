@@ -1,23 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.api.network;
 
-import java.util.ArrayDeque;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.NetworkListener;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 
 /**
  * An abstract Network class to manage networks in a stateful way

@@ -1,23 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.core.services;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
-import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * This class represents an analytics service that sends data.
@@ -48,14 +44,9 @@ public class AnalyticsService {
             plugin.getLogger().info("Enabled Analytics Service");
 
             // Send the timings data every minute
-            Slimefun.getThreadService().newScheduledThread(
-                plugin,
-                "AnalyticsService - Timings",
-                sendTimingsAnalytics(),
-                1,
-                1,
-                TimeUnit.MINUTES
-            );
+            Slimefun.getThreadService()
+                    .newScheduledThread(
+                            plugin, "AnalyticsService - Timings", sendTimingsAnalytics(), 1, 1, TimeUnit.MINUTES);
         }
     }
 
@@ -70,34 +61,38 @@ public class AnalyticsService {
             double avgPerMachine = Slimefun.getProfiler().getAverageTimingsPerMachine();
 
             if (totalTimings == 0 || avgPerMachine == 0) {
-                Debug.log(TestCase.ANALYTICS, "Ignoring analytics data for server_timings as no data was found"
-                    + " - total: " + totalTimings + ", avg: " + avgPerMachine);
+                Debug.log(
+                        TestCase.ANALYTICS,
+                        "Ignoring analytics data for server_timings as no data was found" + " - total: " + totalTimings
+                                + ", avg: " + avgPerMachine);
                 // Ignore if no data
                 return;
             }
 
-            send("server_timings", new double[]{
-                // double1 is schema version
-                tickInterval, // double2
-                totalTimings, // double3
-                avgPerMachine // double4
-            }, null);
+            send(
+                    "server_timings",
+                    new double[] {
+                        // double1 is schema version
+                        tickInterval, // double2
+                        totalTimings, // double3
+                        avgPerMachine // double4
+                    },
+                    null);
         };
     }
 
     public void recordPlayerProfileDataTime(@Nonnull String backend, boolean load, long nanoseconds) {
         send(
-            "player_profile_data_load_time",
-            new double[]{
-                // double1 is schema version
-                nanoseconds, // double2
-                load ? 1 : 0 // double3 - 1 if load, 0 if save
-            },
-            new String[]{
-                // blob1 is version
-                backend // blob2
-            }
-        );
+                "player_profile_data_load_time",
+                new double[] {
+                    // double1 is schema version
+                    nanoseconds, // double2
+                    load ? 1 : 0 // double3 - 1 if load, 0 if save
+                },
+                new String[] {
+                    // blob1 is version
+                    backend // blob2
+                });
     }
 
     // Important: Keep the order of these doubles and blobs the same unless you increment the version number
@@ -105,11 +100,9 @@ public class AnalyticsService {
     @ParametersAreNonnullByDefault
     private void send(String id, double[] doubles, String[] blobs) {
         // If not enabled or not official build (e.g. local build) or a unit test, just ignore.
-        if (
-            !enabled
-            || !Slimefun.getUpdater().getBranch().isOfficial()
-            || Slimefun.instance().isUnitTest()
-        ) return;
+        if (!enabled
+                || !Slimefun.getUpdater().getBranch().isOfficial()
+                || Slimefun.instance().isUnitTest()) return;
 
         JsonObject object = new JsonObject();
         // Up to 1 index
@@ -141,18 +134,21 @@ public class AnalyticsService {
         Debug.log(TestCase.ANALYTICS, object.toString());
 
         // Send async, we do not care about the result. If it fails, that's fine.
-        client.sendAsync(HttpRequest.newBuilder()
-            .uri(URI.create(API_URL))
-            .header("User-Agent", "Mozilla/5.0 Slimefun4 AnalyticsService")
-            .POST(HttpRequest.BodyPublishers.ofString(object.toString()))
-            .build(),
-            HttpResponse.BodyHandlers.discarding()
-        ).thenAcceptAsync((res) -> {
-            if (res.statusCode() == 200) {
-                Debug.log(TestCase.ANALYTICS, "Analytics data for " + id + " sent successfully");
-            } else {
-                Debug.log(TestCase.ANALYTICS, "Analytics data for " + id + " failed to send - " + res.statusCode());
-            }
-        });
+        client.sendAsync(
+                        HttpRequest.newBuilder()
+                                .uri(URI.create(API_URL))
+                                .header("User-Agent", "Mozilla/5.0 Slimefun4 AnalyticsService")
+                                .POST(HttpRequest.BodyPublishers.ofString(object.toString()))
+                                .build(),
+                        HttpResponse.BodyHandlers.discarding())
+                .thenAcceptAsync((res) -> {
+                    if (res.statusCode() == 200) {
+                        Debug.log(TestCase.ANALYTICS, "Analytics data for " + id + " sent successfully");
+                    } else {
+                        Debug.log(
+                                TestCase.ANALYTICS,
+                                "Analytics data for " + id + " failed to send - " + res.statusCode());
+                    }
+                });
     }
 }

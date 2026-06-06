@@ -1,6 +1,3 @@
 {
-    "values" : [
-        "#slimefun:ores",
-        "#slimefun:raw_metals"
-    ]
+  "values": ["#slimefun:ores", "#slimefun:raw_metals"]
 }

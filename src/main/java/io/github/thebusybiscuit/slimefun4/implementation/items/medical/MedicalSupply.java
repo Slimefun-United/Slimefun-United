@@ -1,24 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.medical;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-
-import city.norain.slimefun4.compatibillty.CompatibilityUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import net.guizhanss.guizhanlib.minecraft.utils.compatibility.AttributeX;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefunItem<T> {
 
@@ -74,7 +71,7 @@ public abstract class MedicalSupply<T extends ItemHandler> extends SimpleSlimefu
      */
     public void heal(@Nonnull LivingEntity n) {
         double health = n.getHealth() + healAmount;
-        double maxHealth = n.getAttribute(CompatibilityUtil.getMaxHealth()).getValue();
+        double maxHealth = n.getAttribute(AttributeX.MAX_HEALTH).getValue();
         n.setHealth(Math.min(health, maxHealth));
     }
 }

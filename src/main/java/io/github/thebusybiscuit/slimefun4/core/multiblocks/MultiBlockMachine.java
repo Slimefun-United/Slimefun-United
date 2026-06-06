@@ -1,18 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
+import com.google.common.base.Preconditions;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.virtual.VirtualItemHandler.InventoryContext;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import com.google.common.base.Preconditions;
-
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -22,21 +32,6 @@ import org.bukkit.block.Dispenser;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * A {@link MultiBlockMachine} is a {@link SlimefunItem} that is built in the {@link World}.
@@ -95,7 +90,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         Validate.notNull(output, "Recipes must have an Output!");
 
         recipes.add(input);
-        recipes.add(new ItemStack[] { output });
+        recipes.add(new ItemStack[] {output});
     }
 
     public void clearRecipe() {
@@ -131,8 +126,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
             SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
             // If the input/output is not a Slimefun item or it's not disabled then it's valid.
             if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
-                recipes.add(new ItemStack[] { inputStack });
-                recipes.add(new ItemStack[] { outputStack });
+                recipes.add(new ItemStack[] {inputStack});
+                recipes.add(new ItemStack[] {outputStack});
             }
         }
     }
@@ -185,7 +180,8 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
          * It's functionally the same as the old fit check for the dispenser,
          * only refactored.
          */
-        if (!outputChest.isPresent() && InvUtils.fits(placeCheckerInv, product)) {
+        if (!outputChest.isPresent()
+                && Slimefun.getItemStackService().fits(placeCheckerInv, product, InventoryContext.MACHINE_OUTPUT)) {
             return dispInv;
         } else {
             return outputChest.orElse(null);
@@ -208,9 +204,12 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         Inventory outputInv = findOutputInventory(outputItem, block, blockInv);
 
         if (outputInv != null) {
-            outputInv.addItem(outputItem);
+            InventoryContext context =
+                    (outputInv == blockInv) ? InventoryContext.MACHINE_OUTPUT : InventoryContext.OUTPUT_CHEST;
+            Slimefun.getItemStackService().addItem(outputInv, outputItem, context);
         } else {
-            ItemStack rest = blockInv.addItem(outputItem).get(0);
+            ItemStack rest =
+                    Slimefun.getItemStackService().addItem(blockInv, outputItem, InventoryContext.MACHINE_OUTPUT);
 
             // fallback: drop item
             if (rest != null) {

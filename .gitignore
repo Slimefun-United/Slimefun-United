@@ -3,6 +3,9 @@
 /plugins/
 /sonar/
 /.settings/
+/.gradle/
+/build/
+/target/
 /.idea/
 /.vscode/
 /data-storage/

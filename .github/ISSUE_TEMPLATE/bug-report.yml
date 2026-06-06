@@ -15,7 +15,7 @@ body:
         - You have taken a look at our [troubleshooting guide](https://github.com/Slimefun/Slimefun4/wiki/How-to-report-bugs)
         - You have checked whether the [latest version](https://modrinth.com/plugin/slimefun-united/versions) has already fixed the issue you encountered
         - You have searched existing [issues](https://github.com/Slimefun-United/Slimefun-United/issues) to see if a similar problem has been reported
-        
+
         If your feedback is unclear or does not follow the template, it will be closed immediately.
         <br /><strong><i>Fields marked with an asterisk (*) are required.</i></strong>
         <br />
@@ -23,7 +23,7 @@ body:
   - id: checklist
     type: checkboxes
     attributes:
-      label: '❗ Checklist'
+      label: "❗ Checklist"
       description: Please go through this checklist before creating the issue.
       options:
         - label: I am using Slimefun United and did not modify the jar.
@@ -40,7 +40,7 @@ body:
   - type: textarea
     id: issue-description
     attributes:
-      label: '📍 Issue Description'
+      label: "📍 Issue Description"
       description: |
         A clear and detailed description of what went wrong.
         The more information you can provide, the easier we can handle this problem.
@@ -52,7 +52,7 @@ body:
   - type: dropdown
     id: reproducibility
     attributes:
-      label: '🌊 Reproducibility'
+      label: "🌊 Reproducibility"
       description: Select how often the issue occurs
       options:
         - Cannot reproduce
@@ -65,7 +65,7 @@ body:
   - type: textarea
     id: reproduction-steps
     attributes:
-      label: '📑 Reproduction Steps'
+      label: "📑 Reproduction Steps"
       description: Briefly explain how we can reproduce this issue
       placeholder: |
         Tell us the exact steps to reproduce this issue, the more detailed the easier we can reproduce it.
@@ -77,7 +77,7 @@ body:
   - type: dropdown
     id: server-platform-type
     attributes:
-      label: '💻 Server Software'
+      label: "💻 Server Software"
       description: |
         Please select the software your server is running on, such as `Paper`.
         Note: Wo do **not** support hybrid servers
@@ -98,7 +98,7 @@ body:
   - id: expected-behaviour
     type: textarea
     attributes:
-      label: '💡 Expected Behavior'
+      label: "💡 Expected Behavior"
       description: |
         What were you expecting to happen?
         What do you think would have been the correct behaviour?
@@ -108,7 +108,7 @@ body:
   - id: media
     type: textarea
     attributes:
-      label: '📷 Screenshots / Videos'
+      label: "📷 Screenshots / Videos"
       description: |
         The best way to illustrate in an issue is by recording a video or taking a screenshot.
         If you can capture any footage of the bug happening, it would help us out a lot!
@@ -118,7 +118,7 @@ body:
   - id: server-log
     type: input
     attributes:
-      label: '📜 Server Log'
+      label: "📜 Server Log"
       description: |
         Take a look at your server log and upload any error messages from Slimefun to a pasting site (e.g. [Pastebin](https://pastebin.com/)).
         If you are unsure about it, post your full log, you can find it under /logs/latest.log
@@ -127,7 +127,7 @@ body:
   - id: error-reports
     type: input
     attributes:
-      label: '📂 `/error-reports/` folder'
+      label: "📂 `/error-reports/` folder"
       description: |
         Check the folder `/plugins/Slimefun/error-reports/` and upload any files inside that folder to a pasting site (e.g. [Pastebin](https://pastebin.com/)).
       placeholder: https://pastebin.com/...
@@ -135,8 +135,8 @@ body:
   - type: dropdown
     id: minecraft-version
     attributes:
-      label: '🎮 Minecraft Version'
-      description: 'Please select the Minecraft version of the server'
+      label: "🎮 Minecraft Version"
+      description: "Please select the Minecraft version of the server"
       options:
         - 1.21.11
         - 1.21.9~1.21.10
@@ -159,7 +159,7 @@ body:
   - type: textarea
     id: slimefun-version
     attributes:
-      label: '⭐ Slimefun version'
+      label: "⭐ Slimefun version"
       description: |
         **"latest" is not a version number, we need the exact version.**
         We recommend running "/sf versions" and uploading a screenshot of that.
@@ -171,7 +171,7 @@ body:
   - type: textarea
     id: other-plugins
     attributes:
-      label: '🧭 Other installed plugins'
+      label: "🧭 Other installed plugins"
       description: |
         If your issue is related to another plugin, make sure to include your server’s plugin list.
         You can obtain it by running /plugins.
@@ -180,7 +180,7 @@ body:
   - type: textarea
     id: additional
     attributes:
-      label: '➕ Additional information'
+      label: "➕ Additional information"
       description: Add any extra information here if necessary
 
   - type: markdown

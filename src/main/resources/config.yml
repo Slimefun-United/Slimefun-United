@@ -6,7 +6,7 @@ options:
   # Auto check and update from GitHub for new versions
   auto-update: false
   # Prefix for all Slimefun messages
-  chat-prefix: '&a&lSlimefun United &7> '
+  chat-prefix: "&a&lSlimefun United &7> "
   # Update interval for Slimefun armor effects
   armor-update-interval: 10
   # Enable/disable armor effects
@@ -85,41 +85,41 @@ backpack:
   allow-open-when-owner-offline: true
 
 research-ranks:
-- Chicken
-- Cow
-- Spider
-- Villager
-- Beginner
-- Clumsy Student
-- Unskilled Student
-- Incompetent Student
-- Student
-- Clumsy Apprentice
-- Apprentice
-- Skilled Apprentice
-- Upcoming Mage
-- Excellent Mage
-- Young Magician
-- Incompetent Magician
-- Common Magician
-- Magician
-- Proficient Magician
-- Skilled Magician
-- Accustomed Magician
-- Great Magician
-- Clumsy Wizard
-- Wizard
-- Common Wizard
-- Skilled Wizard
-- Great Wizard
-- Impressive Wizard
-- Young Master
-- Clumsy Master
-- Upcoming Master
-- Competent Master
-- Master
-- Skilled Master
-- Excellent Master
-- Great Master
-- Proficient Master
-- The Chosen One
+  - Chicken
+  - Cow
+  - Spider
+  - Villager
+  - Beginner
+  - Clumsy Student
+  - Unskilled Student
+  - Incompetent Student
+  - Student
+  - Clumsy Apprentice
+  - Apprentice
+  - Skilled Apprentice
+  - Upcoming Mage
+  - Excellent Mage
+  - Young Magician
+  - Incompetent Magician
+  - Common Magician
+  - Magician
+  - Proficient Magician
+  - Skilled Magician
+  - Accustomed Magician
+  - Great Magician
+  - Clumsy Wizard
+  - Wizard
+  - Common Wizard
+  - Skilled Wizard
+  - Great Wizard
+  - Impressive Wizard
+  - Young Master
+  - Clumsy Master
+  - Upcoming Master
+  - Competent Master
+  - Master
+  - Skilled Master
+  - Excellent Master
+  - Great Master
+  - Proficient Master
+  - The Chosen One

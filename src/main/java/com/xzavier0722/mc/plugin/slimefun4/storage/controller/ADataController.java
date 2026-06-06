@@ -143,14 +143,18 @@ public abstract class ADataController {
 
             while (pendingTask > 0) {
                 var doneTaskPercent = String.format("%.1f", (totalTask - pendingTask) / totalTask * 100);
-                logger.log(Level.INFO, "Saving data, please wait... Remaining tasks: {0} ({1}%)", new Object[] {pendingTask, doneTaskPercent});
+                logger.log(Level.INFO, "Saving data, please wait... Remaining tasks: {0} ({1}%)", new Object[] {
+                    pendingTask, doneTaskPercent
+                });
                 TimeUnit.SECONDS.sleep(1);
                 var currentTask = scheduledWriteTasks.size();
 
                 if (pendingTask == currentTask) {
                     if (timer.peek() / 1000 > 10) {
-            Slimefun.logger()
-                .log(Level.WARNING, "Detected a long-running save task. Please provide the following thread stack dump to the developers for investigation:");
+                        Slimefun.logger()
+                                .log(
+                                        Level.WARNING,
+                                        "Detected a long-running save task. Please provide the following thread stack dump to the developers for investigation:");
                         Slimefun.logger()
                                 .log(Level.WARNING, Slimefun.getProfiler().snapshotThreads());
                     }

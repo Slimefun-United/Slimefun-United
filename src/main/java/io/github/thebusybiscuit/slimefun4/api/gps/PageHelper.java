@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -58,19 +58,19 @@ public class PageHelper {
         if (totalPages > 1) {
             if (page > 1) {
                 menu.addItem(
-                        prevSlot, ItemStackFactory.create(Material.ARROW, "&a上一页 &7(" + page + "/" + totalPages + ")"));
+                        prevSlot, new CustomItemStack(Material.ARROW, "&a上一页 &7(" + page + "/" + totalPages + ")"));
                 menu.addMenuClickHandler(prevSlot, prevHander);
             } else {
-                menu.addItem(prevSlot, ItemStackFactory.create(Material.GRAY_STAINED_GLASS_PANE, "&7上一页（无）"));
+                menu.addItem(prevSlot, new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, "&7上一页（无）"));
                 menu.addMenuClickHandler(prevSlot, ChestMenuUtils.getEmptyClickHandler());
             }
 
             if (page < totalPages) {
                 menu.addItem(
-                        nextSlot, ItemStackFactory.create(Material.ARROW, "&a下一页 &7(" + page + "/" + totalPages + ")"));
+                        nextSlot, new CustomItemStack(Material.ARROW, "&a下一页 &7(" + page + "/" + totalPages + ")"));
                 menu.addMenuClickHandler(nextSlot, nextHander);
             } else {
-                menu.addItem(nextSlot, ItemStackFactory.create(Material.GRAY_STAINED_GLASS_PANE, "&7下一页（无）"));
+                menu.addItem(nextSlot, new CustomItemStack(Material.GRAY_STAINED_GLASS_PANE, "&7下一页（无）"));
                 menu.addMenuClickHandler(nextSlot, ChestMenuUtils.getEmptyClickHandler());
             }
         } else {

@@ -5,7 +5,7 @@ on:
     branches:
       - dev
     paths:
-      - 'src/**'
+      - "src/**"
       # These may be needed in the future, but not for now
       #- '.mvn/**'
       #- 'mvnw'
@@ -39,13 +39,13 @@ jobs:
         run: |
           MAVEN="$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
           echo "MAVEN=$MAVEN" >> $GITHUB_OUTPUT
-          
+
           CLEAN="${MAVEN%%+*}"
           echo "CLEAN=$CLEAN" >> $GITHUB_OUTPUT
-          
+
           RUN_NUMBER="$CLEAN-${{ github.run_number }}"
           echo "RUN_NUMBER=$RUN_NUMBER" >> $GITHUB_OUTPUT
-          
+
           echo "FULL=$RUN_NUMBER+${{ steps.commit.outputs.short }}" >> $GITHUB_OUTPUT
 
       - name: Create a Git tag

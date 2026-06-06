@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -35,7 +35,7 @@ abstract class AbstractEnchantmentMachine extends AContainer {
     private final IntRangeSetting levelLimit = new IntRangeSetting(this, "enchant-level-limit", 0, 10, Short.MAX_VALUE);
     private final ItemSetting<Boolean> useIgnoredLores = new ItemSetting<>(this, "use-ignored-lores", false);
     private final ItemSetting<List<String>> ignoredLores = new ItemSetting<>(
-        this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
+            this, "ignored-lores", Collections.singletonList("&7- &cCan't be used in " + this.getItemName()));
     private final ItemSetting<Integer> enchantLimit =
             new IntRangeSetting(this, "enchant-limit", 0, 10, Short.MAX_VALUE);
     private final ItemSetting<Boolean> useEnchantLimit = new ItemSetting<>(this, "use-enchant-limit", false);
@@ -68,18 +68,19 @@ abstract class AbstractEnchantmentMachine extends AContainer {
 
         String notice = ChatColors.color(Slimefun.getLocalization().getMessage("messages.above-limit-level"));
         notice = notice.replace("%level%", String.valueOf(levelLimit.getValue()));
-        ItemStack progressBar = ItemStackFactory.create(Material.BARRIER, " ", notice);
+        ItemStack progressBar = new CustomItemStack(Material.BARRIER, " ", notice);
         menu.replaceExistingItem(22, progressBar);
     }
 
     protected void showEnchantmentLimitWarning(@Nonnull BlockMenu menu) {
         if (!useEnchantLimit.getValue()) {
-            throw new IllegalStateException("Enchantment limit for the auto enchanter/disenchanter is not enabled, cannot display warning info.");
+            throw new IllegalStateException(
+                    "Enchantment limit for the auto enchanter/disenchanter is not enabled, cannot display warning info.");
         }
 
         String notice = ChatColors.color(Slimefun.getLocalization().getMessage("messages.above-enchant-limit"));
         notice = notice.replace("%max%", String.valueOf(enchantLimit.getValue()));
-        ItemStack progressBar = ItemStackFactory.create(Material.BARRIER, " ", notice);
+        ItemStack progressBar = new CustomItemStack(Material.BARRIER, " ", notice);
         menu.replaceExistingItem(22, progressBar);
     }
 

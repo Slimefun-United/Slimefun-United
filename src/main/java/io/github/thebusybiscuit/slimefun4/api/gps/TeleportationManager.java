@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.gps;
 
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -10,7 +10,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedPotionEffectType;
-import io.papermc.lib.PaperLib;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -92,7 +91,7 @@ public final class TeleportationManager {
 
                 menu.addItem(
                         4,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 HeadTexture.GLOBE_OVERWORLD.getAsItemStack(),
                                 ChatColor.YELLOW
                                         + Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.gui.title")));
@@ -128,7 +127,7 @@ public final class TeleportationManager {
 
                     menu.addItem(
                             slot,
-                            ItemStackFactory.create(
+                            new CustomItemStack(
                                     waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), lore));
                     menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                         pl.closeInventory();
@@ -206,8 +205,8 @@ public final class TeleportationManager {
         long speed = 50_000 + (long) complexity * (long) complexity;
         long unsafeTime = Math.min(4 * distanceSquared(source, destination) / speed, 40);
 
-    // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
-    // Fixes #1138 - Ensure the teleportation time does not overflow
+        // Fixes #3573 - Using Math.max is a safer way to ensure values > 0 than relying on addition.
+        // Fixes #1138 - Ensure the teleportation time does not overflow
         return Math.max(1, NumberUtils.longToInt(unsafeTime));
     }
 
@@ -254,8 +253,7 @@ public final class TeleportationManager {
                         20,
                         60,
                         20);
-                PaperLib.teleportAsync(p, destination)
-                        .thenAccept(success -> onTeleport(p, destination, success, resistance));
+                p.teleportAsync(destination).thenAccept(success -> onTeleport(p, destination, success, resistance));
             } else {
                 p.sendTitle(
                         ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")),

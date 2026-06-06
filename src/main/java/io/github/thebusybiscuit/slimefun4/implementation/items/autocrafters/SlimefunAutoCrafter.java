@@ -1,9 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,19 +23,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
  * This extension of the {@link AbstractAutoCrafter} allows you to implement any
@@ -47,18 +43,22 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
     private final RecipeType targetRecipeType;
 
     @ParametersAreNonnullByDefault
-    protected SlimefunAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, RecipeType targetRecipeType) {
+    protected SlimefunAutoCrafter(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            RecipeType targetRecipeType) {
         super(itemGroup, item, recipeType, recipe);
 
         this.targetRecipeType = targetRecipeType;
     }
 
     @Override
-    @Nullable
-    public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
+    @Nullable public AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
         Validate.notNull(b, "The Block cannot be null!");
 
-        BlockState state = PaperLib.getBlockState(b, false).getState();
+        BlockState state = b.getState(false);
 
         if (state instanceof Skull skull) {
             // Read the stored value from persistent data storage
@@ -95,7 +95,13 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     ChestMenuUtils.drawBackground(menu, background);
                     ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
-                    menu.addItem(49, ItemStackFactory.create(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+                    menu.addItem(
+                            49,
+                            new CustomItemStack(
+                                    Material.CRAFTING_TABLE,
+                                    ChatColor.GREEN
+                                            + Slimefun.getLocalization()
+                                                    .getMessage(p, "messages.auto-crafting.select")));
                     menu.addMenuClickHandler(49, (pl, stack, slot, action) -> {
                         setSelectedRecipe(b, recipe);
                         SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);
@@ -108,7 +114,8 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     recipe.show(menu, task);
                     menu.open(p);
 
-                    SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);;
+                    SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);
+                    ;
 
                     if (!task.isEmpty()) {
                         task.start(menu.toInventory());

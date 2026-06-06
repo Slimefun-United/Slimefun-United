@@ -1,31 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import java.text.MessageFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import org.apache.commons.lang.Validate;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
-import org.bukkit.event.world.ChunkLoadEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.Permission;
-
 import io.github.bakedlibs.dough.collections.OptionalMap;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
@@ -49,8 +23,30 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
-
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 
 /**
  * A {@link SlimefunItem} is a custom item registered by a {@link SlimefunAddon}.
@@ -432,7 +428,7 @@ public class SlimefunItem implements Placeable {
      * This method registers this {@link SlimefunItem}.
      * Always call this method after your {@link SlimefunItem} has been initialized.
      * Never call it more than once!
-     * 
+     *
      * @param addon
      *            The {@link SlimefunAddon} that this {@link SlimefunItem} belongs to.
      */
@@ -580,9 +576,9 @@ public class SlimefunItem implements Placeable {
         if (itemStackTemplate.getAmount() != 1) {
             // @formatter:off
             warn("This item has an illegal stack size: " + itemStackTemplate.getAmount()
-                + ". An Item size of 1 is recommended. Please inform the author(s) of " + addon.getName()
-                + " to fix this. Crafting Results with amounts of higher should be handled"
-                + " via the recipeOutput parameter!");
+                    + ". An Item size of 1 is recommended. Please inform the author(s) of " + addon.getName()
+                    + " to fix this. Crafting Results with amounts of higher should be handled"
+                    + " via the recipeOutput parameter!");
             // @formatter:on
         }
 
@@ -937,8 +933,8 @@ public class SlimefunItem implements Placeable {
      * Note that you only need to provide the page name itself,
      * the URL to our wiki is prepended automatically.
      *
-    * Do not return the official Chinese wiki address directly.
-    * Downstream projects should call {@link SlimefunItem#addWikiPage(String)} instead.
+     * Do not return the official Chinese wiki address directly.
+     * Downstream projects should call {@link SlimefunItem#addWikiPage(String)} instead.
      *
      * @param page
      *            The associated wiki page
@@ -961,7 +957,8 @@ public class SlimefunItem implements Placeable {
 
         if (addon == null) {
             Slimefun.logger()
-                    .warning("The item \"" + getId() + "\" is not registered yet. Add wiki pages only after registration.");
+                    .warning("The item \"" + getId()
+                            + "\" is not registered yet. Add wiki pages only after registration.");
             return;
         }
         if (addon.getWikiURL() != null) {

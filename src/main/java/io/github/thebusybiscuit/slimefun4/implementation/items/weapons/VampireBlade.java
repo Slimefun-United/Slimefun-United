@@ -1,15 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import city.norain.slimefun4.compatibillty.CompatibilityUtil;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -18,6 +8,13 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.WeaponUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import net.guizhanss.guizhanlib.minecraft.utils.compatibility.AttributeX;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link VampireBlade} is a weapon that applies a Healing effect to any {@link Player}
@@ -45,8 +42,7 @@ public class VampireBlade extends SimpleSlimefunItem<WeaponUseHandler> {
             if (ThreadLocalRandom.current().nextInt(100) < getChance()) {
                 SoundEffect.VAMPIRE_BLADE_HEALING_SOUND.playFor(p);
                 double health = p.getHealth() + HEALING_AMOUNT;
-                double maxHealth =
-                        p.getAttribute(CompatibilityUtil.getMaxHealth()).getValue();
+                double maxHealth = p.getAttribute(AttributeX.MAX_HEALTH).getValue();
                 p.setHealth(Math.min(health, maxHealth));
             }
         };

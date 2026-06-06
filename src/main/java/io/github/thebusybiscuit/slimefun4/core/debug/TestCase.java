@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
+import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.Nonnull;
-
-import io.github.thebusybiscuit.slimefun4.core.services.AnalyticsService;
 
 /**
  * Test cases in Slimefun. These are very useful for debugging why behavior is happening.
@@ -41,7 +40,8 @@ public enum TestCase {
 
     ENERGYNET;
 
-    public static final List<String> VALUES_LIST = Arrays.stream(values()).map(TestCase::toString).toList();
+    public static final List<String> VALUES_LIST =
+            Arrays.stream(values()).map(TestCase::toString).toList();
 
     TestCase() {}
 

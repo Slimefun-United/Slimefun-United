@@ -1,14 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.utils.compatibility;
 
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.NamespacedKey;
-
 import org.bukkit.Registry;
 import org.bukkit.entity.EntityType;
-
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 // https://hub.spigotmc.org/stash/projects/SPIGOT/repos/craftbukkit/browse/src/main/java/org/bukkit/craftbukkit/legacy/FieldRename.java?until=2a6207fe150b6165722fce94c83cc1f206620ab5&untilPath=src%2Fmain%2Fjava%2Forg%2Fbukkit%2Fcraftbukkit%2Flegacy%2FFieldRename.java#158-193
 public class VersionedEntityType {
@@ -30,8 +28,7 @@ public class VersionedEntityType {
         FIREWORK = getKey("firework_rocket");
     }
 
-    @Nullable
-    private static EntityType getKey(@Nonnull String key) {
+    @Nullable private static EntityType getKey(@Nonnull String key) {
         return Registry.ENTITY_TYPE.get(NamespacedKey.minecraft(key));
     }
 }

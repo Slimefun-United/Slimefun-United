@@ -8,11 +8,11 @@ body:
     attributes:
       value: |
         Thank you for using the Slimefun issue reporting system!
-        
+
         Before submitting feedback, please make sure:
         - You have checked whether the [latest version](https://github.com/Slimefun-United/Slimefun-United/releases) has already fixed the issue you encountered
         - You have searched existing [issues](https://github.com/Slimefun-United/Slimefun-United/issues) to see if a similar problem has been reported
-        
+
         If your feedback is unclear or does not follow the template, it will be closed immediately.
 
   - type: textarea

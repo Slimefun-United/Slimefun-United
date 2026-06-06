@@ -1,11 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import javax.annotation.Nonnull;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum covers all different fuel sources a {@link ProgrammableAndroid} can have.
@@ -43,6 +41,6 @@ public enum AndroidFuelSource {
      */
     @Nonnull
     public ItemStack getItem() {
-        return ItemStackFactory.create(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
+        return new CustomItemStack(HeadTexture.GENERATOR.getAsItemStack(), "&8\u21E9 &cFuel Input &8\u21E9", lore);
     }
 }

@@ -1,8 +1,10 @@
 package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.logging.Level;
 import javax.annotation.Nonnull;
-
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,11 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
-
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * An old {@link Listener} for CS-CoreLib

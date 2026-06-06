@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.core.config.SlimefunConfigManager;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -51,7 +51,7 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
                     + Slimefun.getLocalization()
                             .getMessage(p, "guide.options.learning-animation." + optionState + ".click"));
 
-            ItemStack item = ItemStackFactory.create(enabled ? Material.MAP : Material.PAPER, lore);
+            ItemStack item = new CustomItemStack(enabled ? Material.MAP : Material.PAPER, lore);
             return Optional.of(item);
         }
     }

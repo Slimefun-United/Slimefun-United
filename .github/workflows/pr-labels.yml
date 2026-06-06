@@ -21,14 +21,14 @@ jobs:
         name: Apply labels based on branch
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          renovate: '🚨 Dependency Update'
-          crowdin: '📄 Translations Update'
-          feature: '🎈 Feature'
-          fix: '✨ Fix'
-          chore: '🧹 Chores'
-          performance: '💡 Performance Optimization'
-          api: '🔧 API'
-          compatibility: '🤝 Compatibility'
+          renovate: "🚨 Dependency Update"
+          crowdin: "📄 Translations Update"
+          feature: "🎈 Feature"
+          fix: "✨ Fix"
+          chore: "🧹 Chores"
+          performance: "💡 Performance Optimization"
+          api: "🔧 API"
+          compatibility: "🤝 Compatibility"
 
       - uses: thollander/actions-comment-pull-request@v2.5.0
         name: Leave a comment about the applied label

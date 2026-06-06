@@ -15,14 +15,14 @@ its official abandonment.
 
 ### Gugu Project's additions
 
-* New storage types (SQLite, MySQL, PostgreSQL)
-* A few new commands:
-  * /sf id
-  *  /sf reload
-  *  /sf blockdata
-  *  /sf banitem
-  *  /sf unbanitem
-  *  /sf cleardata
+- New storage types (SQLite, MySQL, PostgreSQL)
+- A few new commands:
+  - /sf id
+  - /sf reload
+  - /sf blockdata
+  - /sf banitem
+  - /sf unbanitem
+  - /sf cleardata
 
 ## Technical details
 
@@ -40,13 +40,14 @@ The merge commit was originally planned to be split into a few smaller chunks
 but due to Git's design, I just wasn't able to get it to work in a satisfying way.
 
 Instead, I'll list the way it was supposed to be split:
+
 - io.github.thebusybiscuit.slimefun4:
-    - API
-    - Core
-    - Implementation
-    - Integrations
-    - Storage
-    - Utils
+  - API
+  - Core
+  - Implementation
+  - Integrations
+  - Storage
+  - Utils
 - me.mrCookieSlime
 - city.norain.slimefun4
 - com.xzavier0722.mc.plugin.slimefun4
@@ -62,11 +63,13 @@ I don't want it to go to waste.
 Checked issues have been resolved.
 
 ### Priority
+
 - [x] Generators do not work!
 - [x] Elemental staffs do not work (Multitool does)
 - [ ] Data conversion gives warnings
 
 ### Minor
+
 - [ ] When an Auto Enchanter is processing items, breaking it will drop nothing
 - [ ] When an Auto Enchanter is processing items, turning the server off during that time will remove these items and progress
 - [ ] When all slots in a generator are full, it's possible to put items into output using Shift + click on a specific item

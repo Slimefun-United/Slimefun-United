@@ -105,12 +105,12 @@ slimefun:
   infused_magnet: แม่เหล็กผสม
   cobalt_pickaxe: ขุดเร็ว
   essence_of_afterlife: ผงวิเศษตราหลังความตาย
-  bound_backpack: 'ที่เก็บ Soundbound '
+  bound_backpack: "ที่เก็บ Soundbound "
   jetboots: รองเท้าบูทเจ็ท
   armored_jetboots: รองเท้าบูทหุ้มเกราะ
   seismic_axe: Seismic Axe
   pickaxe_of_vein_mining: Vein Mining
-  bound_weapons: 'อาวุธ Soulbound '
+  bound_weapons: "อาวุธ Soulbound "
   bound_tools: อุปกรณ์ Soulbound
   bound_armor: เกราะ Soulbound
   juicer: เครื่องดื่มแสนอร่อย
@@ -131,7 +131,7 @@ slimefun:
   cooler: เครื่องดื่มพกพา
   ancient_altar: แท่นบูชาโบราณ
   wither_proof_obsidian: Obsidian กัน Wither
-  ancient_runes: 'รูนธาตุต่าง ๆ '
+  ancient_runes: "รูนธาตุต่าง ๆ "
   special_runes: รูนม่วง
   infernal_bonemeal: ปุ๋ยกระดูกไฟ
   rainbow_blocks: บล็อกสายรุ้ง

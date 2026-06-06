@@ -1,13 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -23,21 +33,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
  * The {@link VanillaAutoCrafter} is an implementation of the {@link AbstractAutoCrafter}.
@@ -60,7 +55,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
     @Override
     public @Nullable AbstractRecipe getSelectedRecipe(@Nonnull Block b) {
-        BlockState state = PaperLib.getBlockState(b, false).getState();
+        BlockState state = b.getState(false);
 
         if (state instanceof Skull skull) {
             // Read the stored value from persistent data storage
@@ -129,7 +124,8 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
     }
 
     @ParametersAreNonnullByDefault
-    private void offerRecipe(Player p, Block b, List<Recipe> recipes, int index, ChestMenu menu, AsyncRecipeChoiceTask task) {
+    private void offerRecipe(
+            Player p, Block b, List<Recipe> recipes, int index, ChestMenu menu, AsyncRecipeChoiceTask task) {
         Validate.isTrue(index >= 0 && index < recipes.size(), "page must be between 0 and " + (recipes.size() - 1));
 
         menu.replaceExistingItem(46, ChestMenuUtils.getPreviousButton(p, index + 1, recipes.size()));
@@ -154,7 +150,11 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
         AbstractRecipe recipe = AbstractRecipe.of(recipes.get(index));
 
-        menu.replaceExistingItem(49, ItemStackFactory.create(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
+        menu.replaceExistingItem(
+                49,
+                new CustomItemStack(
+                        Material.CRAFTING_TABLE,
+                        ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
             setSelectedRecipe(b, recipe);
             pl.closeInventory();

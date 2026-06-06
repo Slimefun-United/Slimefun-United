@@ -1,15 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.virtual.VirtualItemHandler.InventoryContext;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,25 +35,6 @@ import org.bukkit.entity.Goat;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * The {@link ProduceCollector} allows you to collect produce from animals.
@@ -116,15 +112,15 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     public @Nonnull List<ItemStack> getDisplayRecipes() {
         List<ItemStack> displayRecipes = new ArrayList<>();
 
-        displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
+        displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bCow &fnearby"));
         displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
-            displayRecipes.add(ItemStackFactory.create(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
+            displayRecipes.add(new CustomItemStack(Material.BUCKET, null, "&fRequires &bGoat &fnearby"));
             displayRecipes.add(new ItemStack(Material.MILK_BUCKET));
         }
 
-        displayRecipes.add(ItemStackFactory.create(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
+        displayRecipes.add(new CustomItemStack(Material.BOWL, null, "&fRequires &bMooshroom &fnearby"));
         displayRecipes.add(new ItemStack(Material.MUSHROOM_STEW));
 
         return displayRecipes;
@@ -136,7 +132,13 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
             for (AnimalProduce produce : animalProduces) {
                 ItemStack item = inv.getItemInSlot(slot);
 
-                if (!SlimefunUtils.isItemSimilar(item, produce.getInput()[0], true) || !InvUtils.fits(inv.toInventory(), produce.getOutput()[0], getOutputSlots())) {
+                if (!SlimefunUtils.isItemSimilar(item, produce.getInput()[0], true)
+                        || !Slimefun.getItemStackService()
+                                .fits(
+                                        inv.toInventory(),
+                                        produce.getOutput()[0],
+                                        InventoryContext.MACHINE_OUTPUT,
+                                        getOutputSlots())) {
                     continue;
                 }
 
@@ -153,7 +155,9 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     @ParametersAreNonnullByDefault
     private boolean isAnimalNearby(Block b, Predicate<LivingEntity> predicate) {
         int radius = range.getValue();
-        return !b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> isValidAnimal(n, predicate)).isEmpty();
+        return !b.getWorld()
+                .getNearbyEntities(b.getLocation(), radius, radius, radius, n -> isValidAnimal(n, predicate))
+                .isEmpty();
     }
 
     @ParametersAreNonnullByDefault
@@ -174,5 +178,4 @@ public class ProduceCollector extends AContainer implements RecipeDisplayItem {
     public @Nonnull ItemStack getProgressBar() {
         return new ItemStack(Material.SHEARS);
     }
-
 }

@@ -48,7 +48,7 @@ public class SlimefunUniversalBlockData extends SlimefunUniversalData {
 
         var data = getData(UniversalDataTrait.BLOCK.getReservedKey());
 
-    // Automatically repair missing location data
+        // Automatically repair missing location data
         if (lastPresent != null) {
             if (data == null) {
                 setTraitData(UniversalDataTrait.BLOCK, LocationUtils.getLocKey(lastPresent.toLocation()));

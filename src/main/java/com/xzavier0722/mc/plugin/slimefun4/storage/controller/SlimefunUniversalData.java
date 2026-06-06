@@ -47,7 +47,12 @@ public class SlimefunUniversalData extends ASlimefunDataContainer {
             throw new IllegalAccessException("The current protected block data key-value pairs cannot be modified.");
         }
 
-        setCacheInternal(key, val, true);
+        super.setData(key, val);
+    }
+
+    @Override
+    @ParametersAreNonnullByDefault
+    public void scheduleUpdateData(String key) {
         Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedUniversalDataUpdate(this, key);
     }
 
@@ -61,13 +66,6 @@ public class SlimefunUniversalData extends ASlimefunDataContainer {
             Slimefun.getDatabaseManager()
                     .getBlockDataController()
                     .scheduleDelayedUniversalDataUpdate(this, trait.getReservedKey());
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    public void removeData(String key) {
-        if (removeCacheInternal(key) != null || !isDataLoaded()) {
-            Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedUniversalDataUpdate(this, key);
         }
     }
 

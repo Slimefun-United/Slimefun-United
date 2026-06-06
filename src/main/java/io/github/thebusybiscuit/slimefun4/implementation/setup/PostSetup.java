@@ -77,13 +77,13 @@ public final class PostSetup {
                 + " researches");
         if (!Slimefun.getInstalledAddons().isEmpty()) {
             sender.sendMessage(ChatColor.GREEN
-                + "( "
-                + slimefunOnly
-                + " items from core, "
-                + (total - slimefunOnly)
-                + " items from "
-                + Slimefun.getInstalledAddons().size()
-                + " addons )");
+                    + "( "
+                    + slimefunOnly
+                    + " items from core, "
+                    + (total - slimefunOnly)
+                    + " items from "
+                    + Slimefun.getInstalledAddons().size()
+                    + " addons )");
         } else {
             sender.sendMessage(ChatColor.GREEN + "No addons detected.");
         }

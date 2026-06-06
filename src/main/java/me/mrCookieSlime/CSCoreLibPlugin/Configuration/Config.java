@@ -3,11 +3,9 @@ package me.mrCookieSlime.CSCoreLibPlugin.Configuration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
-
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-
-import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
 /**
  * An old remnant of CS-CoreLib.
@@ -100,7 +98,8 @@ public class Config {
     public void save() {
         try {
             config.save(file);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     /**
@@ -112,7 +111,8 @@ public class Config {
     public void save(File file) {
         try {
             config.save(file);
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     /**
@@ -169,7 +169,8 @@ public class Config {
     public void createFile() {
         try {
             this.file.createNewFile();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 
     /**

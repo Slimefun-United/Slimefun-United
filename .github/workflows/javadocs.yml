@@ -3,12 +3,12 @@ name: Javadocs
 on:
   push:
     paths:
-      - 'src/**'
-      - 'pom.xml'
+      - "src/**"
+      - "pom.xml"
   pull_request:
     paths:
-      - 'src/**'
-      - 'pom.xml'
+      - "src/**"
+      - "pom.xml"
 
 permissions:
   contents: read

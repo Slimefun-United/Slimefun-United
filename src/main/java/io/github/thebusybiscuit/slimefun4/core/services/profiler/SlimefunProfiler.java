@@ -41,7 +41,7 @@ import org.bukkit.scheduler.BukkitScheduler;
  * But it also enables Server Admins to locate lag-inducing areas on the {@link Server}.
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see TickerTask
  *
  */
@@ -137,7 +137,7 @@ public class SlimefunProfiler {
      * No {@link PerformanceSummary} will be sent until all entries were closed.
      *
      * If the specified amount is negative, scheduled entries will be removed
-     * 
+     *
      * @param amount
      *            The amount of entries that should be scheduled. Can be negative
      */
@@ -150,7 +150,7 @@ public class SlimefunProfiler {
     /**
      * This method closes a previously started entry.
      * Make sure to call {@link #newEntry()} to get the timestamp in advance.
-     * 
+     *
      * @param l
      *            The {@link Location} of our {@link Block}
      * @param item
@@ -271,7 +271,7 @@ public class SlimefunProfiler {
     /**
      * This method requests a summary for the given {@link PerformanceInspector}.
      * The summary will be sent upon the next available moment in time.
-     * 
+     *
      * @param inspector
      *            The {@link PerformanceInspector} who shall receive this summary.
      */
@@ -399,10 +399,10 @@ public class SlimefunProfiler {
     /**
      * This method checks whether the {@link SlimefunProfiler} has collected timings on
      * the given {@link Block}
-     * 
+     *
      * @param b
      *            The {@link Block}
-     * 
+     *
      * @return Whether timings of this {@link Block} have been collected
      */
     public boolean hasTimings(@Nonnull Block b) {
@@ -470,7 +470,7 @@ public class SlimefunProfiler {
 
     public String getThreadPoolStatus() {
         StringBuilder sb = new StringBuilder();
-    sb.append("Thread pool state [ Running | Completed | Total Tasks | Queue Size ]\n");
+        sb.append("Thread pool state [ Running | Completed | Total Tasks | Queue Size ]\n");
 
         for (SlimefunPoolExecutor executor : threadPools) {
             sb.append(executor.getName())

@@ -1,16 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerLanguageChangeEvent;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
@@ -20,8 +11,14 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
@@ -63,7 +60,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             lore.add("");
             lore.add("&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.change"));
 
-            ItemStack item = ItemStackFactory.create(
+            ItemStack item = new CustomItemStack(
                     language.getItem(),
                     "&7"
                             + Slimefun.getLocalization().getMessage(p, "guide.languages.selected-language")
@@ -114,7 +111,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             } else if (i == 7) {
                 menu.addItem(
                         7,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()),
                                 Slimefun.getLocalization().getMessage(p, "guide.languages.translations.name"),
                                 "",
@@ -136,7 +133,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
         menu.addItem(
                 9,
-                ItemStackFactory.create(
+                new CustomItemStack(
                         defaultLanguage.getItem(),
                         ChatColor.GRAY
                                 + defaultLanguageString
@@ -167,7 +164,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         for (Language language : Slimefun.getLocalization().getLanguages()) {
             menu.addItem(
                     slot,
-                    ItemStackFactory.create(
+                    new CustomItemStack(
                             language.getItem(),
                             ChatColor.GREEN + language.getName(p),
                             "&b" + language.getTranslationProgress() + '%',

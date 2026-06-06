@@ -69,12 +69,11 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
      *            Whether notify the player about unlocking the {@link Research}
      */
     PlayerResearchTask(
-        @Nonnull Research research,
-        boolean isInstant,
-        @Nullable Consumer<Player> callback,
-        boolean launchFireworks,
-        boolean notifyUnlocked
-    ) {
+            @Nonnull Research research,
+            boolean isInstant,
+            @Nullable Consumer<Player> callback,
+            boolean launchFireworks,
+            boolean notifyUnlocked) {
         Validate.notNull(research, "The Research must not be null");
 
         this.research = research;
@@ -98,9 +97,12 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
                         () -> {
                             SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
                             Slimefun.getLocalization()
-                                    .sendMessage(p, "messages.research.progress", true, msg -> msg.replace(
-                                                    PLACEHOLDER, research.getName(p))
-                                            .replace("%progress%", "0%"));
+                                    .sendMessage(
+                                            p,
+                                            "messages.research.progress",
+                                            true,
+                                            msg -> msg.replace(PLACEHOLDER, research.getName(p))
+                                                    .replace("%progress%", "0%"));
                         },
                         5L);
             }
@@ -157,13 +159,15 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
 
         if (notifyUnlocked) {
             Slimefun.getLocalization()
-                .sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
+                    .sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
         }
 
         onFinish(p);
 
         // Check if the Server and the Player have enabled fireworks for researches
-        if (launchFireworks && Slimefun.getConfigManager().isResearchFireworkEnabled() && SlimefunGuideSettings.hasFireworksEnabled(p)) {
+        if (launchFireworks
+                && Slimefun.getConfigManager().isResearchFireworkEnabled()
+                && SlimefunGuideSettings.hasFireworksEnabled(p)) {
             FireworkUtils.launchRandom(p, 1);
         }
     }

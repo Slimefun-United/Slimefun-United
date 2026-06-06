@@ -1,6 +1,6 @@
 ---
 slimefun:
   multiblock:
-    name: 'Multiblock'
+    name: "Multiblock"
   oil_pump:
-    name: 'Oljepump'
+    name: "Oljepump"

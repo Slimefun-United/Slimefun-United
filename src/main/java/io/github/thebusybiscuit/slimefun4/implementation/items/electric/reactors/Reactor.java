@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactor
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.events.ReactorExplodeEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -157,7 +157,7 @@ public abstract class Reactor extends AbstractEnergyProvider
             case GENERATOR:
                 menu.replaceExistingItem(
                         4,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 SlimefunItems.NUCLEAR_REACTOR,
                                 "&7Mode: &eGenerator",
                                 "",
@@ -175,7 +175,7 @@ public abstract class Reactor extends AbstractEnergyProvider
             case PRODUCTION:
                 menu.replaceExistingItem(
                         4,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 SlimefunItems.PLUTONIUM,
                                 "&7Mode: &eProduction",
                                 "",
@@ -198,7 +198,14 @@ public abstract class Reactor extends AbstractEnergyProvider
 
         if (port != null) {
             menu.replaceExistingItem(
-                    INFO_SLOT, ItemStackFactory.create(Material.GREEN_WOOL, "&7Access Port", "", "&6Connected", "", "&7> Click to view access port"));
+                    INFO_SLOT,
+                    new CustomItemStack(
+                            Material.GREEN_WOOL,
+                            "&7Access Port",
+                            "",
+                            "&6Connected",
+                            "",
+                            "&7> Click to view access port"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 port.open(p);
                 updateInventory(menu, b);
@@ -208,7 +215,14 @@ public abstract class Reactor extends AbstractEnergyProvider
         } else {
             menu.replaceExistingItem(
                     INFO_SLOT,
-                    ItemStackFactory.create(Material.RED_WOOL, "&7Access Port", "", "&cNot Connected", "", "&7The port must be placed", "&73 blocks above the reactor!"));
+                    new CustomItemStack(
+                            Material.RED_WOOL,
+                            "&7Access Port",
+                            "",
+                            "&cNot Connected",
+                            "",
+                            "&7The port must be placed",
+                            "&73 blocks above the reactor!"));
             menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
                 updateInventory(menu, b);
                 menu.open(p);
@@ -225,53 +239,72 @@ public abstract class Reactor extends AbstractEnergyProvider
         for (int i : border_1) {
             preset.addItem(
                     i,
-                    ItemStackFactory.create(Material.LIME_STAINED_GLASS_PANE, " "),
+                    new CustomItemStack(Material.LIME_STAINED_GLASS_PANE, " "),
                     ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_3) {
             preset.addItem(
                     i,
-                    ItemStackFactory.create(Material.GREEN_STAINED_GLASS_PANE, " "),
+                    new CustomItemStack(Material.GREEN_STAINED_GLASS_PANE, " "),
                     ChestMenuUtils.getEmptyClickHandler());
         }
 
         preset.addItem(
-                22, ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+                22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
         if (this instanceof NuclearReactor) {
             preset.addItem(
                     1,
-                    ItemStackFactory.create(getFuelIcon(), "&7Fuel Slot", "", "&fThis Slot accepts radioactive Fuel such as:", "&2Uranium &for &aNeptunium"),
+                    new CustomItemStack(
+                            getFuelIcon(),
+                            "&7Fuel Slot",
+                            "",
+                            "&fThis Slot accepts radioactive Fuel such as:",
+                            "&2Uranium &for &aNeptunium"),
                     ChestMenuUtils.getEmptyClickHandler());
         } else if (this instanceof NetherStarReactor) {
             preset.addItem(
                     1,
-                    ItemStackFactory.create(getFuelIcon(), "&7Fuel Slot", "", "&fPlace fuel here:", "&bNether Star"),
+                    new CustomItemStack(getFuelIcon(), "&7Fuel Slot", "", "&fPlace fuel here:", "&bNether Star"),
                     ChestMenuUtils.getEmptyClickHandler());
         } else {
             preset.addItem(
-                1,
-                ItemStackFactory.create(getFuelIcon(), "&7Fuel Slot", "", "&fThis Slot accepts radioactive Fuel such as:", "&2Uranium &for &aNeptunium"),
-                ChestMenuUtils.getEmptyClickHandler());
+                    1,
+                    new CustomItemStack(
+                            getFuelIcon(),
+                            "&7Fuel Slot",
+                            "",
+                            "&fThis Slot accepts radioactive Fuel such as:",
+                            "&2Uranium &for &aNeptunium"),
+                    ChestMenuUtils.getEmptyClickHandler());
         }
 
         for (int i : border_2) {
             preset.addItem(
                     i,
-                    ItemStackFactory.create(Material.CYAN_STAINED_GLASS_PANE, " "),
+                    new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "),
                     ChestMenuUtils.getEmptyClickHandler());
         }
 
         if (needsCooling()) {
             preset.addItem(
-                    7, ItemStackFactory.create(getCoolant(), "&bCoolant Slot", "", "&fPlace Coolant here", "&4Without Coolant, your reactor", "&4will explode instantly"));
+                    7,
+                    new CustomItemStack(
+                            getCoolant(),
+                            "&bCoolant Slot",
+                            "",
+                            "&fPlace Coolant here",
+                            "&4Without Coolant, your reactor",
+                            "&4will explode instantly"));
         } else {
-            preset.addItem(7, ItemStackFactory.create(Material.BARRIER, "&bCoolant", "", "&fPlace Coolant here"));
+            preset.addItem(7, new CustomItemStack(Material.BARRIER, "&bCoolant", "", "&fPlace Coolant here"));
 
             for (int i : border_4) {
                 preset.addItem(
-                        i, ItemStackFactory.create(Material.BARRIER, "&cNo Coolant required"), ChestMenuUtils.getEmptyClickHandler());
+                        i,
+                        new CustomItemStack(Material.BARRIER, "&cNo Coolant required"),
+                        ChestMenuUtils.getEmptyClickHandler());
             }
         }
     }
@@ -433,7 +466,7 @@ public abstract class Reactor extends AbstractEnergyProvider
             @Nonnull BlockMenu inv,
             @Nullable BlockMenu accessPort,
             @Nonnull FuelOperation operation) {
-        inv.replaceExistingItem(22, ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "));
+        inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
         ItemStack result = operation.getResult();
 
         if (result != null) {
@@ -530,7 +563,7 @@ public abstract class Reactor extends AbstractEnergyProvider
         for (int slot : getFuelSlots()) {
             for (MachineFuel fuelType : fuelTypes) {
                 if (fuelType.test(port.getItemInSlot(slot))
-                        && menu.fits(ItemStackFactory.create(port.getItemInSlot(slot), 1), getFuelSlots())) {
+                        && menu.fits(new CustomItemStack(port.getItemInSlot(slot), 1), getFuelSlots())) {
                     port.replaceExistingItem(slot, menu.pushItem(port.getItemInSlot(slot), getFuelSlots()));
                     return;
                 }

@@ -151,7 +151,7 @@ public class ItemSetting<T> {
      * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
      */
     protected @Nonnull String getErrorMessage() {
-    return "Please use a value within the '" + defaultValue.getClass().getSimpleName() + "' range!";
+        return "Please use a value within the '" + defaultValue.getClass().getSimpleName() + "' range!";
     }
 
     /**

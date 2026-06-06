@@ -1,9 +1,9 @@
 {
-  "values" : [
+  "values": [
     "minecraft:nether_quartz_ore",
     {
-      "id" : "minecraft:nether_gold_ore",
-      "required" : false
+      "id": "minecraft:nether_gold_ore",
+      "required": false
     }
   ]
 }

@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
 import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,15 +13,13 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
-
 /**
  * This {@link Event} is fired whenever slimefun drops an {@link ItemStack}.
  * Creating a custom {@link Event} for this allows other plugins to provide
  * compatibility with auto-pickup options or similar.
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see ItemSpawnReason
  */
 public class SlimefunItemSpawnEvent extends Event implements Cancellable {
@@ -36,7 +33,8 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
     private final Player player;
 
     @ParametersAreNonnullByDefault
-    public SlimefunItemSpawnEvent(@Nullable Player player, Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
+    public SlimefunItemSpawnEvent(
+            @Nullable Player player, Location location, ItemStack itemStack, ItemSpawnReason itemSpawnReason) {
         this.location = location;
         this.itemStack = itemStack;
         this.itemSpawnReason = itemSpawnReason;
@@ -60,7 +58,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
 
     /**
      * This returns the {@link ItemSpawnReason} why we dropped an {@link ItemStack}.
-     * 
+     *
      * @return the {@link ItemSpawnReason}.
      */
     public @Nonnull ItemSpawnReason getItemSpawnReason() {
@@ -69,7 +67,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
 
     /**
      * This returns the {@link Location} where we will drop the item.
-     * 
+     *
      * @return The {@link Location} where the item will be dropped
      */
     public @Nonnull Location getLocation() {
@@ -78,7 +76,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
 
     /**
      * This sets the {@link Location} on where to drop this item.
-     * 
+     *
      * @param location
      *            The {@link Location} where to drop the {@link ItemStack}
      */
@@ -90,7 +88,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
 
     /**
      * This returns the {@link ItemStack} that will be dropped.
-     * 
+     *
      * @return The {@link ItemStack} that will be dropped
      */
     public @Nonnull ItemStack getItemStack() {
@@ -99,7 +97,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
 
     /**
      * This method sets the {@link ItemStack} that should be dropped.
-     * 
+     *
      * @param itemStack
      *            The {@link ItemStack} to drop
      */

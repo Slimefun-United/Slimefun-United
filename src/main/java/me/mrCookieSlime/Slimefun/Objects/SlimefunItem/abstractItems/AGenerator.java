@@ -1,23 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -35,16 +20,26 @@ import io.github.thebusybiscuit.slimefun4.implementation.operations.FuelOperatio
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class AGenerator extends AbstractEnergyProvider implements MachineProcessHolder<FuelOperation> {
 
-    private static final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44 };
-    private static final int[] border_in = { 9, 10, 11, 12, 18, 21, 27, 28, 29, 30 };
-    private static final int[] border_out = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+    private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+    private static final int[] border_in = {9, 10, 11, 12, 18, 21, 27, 28, 29, 30};
+    private static final int[] border_out = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
     private final MachineProcessor<FuelOperation> processor = new MachineProcessor<>(this);
 
@@ -126,17 +121,17 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         }
 
         preset.addItem(
-                22, ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+                22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
     public int[] getInputSlots() {
-        return new int[] { 19, 20 };
+        return new int[] {19, 20};
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 24, 25 };
+        return new int[] {24, 25};
     }
 
     @Override
@@ -168,7 +163,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
                     inv.pushItem(new ItemStack(Material.BUCKET), getOutputSlots());
                 }
 
-                inv.replaceExistingItem(22, ItemStackFactory.create(Material.BLACK_STAINED_GLASS_PANE, " "));
+                inv.replaceExistingItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "));
 
                 processor.endOperation(l);
                 return 0;

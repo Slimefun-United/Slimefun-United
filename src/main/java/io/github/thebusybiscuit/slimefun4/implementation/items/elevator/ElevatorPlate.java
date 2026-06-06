@@ -4,7 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -14,7 +14,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.papermc.lib.PaperLib;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -177,7 +176,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             if (floor.getAltitude() == b.getY()) {
                 menu.addItem(
                         i,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 Material.COMPASS,
                                 ChatColor.GRAY.toString()
                                         + floor.getNumber()
@@ -192,7 +191,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
             } else {
                 menu.addItem(
                         i,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 Material.PAPER,
                                 ChatColor.GRAY.toString()
                                         + floor.getNumber()
@@ -254,7 +253,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
                     yaw,
                     player.getEyeLocation().getPitch());
 
-            PaperLib.teleportAsync(player, destination).thenAccept(teleported -> {
+            player.teleportAsync(destination).thenAccept(teleported -> {
                 if (teleported.booleanValue()) {
                     player.sendTitle(ChatColor.WHITE + ChatColors.color(floor.getName()), null, 20, 60, 20);
                 }
@@ -268,7 +267,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
 
         menu.addItem(
                 4,
-                ItemStackFactory.create(
+                new CustomItemStack(
                         Material.NAME_TAG,
                         "&7Floor Name &e(Click to edit)",
                         "",

@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import javax.annotation.Nonnull;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -9,11 +9,9 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-
 /**
  * This {@link Event} is called whenever a {@link Player} tries to open the Slimefun Guide book.
- * 
+ *
  * @author Linox
  *
  * @see SlimefunGuideMode
@@ -100,5 +98,4 @@ public class SlimefunGuideOpenEvent extends Event implements Cancellable {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-
 }

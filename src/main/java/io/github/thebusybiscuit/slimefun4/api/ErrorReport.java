@@ -87,7 +87,8 @@ public class ErrorReport<T extends Throwable> {
             stream.println("  Y: " + l.getBlockY());
             stream.println("  Z: " + l.getBlockZ());
             stream.println("  blocktype: " + l.getBlock().getType());
-            stream.println("  blockdata: " + l.getBlock().getBlockData().getClass().getName());
+            stream.println(
+                    "  blockdata: " + l.getBlock().getBlockData().getClass().getName());
             stream.println("  state: " + l.getBlock().getState().getClass().getName());
             stream.println();
 

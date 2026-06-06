@@ -6,20 +6,20 @@ on:
       - master
       - dev
     paths:
-      - 'src/**'
-      - '.mvn/**'
-      - 'mvnw'
-      - 'mvnw.cmd'
-      - 'pom.xml'
+      - "src/**"
+      - ".mvn/**"
+      - "mvnw"
+      - "mvnw.cmd"
+      - "pom.xml"
   pull_request:
     paths:
-      - 'src/**'
-      - '.github/workflows/**'
-      - '.mvn/**'
-      - 'mvnw'
-      - 'mvnw.cmd'
-      - 'pom.xml'
-      - 'CHANGELOG.md'
+      - "src/**"
+      - ".github/workflows/**"
+      - ".mvn/**"
+      - "mvnw"
+      - "mvnw.cmd"
+      - "pom.xml"
+      - "CHANGELOG.md"
 
 permissions:
   contents: read

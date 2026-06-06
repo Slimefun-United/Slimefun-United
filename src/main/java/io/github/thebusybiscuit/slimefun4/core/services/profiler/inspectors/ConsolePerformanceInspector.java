@@ -1,20 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors;
 
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.SummaryOrderType;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.SummaryOrderType;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
 
 /**
  * This implementation of {@link PerformanceInspector} refers to a {@link CommandSender}
  * which is preferabbly a {@link ConsoleCommandSender}.
  * But it can theoretically be used for any type of {@link CommandSender} as it uses uncolored texts.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -37,7 +35,7 @@ public class ConsolePerformanceInspector implements PerformanceInspector {
 
     /**
      * This creates a new {@link ConsolePerformanceInspector} for the given {@link CommandSender}.
-     * 
+     *
      * @param console
      *            The {@link CommandSender}, preferably a {@link ConsoleCommandSender}
      * @param verbose

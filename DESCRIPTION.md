@@ -1,6 +1,7 @@
 # Slimefun United
+
 A modern, organised, community‑driven continuation of the Slimefun legacy — with full localisation support (WIP), active development, and compatibility with old saves.  
-✨ *Magic, technology, automation, reactors, factories… all in one plugin.*
+✨ _Magic, technology, automation, reactors, factories… all in one plugin._
 
 ---
 
@@ -31,10 +32,12 @@ Slimefun has existed since **2013**, with **500+ items** and **hundreds of contr
 ## 🚀 Release channels
 
 ### Stable releases
+
 For production servers.  
 ✔️ Safe ✔️ Tested ✔️ Recommended
 
 ### Development (alpha) builds
+
 For testers and early adopters.  
 ⚠️ Not recommended for production
 
@@ -43,7 +46,7 @@ For testers and early adopters.
 ## 📦 Supported Minecraft & Java Versions
 
 | Category  | Supported           |
-|-----------|---------------------|
+| --------- | ------------------- |
 | Minecraft | 🎮 1.19.x – 1.21.11 |
 | Java      | 💻 Java 17+         |
 
@@ -53,8 +56,8 @@ You can check for older versions on [Modrinth](https://modrinth.com/plugin/slime
 
 ## 🔌 Server Compatibility
 
-| Server Software                         | Supported?                                                          |
-|-----------------------------------------|---------------------------------------------------------------------|
+| Server Software                         | Supported?                                                           |
+| --------------------------------------- | -------------------------------------------------------------------- |
 | Spigot                                  | ❌ ([use original Slimefun!](https://github.com/Slimefun/Slimefun4)) |
 | Paper                                   | ✅                                                                   |
 | Purpur                                  | ✅                                                                   |
@@ -82,11 +85,11 @@ So, what does Slimefun United look like?<br>
 We asked some people from our [Discord server](#discord) to send us some screenshots:
 
 |                                    Reactors and Energy                                    |                                Amazing Automation Factory                                 |                                     Magic Laboratory                                      |
-|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------:|
+| :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
 | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase1.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase6.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase5.png) |
-|                               *Screenshot by HamtaBot#0001*                               |                            *Screenshot by Piͭxͪeͤl (mnb)#5049*                            |                               *Screenshot by Kilaruna#4981*                               |
+|                               _Screenshot by HamtaBot#0001_                               |                             _Screenshot by Piͭxͪeͤl (mnb)#5049_                              |                               _Screenshot by Kilaruna#4981_                               |
 | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase4.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase3.png) | ![](https://raw.githubusercontent.com/Slimefun/Slimefun-Wiki/master/images/showcase2.png) |
-|                             *Screenshot by GalaxyKat11#3816*                              |                               *Screenshot by TamThan#7987*                                |                               *Screenshot by Kilaruna#4981*                               |
+|                             _Screenshot by GalaxyKat11#3816_                              |                               _Screenshot by TamThan#7987_                                |                               _Screenshot by Kilaruna#4981_                               |
 
 ---
 
@@ -98,7 +101,7 @@ Join [our Discord server](https://discord.gg/C8M6nPyDu6) for help, updates, and 
 
 ## 📚 Wiki
 
-Slimefun United has a (detailed and frequently maintained - *ahem*) Wiki for new players,
+Slimefun United has a (detailed and frequently maintained - _ahem_) Wiki for new players,
 and you can also consider contributing to the Wiki.
 
 - [Old official Wiki](https://github.com/Slimefun/Slimefun4/wiki)
@@ -106,15 +109,15 @@ and you can also consider contributing to the Wiki.
 
 #### ⭐ Useful Documentation
 
-* [What is Slimefun?](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)
-* [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun)
-* [Slimefun 4 Addon List](https://github.com/Slimefun/Slimefun4/wiki/Addons)
-* [Slimefun 4 Addon Development Guide](https://github.com/Slimefun/Slimefun4/wiki/Developer-Guide)
-* [Getting Started](https://github.com/Slimefun/Slimefun4/wiki/Getting-Started)
-* [FAQ](https://github.com/Slimefun/Slimefun4/wiki/FAQ)
-* [Common Issues](https://github.com/Slimefun/Slimefun4/wiki/Common-Issues)
-* [Help us expand the Wiki!](https://github.com/Slimefun/Slimefun4/wiki/Expanding-the-Wiki)
-* [Help us translate Slimefun!](https://github.com/Slimefun/Slimefun4/wiki/Translating-Slimefun)
+- [What is Slimefun?](https://github.com/Slimefun/Slimefun4/wiki/Slimefun-in-a-nutshell)
+- [How to install Slimefun](https://github.com/Slimefun/Slimefun4/wiki/Installing-Slimefun)
+- [Slimefun 4 Addon List](https://github.com/Slimefun/Slimefun4/wiki/Addons)
+- [Slimefun 4 Addon Development Guide](https://github.com/Slimefun/Slimefun4/wiki/Developer-Guide)
+- [Getting Started](https://github.com/Slimefun/Slimefun4/wiki/Getting-Started)
+- [FAQ](https://github.com/Slimefun/Slimefun4/wiki/FAQ)
+- [Common Issues](https://github.com/Slimefun/Slimefun4/wiki/Common-Issues)
+- [Help us expand the Wiki!](https://github.com/Slimefun/Slimefun4/wiki/Expanding-the-Wiki)
+- [Help us translate Slimefun!](https://github.com/Slimefun/Slimefun4/wiki/Translating-Slimefun)
 
 ---
 
@@ -123,6 +126,7 @@ and you can also consider contributing to the Wiki.
 Slimefun United is open‑source under **GPLv3**.
 
 We welcome all:
+
 - Pull requests
 - Bug fixes
 - Translations

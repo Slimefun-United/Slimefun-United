@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -45,7 +45,7 @@ public class CargoOutputNode extends AbstractCargoNode {
         for (int i : BORDER) {
             preset.addItem(
                     i,
-                    ItemStackFactory.create(Material.CYAN_STAINED_GLASS_PANE, " "),
+                    new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "),
                     ChestMenuUtils.getEmptyClickHandler());
         }
     }

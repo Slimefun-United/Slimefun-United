@@ -8,9 +8,7 @@ tooltips:
 resources:
   slimefun:
     oil: שמן
-    nether_ice: 'קרח גיהינום
-
-'
+    nether_ice: "קרח גיהינום"
     salt: מלח
     uranium: אורניום
   slimefunorechunks:

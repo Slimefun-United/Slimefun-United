@@ -4,7 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunChunkData;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.events.GEOResourceGenerationEvent;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -267,7 +267,7 @@ public class ResourceManager {
 
         menu.addItem(
                 4,
-                ItemStackFactory.create(
+                new CustomItemStack(
                         HeadTexture.MINECRAFT_CHUNK.getAsItemStack(),
                         ChatColor.YELLOW + Slimefun.getLocalization().getResourceString(p, "tooltips.chunk"),
                         "",
@@ -299,7 +299,7 @@ public class ResourceManager {
             String suffix = Slimefun.getLocalization()
                     .getResourceString(p, ChatUtils.checkPlurality("tooltips.unit", supplies));
 
-            ItemStack item = ItemStackFactory.create(
+            ItemStack item = new CustomItemStack(
                     resource.getItem(), "&f" + resource.getName(p), "&8\u21E8 &e" + supplies + ' ' + suffix);
 
             if (supplies > 1) {

@@ -1,6 +1,6 @@
 ---
 slimefun:
-  walking_sticks: 'Tongkat '
+  walking_sticks: "Tongkat "
   portable_crafter: Alat Crafting
   fortune_cookie: Kue Keberuntungan
   portable_dustbin: Tempat Sampah Portabel
@@ -119,7 +119,7 @@ slimefun:
   more_enhanced_furnaces: Tungku Pembakaran Yang Lebih Baik
   high_tier_enhanced_furnaces: Tingkat Tinggi Tungku Pembakaran
   reinforced_furnace: Tungku Pembakaran Yang Diperkuat
-  carbonado_furnace: 'Tungku Pembakaran Bersisi Carbonado '
+  carbonado_furnace: "Tungku Pembakaran Bersisi Carbonado "
   electric_motor: Memanaskan
   block_placer: Peletak Blok
   scroll_of_dimensional_teleposition: Memutar Sesuatu Disekeliling
@@ -211,11 +211,11 @@ slimefun:
   advanced_electric_smeltery: Kompor Pelebur Elektrik Lanjutan
   advanced_farmer_android: Android Lanjutan - Petani
   lava_generator: Mesin Pembangkit Tenaga Lahar
-  nether_ice: 'Es Neraka Cairan Pendingin '
+  nether_ice: "Es Neraka Cairan Pendingin "
   nether_star_reactor: Reaktor Nether Star
   blistering_ingots: Radioaktivitas Terik
   automatic_ignition_chamber: Alat Perapian Otomatis
-  output_chest: 'Alat Penyimpanan Keluaran Dasar '
+  output_chest: "Alat Penyimpanan Keluaran Dasar "
   copper_wire: Daya Konduksi Yang Menipis
   radiant_backpack: Tas Berseri
   auto_drier: Hari Yang Kering

@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -57,9 +57,12 @@ public class CargoInputNode extends AbstractFilterNode {
         if (roundRobinMode == null || roundRobinMode.equals(String.valueOf(false))) {
             menu.replaceExistingItem(
                     24,
-                    ItemStackFactory.create(
+                    new CustomItemStack(
                             SlimefunUtils.getCustomHead(HeadTexture.ENERGY_REGULATOR.getTexture()),
-                            "&7Round-Robin Mode: &4\u2718", "", "&e> Click to enable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+                            "&7Round-Robin Mode: &4\u2718",
+                            "",
+                            "&e> Click to enable Round Robin Mode",
+                            "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), ROUND_ROBIN_MODE, String.valueOf(true));
                 updateBlockMenu(menu, b);
@@ -68,9 +71,12 @@ public class CargoInputNode extends AbstractFilterNode {
         } else {
             menu.replaceExistingItem(
                     24,
-                    ItemStackFactory.create(
+                    new CustomItemStack(
                             SlimefunUtils.getCustomHead(HeadTexture.ENERGY_REGULATOR.getTexture()),
-                            "&7Round-Robin Mode: &2\u2714", "", "&e> Click to disable Round Robin Mode", "&e(Items will be equally distributed on the Channel)"));
+                            "&7Round-Robin Mode: &2\u2714",
+                            "",
+                            "&e> Click to disable Round Robin Mode",
+                            "&e(Items will be equally distributed on the Channel)"));
             menu.addMenuClickHandler(24, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), ROUND_ROBIN_MODE, String.valueOf(false));
                 updateBlockMenu(menu, b);
@@ -80,14 +86,22 @@ public class CargoInputNode extends AbstractFilterNode {
 
         String smartFillNode = blockData.getData(SMART_FILL_MODE);
 
-    // FIXME translation still needs refinement
+        // FIXME translation still needs refinement
 
         if (smartFillNode == null || smartFillNode.equals(String.valueOf(false))) {
             menu.replaceExistingItem(
                     16,
-                    ItemStackFactory.create(
+                    new CustomItemStack(
                             Material.WRITABLE_BOOK,
-                            "&7\"Smart-Filling\" Mode: &4\u2718", "", "&e> Click to enable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
+                            "&7\"Smart-Filling\" Mode: &4\u2718",
+                            "",
+                            "&e> Click to enable \"Smart-Filling\" Mode",
+                            "",
+                            "&fIn this mode, the Cargo node will attempt",
+                            "&fto keep a constant amount of items",
+                            "&fin the inventory. This is not perfect",
+                            "&fand will still fill in empty slots that",
+                            "&fcome before a stack of a configured item."));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), SMART_FILL_MODE, String.valueOf(true));
                 updateBlockMenu(menu, b);
@@ -96,9 +110,17 @@ public class CargoInputNode extends AbstractFilterNode {
         } else {
             menu.replaceExistingItem(
                     16,
-                    ItemStackFactory.create(
+                    new CustomItemStack(
                             Material.WRITTEN_BOOK,
-                            "&7\"Smart-Filling\" Mode: &2\u2714", "", "&e> Click to disable \"Smart-Filling\" Mode", "", "&fIn this mode, the Cargo node will attempt", "&fto keep a constant amount of items", "&fin the inventory. This is not perfect", "&fand will still fill in empty slots that", "&fcome before a stack of a configured item."));
+                            "&7\"Smart-Filling\" Mode: &2\u2714",
+                            "",
+                            "&e> Click to disable \"Smart-Filling\" Mode",
+                            "",
+                            "&fIn this mode, the Cargo node will attempt",
+                            "&fto keep a constant amount of items",
+                            "&fin the inventory. This is not perfect",
+                            "&fand will still fill in empty slots that",
+                            "&fcome before a stack of a configured item."));
             menu.addMenuClickHandler(16, (p, slot, item, action) -> {
                 StorageCacheUtils.setData(b.getLocation(), SMART_FILL_MODE, String.valueOf(false));
                 updateBlockMenu(menu, b);

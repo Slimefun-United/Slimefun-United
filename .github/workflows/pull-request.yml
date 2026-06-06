@@ -3,12 +3,12 @@ name: Pull Request
 on:
   pull_request:
     paths:
-      - 'src/**'
-      - '.github/workflows/**'
-      - '.mvn/**'
-      - 'mvnw'
-      - 'mvnw.cmd'
-      - 'pom.xml'
+      - "src/**"
+      - ".github/workflows/**"
+      - ".mvn/**"
+      - "mvnw"
+      - "mvnw.cmd"
+      - "pom.xml"
 
 permissions:
   contents: read
@@ -67,7 +67,7 @@ jobs:
           path: ${{ steps.jar.outputs.JAR_FILE }}
 
   call-workflows:
-    needs: [ setup-preview-build ]
+    needs: [setup-preview-build]
     uses: ./.github/workflows/e2e-testing.yml
     with:
       artifact-name: slimefun-united-pr-${{ github.event.number }}+${{ needs.setup-preview-build.outputs.short-commit-hash }}

@@ -5,9 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -69,18 +67,16 @@ public final class ThreadService {
      */
     @ParametersAreNonnullByDefault
     public void newScheduledThread(
-        JavaPlugin plugin,
-        String name,
-        Runnable runnable,
-        long delay,
-        long period,
-        TimeUnit unit
-    ) {
-        this.scheduledPool.scheduleWithFixedDelay(() -> {
-            // This is a bit of a hack, but it's the only way to have the thread name be as desired
-            Thread.currentThread().setName(plugin.getName() + " - " + name);
-            runnable.run();
-        }, delay, delay, unit);
+            JavaPlugin plugin, String name, Runnable runnable, long delay, long period, TimeUnit unit) {
+        this.scheduledPool.scheduleWithFixedDelay(
+                () -> {
+                    // This is a bit of a hack, but it's the only way to have the thread name be as desired
+                    Thread.currentThread().setName(plugin.getName() + " - " + name);
+                    runnable.run();
+                },
+                delay,
+                delay,
+                unit);
     }
 
     /**

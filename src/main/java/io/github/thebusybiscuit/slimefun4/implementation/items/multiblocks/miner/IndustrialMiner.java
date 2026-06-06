@@ -1,15 +1,24 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,20 +30,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
  * ores it finds in a given range underneath where it was placed.
@@ -43,7 +38,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
  * long-time deprecated Digital Miner.</i>
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see AdvancedIndustrialMiner
  * @see MiningTask
  *
@@ -70,9 +65,9 @@ public class IndustrialMiner extends MultiBlockMachine {
                     null,
                     null,
                     null,
-                    ItemStackFactory.create(Material.PISTON, "Piston (Facing Up)"),
+                    new CustomItemStack(Material.PISTON, "Piston (Facing Up)"),
                     new ItemStack(Material.CHEST),
-                    ItemStackFactory.create(Material.PISTON, "Piston (Facing Up)"),
+                    new CustomItemStack(Material.PISTON, "Piston (Facing Up)"),
                     new ItemStack(baseMaterial),
                     new ItemStack(Material.BLAST_FURNACE),
                     new ItemStack(baseMaterial)
@@ -208,9 +203,9 @@ public class IndustrialMiner extends MultiBlockMachine {
         Block northern = chest.getRelative(BlockFace.NORTH);
 
         if (northern.getType() == Material.PISTON) {
-            return new Block[] { northern, chest.getRelative(BlockFace.SOUTH) };
+            return new Block[] {northern, chest.getRelative(BlockFace.SOUTH)};
         } else {
-            return new Block[] { chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST) };
+            return new Block[] {chest.getRelative(BlockFace.WEST), chest.getRelative(BlockFace.EAST)};
         }
     }
 

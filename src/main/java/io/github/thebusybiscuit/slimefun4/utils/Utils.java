@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.net.URI;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -8,13 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
-
-import javax.annotation.Nullable;
-import java.net.URI;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.UUID;
 
 public class Utils {
     private Utils() {}
@@ -78,7 +77,7 @@ public class Utils {
             textures.setSkin(skinUrl);
             profile.setTextures(textures);
         } catch (Exception ignored) {
-            //nothing
+            // nothing
         }
     }
 
@@ -112,8 +111,7 @@ public class Utils {
         return UUID.nameUUIDFromBytes(normalizedInput.getBytes(StandardCharsets.UTF_8));
     }
 
-    @Nullable
-    private static URL toSkinURL(String input) {
+    @Nullable private static URL toSkinURL(String input) {
         try {
             if (isLikelyBase64Json(input)) {
                 String json = new String(Base64.getDecoder().decode(input));
@@ -142,10 +140,12 @@ public class Utils {
         if (s == null || s.length() < 16) return false;
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            if (!((c >= 'A' && c <= 'Z') ||
-                    (c >= 'a' && c <= 'z') ||
-                    (c >= '0' && c <= '9') ||
-                    c == '+' || c == '/' || c == '=')) {
+            if (!((c >= 'A' && c <= 'Z')
+                    || (c >= 'a' && c <= 'z')
+                    || (c >= '0' && c <= '9')
+                    || c == '+'
+                    || c == '/'
+                    || c == '=')) {
                 return false;
             }
         }

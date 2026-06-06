@@ -22,10 +22,16 @@ public class VaultIntegration {
                 econ = rsp.getProvider();
                 plugin.getLogger().log(Level.INFO, "Successfully hooked into Vault");
             } else {
-                plugin.getLogger().log(Level.WARNING, "Could not hook into Vault. If you are a CMI user, please enable the economy system in the configuration file");
+                plugin.getLogger()
+                        .log(
+                                Level.WARNING,
+                                "Could not hook into Vault. If you are a CMI user, please enable the economy system in the configuration file");
             }
         } else {
-            plugin.getLogger().log(Level.WARNING, "Vault was not found on the server, the feature to unlock research using in-game currency will be disabled");
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Vault was not found on the server, the feature to unlock research using in-game currency will be disabled");
         }
     }
 

@@ -10,7 +10,7 @@ resources:
     oil: Óleo
     nether_ice: Gelo do Nether
     salt: Sal
-    uranium: 'Urânio '
+    uranium: "Urânio "
   slimefunorechunks:
     iron_ore_chunk: Pedaço de Minério de Ferro
     gold_ore_chunk: Pedaço de Minério de Ouro

@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machine
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -68,7 +68,7 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
         for (int i : BORDER) {
             preset.addItem(
                     i,
-                    ItemStackFactory.create(Material.CYAN_STAINED_GLASS_PANE, " "),
+                    new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, " "),
                     ChestMenuUtils.getEmptyClickHandler());
         }
     }

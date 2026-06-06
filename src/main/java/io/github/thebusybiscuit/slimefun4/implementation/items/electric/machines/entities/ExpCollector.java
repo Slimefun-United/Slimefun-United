@@ -1,22 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.entities;
 
-import java.util.Iterator;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ExperienceOrb;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -29,11 +15,20 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponen
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.KnowledgeFlask;
-
+import java.util.Iterator;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ExperienceOrb;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link ExpCollector} is a machine which picks up any nearby {@link ExperienceOrb}
@@ -44,7 +39,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
  */
 public class ExpCollector extends SlimefunItem implements InventoryBlock, EnergyNetComponent, NotDiagonallyRotatable {
 
-    private final int[] border = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+    private final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
     private static final String DATA_KEY = "stored-exp";
 
@@ -59,7 +54,8 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     }
 
     @ParametersAreNonnullByDefault
-    public ExpCollector(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double range) {
+    public ExpCollector(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double range) {
         super(itemGroup, item, recipeType, recipe);
         this.range = range;
 
@@ -103,7 +99,7 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 12, 13, 14 };
+        return new int[] {12, 13, 14};
     }
 
     @Override
@@ -113,7 +109,8 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
 
     protected void constructMenu(BlockMenuPreset preset) {
         for (int slot : border) {
-            preset.addItem(slot, ItemStackFactory.create(Material.PURPLE_STAINED_GLASS_PANE, " "), (p, s, item, action) -> false);
+            preset.addItem(
+                    slot, new CustomItemStack(Material.PURPLE_STAINED_GLASS_PANE, " "), (p, s, item, action) -> false);
         }
     }
 
@@ -136,8 +133,8 @@ public class ExpCollector extends SlimefunItem implements InventoryBlock, Energy
     protected void tick(Block block) {
         Location location = block.getLocation();
         Iterator<Entity> iterator = block.getWorld()
-            .getNearbyEntities(location, range, range, range, n -> n instanceof ExperienceOrb && n.isValid())
-            .iterator();
+                .getNearbyEntities(location, range, range, range, n -> n instanceof ExperienceOrb && n.isValid())
+                .iterator();
         int experiencePoints = 0;
 
         while (iterator.hasNext() && experiencePoints == 0) {

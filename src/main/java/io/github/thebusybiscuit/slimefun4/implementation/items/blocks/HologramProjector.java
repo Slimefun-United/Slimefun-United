@@ -2,7 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.blocks;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -108,11 +108,11 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
 
         menu.addItem(
                 0,
-        ItemStackFactory.create(
-            Material.NAME_TAG,
-            "&7Displayed Text &e(Click to edit)",
-            "",
-            "&f" + ChatColors.color(StorageCacheUtils.getData(projector.getLocation(), "text"))));
+                new CustomItemStack(
+                        Material.NAME_TAG,
+                        "&7Displayed Text &e(Click to edit)",
+                        "",
+                        "&f" + ChatColors.color(StorageCacheUtils.getData(projector.getLocation(), "text"))));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             pl.closeInventory();
             Slimefun.getLocalization().sendMessage(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -136,15 +136,15 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
 
         menu.addItem(
                 1,
-                ItemStackFactory.create(
+                new CustomItemStack(
                         Material.CLOCK,
-            "&7Height: &e"
+                        "&7Height: &e"
                                 + NumberUtils.reparseDouble(Double.parseDouble(
                                                 StorageCacheUtils.getData(projector.getLocation(), OFFSET_PARAMETER))
                                         + 1.0D),
                         "",
-            "&fLeft Click: &7+0.1",
-            "&fRight Click: &7-0.1"));
+                        "&fLeft Click: &7+0.1",
+                        "&fRight Click: &7-0.1"));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             var blockData = StorageCacheUtils.getBlock(projector.getLocation());
             double offset = NumberUtils.reparseDouble(

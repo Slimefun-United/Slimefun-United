@@ -1,17 +1,38 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import city.norain.slimefun4.SlimefunExtended;
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.virtual.VirtualItemHandler.ComparisonResult;
+import io.github.thebusybiscuit.slimefun4.api.items.virtual.VirtualItemHandler.MatchContext;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -26,29 +47,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
-import city.norain.slimefun4.SlimefunExtended;
-
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.items.ItemMetaSnapshot;
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.events.SlimefunItemSpawnEvent;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSpawnReason;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
-import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
-import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.CapacitorTextureUpdateTask;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 
 /**
  * This utility class holds method that are directly linked to Slimefun.
@@ -278,115 +276,65 @@ public final class SlimefunUtils {
         return false;
     }
 
-    /**
-     * Compares two {@link ItemStack}s and returns if they are similar or not.
-     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
-     * for performance.
-     * Will check for distintion of items by default and will also confirm the amount
-     * is the same.
-     * @see DistinctiveItem
-     *
-     * @param item
-     *            The {@link ItemStack} being tested.
-     * @param sfitem
-     *            The {@link ItemStack} that {@param item} is being compared against.
-     * @param checkLore
-     *            Whether to include the current lore of either item in the comparison
-     *
-     * @return True if the given {@link ItemStack}s are similar under the given constraints
-     */
     public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore) {
         return isItemSimilar(item, sfitem, checkLore, true, true, true);
     }
 
-    /**
-     * Compares two {@link ItemStack}s and returns if they are similar or not.
-     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
-     * for performance.
-     * Will check for distintion of items by default
-     * @see DistinctiveItem
-     *
-     * @param item
-     *            The {@link ItemStack} being tested.
-     * @param sfitem
-     *            The {@link ItemStack} that {@param item} is being compared against.
-     * @param checkLore
-     *            Whether to include the current lore of either item in the comparison
-     * @param checkAmount
-     *            Whether to include the item's amount(s) in the comparison
-     *
-     * @return True if the given {@link ItemStack}s are similar under the given constraints
-     */
-    public static boolean isItemSimilar(@Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
-        return isItemSimilar(item, sfitem, checkLore, checkAmount, true);
+    public static boolean isItemSimilar(
+            @Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
+        return isItemSimilar(item, sfitem, checkLore, checkAmount, true, true);
     }
 
-    /**
-     * Compares two {@link ItemStack}s and returns if they are similar or not.
-     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
-     * for performance.
-     *
-     * @param item
-     *            The {@link ItemStack} being tested.
-     * @param sfitem
-     *            The {@link ItemStack} that {@param item} is being compared against.
-     * @param checkLore
-     *            Whether to include the current lore of either item in the comparison
-     * @param checkAmount
-     *            Whether to include the item's amount(s) in the comparison
-     * @param checkDistinction
-     *            Whether to check for special distinctive properties of the items.
-     *            @see DistinctiveItem
-     *
-     * @return True if the given {@link ItemStack}s are similar under the given constraints
-     */
     public static boolean isItemSimilar(
-        @Nullable ItemStack item,
-        @Nullable ItemStack sfitem,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkDistinction) {
-        return isItemSimilar(item, sfitem, checkLore, checkAmount, checkDistinction, true);
+            @Nullable ItemStack item,
+            @Nullable ItemStack sfitem,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkDistinctiveItem) {
+        return isItemSimilar(item, sfitem, checkLore, checkAmount, checkDistinctiveItem, true);
     }
 
-    /**
-     * Compares two {@link ItemStack}s and returns if they are similar or not.
-     * Takes into account some shortcut checks specific to {@link SlimefunItem}s
-     * for performance.
-     *
-     * @param item
-     *            The {@link ItemStack} being tested.
-     * @param sfitem
-     *            The {@link ItemStack} that {@param item} is being compared against.
-     * @param checkLore
-     *            Whether to include the current lore of either item in the comparison
-     * @param checkAmount
-     *            Whether to include the item's amount(s) in the comparison
-     * @param checkDistinctiveItem
-     *            Whether to check for special distinctive properties of the items.
-     *            @see DistinctiveItem
-     * @param checkCustomModelData
-     *            Whether to check for distinctive model data.
-     *            @see DistinctiveItem
-     *
-     * @return True if the given {@link ItemStack}s are similar under the given constraints
-     */
     public static boolean isItemSimilar(
-        @Nullable ItemStack item,
-        @Nullable ItemStack sfitem,
-        boolean checkLore,
-        boolean checkAmount,
-        boolean checkDistinctiveItem,
-        boolean checkCustomModelData) {
+            @Nullable ItemStack item,
+            @Nullable ItemStack sfitem,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkDistinctiveItem,
+            boolean checkCustomModelData) {
+        ComparisonResult comparison = Slimefun.getItemStackService().matches(item, sfitem, MatchContext.GENERIC);
+        if (comparison == ComparisonResult.MATCH) {
+            return true;
+        }
+
+        if (comparison == ComparisonResult.NO_MATCH) {
+            return false;
+        }
+
+        return isItemSimilarWithoutVirtualItems(
+                item, sfitem, checkLore, checkAmount, checkDistinctiveItem, checkCustomModelData);
+    }
+
+    public static boolean isItemSimilarWithoutVirtualItems(
+            @Nullable ItemStack item, @Nullable ItemStack sfitem, boolean checkLore, boolean checkAmount) {
+        return isItemSimilarWithoutVirtualItems(item, sfitem, checkLore, checkAmount, true, true);
+    }
+
+    public static boolean isItemSimilarWithoutVirtualItems(
+            @Nullable ItemStack item,
+            @Nullable ItemStack sfitem,
+            boolean checkLore,
+            boolean checkAmount,
+            boolean checkDistinctiveItem,
+            boolean checkCustomModelData) {
         if (item == null) {
             return sfitem == null;
         } else if (sfitem == null
-            || item.getType() != sfitem.getType()
-            || checkAmount && item.getAmount() < sfitem.getAmount()) {
+                || item.getType() != sfitem.getType()
+                || checkAmount && item.getAmount() < sfitem.getAmount()) {
             return false;
         } else if (checkDistinctiveItem
-            && sfitem instanceof SlimefunItemStack stackOne
-            && item instanceof SlimefunItemStack stackTwo) {
+                && sfitem instanceof SlimefunItemStack stackOne
+                && item instanceof SlimefunItemStack stackTwo) {
             if (stackOne.getItemId().equals(stackTwo.getItemId())) {
                 /*
                  * PR #3417
@@ -401,7 +349,6 @@ public final class SlimefunUtils {
             }
             return false;
         } else if (item.hasItemMeta()) {
-            Debug.log(TestCase.CARGO_INPUT_TESTING, "SlimefunUtils#isItemSimilar - item.hasItemMeta()");
             ItemMeta itemMeta = item.getItemMeta();
 
             if (sfitem instanceof SlimefunItemStack sfItemStack) {
@@ -463,6 +410,7 @@ public final class SlimefunUtils {
                     return false;
                 }
             }
+
         } else {
             return !sfitem.hasItemMeta();
         }
@@ -573,7 +521,7 @@ public final class SlimefunUtils {
                 return potionMeta.hasBasePotionType()
                         && sfPotionMeta.hasBasePotionType()
                         && potionMeta.getBasePotionType().equals(sfPotionMeta.getBasePotionType());
-            } else if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 20, 2)) {
+            } else if (SlimefunExtended.isAtLeast(1, 20, 2)) {
                 return potionMeta.getBasePotionType().equals(sfPotionMeta.getBasePotionType());
             } else {
                 return potionMeta.getBasePotionData().equals(sfPotionMeta.getBasePotionData());

@@ -1,5 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.api.recipes;
 
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -9,11 +18,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
@@ -22,22 +29,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
-import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-
 // TODO: Remove this class and rewrite the recipe system
 public class RecipeType implements Keyed {
 
     public static final RecipeType MULTIBLOCK = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "multiblock"),
-            ItemStackFactory.create(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
+            new CustomItemStack(Material.BRICKS, "&bMultiBlock", "", "&a&oBuild it in the World"));
     public static final RecipeType ARMOR_FORGE = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "armor_forge"),
             SlimefunItems.ARMOR_FORGE,
@@ -108,19 +105,19 @@ public class RecipeType implements Keyed {
 
     public static final RecipeType MOB_DROP = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "mob_drop"),
-            ItemStackFactory.create(Material.IRON_SWORD, "&bMob Drop"),
+            new CustomItemStack(Material.IRON_SWORD, "&bMob Drop"),
             RecipeType::registerMobDrop,
             "",
             "&rKill the specified Mob to obtain this Item");
     public static final RecipeType BARTER_DROP = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "barter_drop"),
-            ItemStackFactory.create(Material.GOLD_INGOT, "&bBarter Drop"),
+            new CustomItemStack(Material.GOLD_INGOT, "&bBarter Drop"),
             RecipeType::registerBarterDrop,
             "&aBarter with piglins for a chance",
             "&ato obtain this item");
     public static final RecipeType INTERACT = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "interact"),
-            ItemStackFactory.create(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
+            new CustomItemStack(Material.PLAYER_HEAD, "&bInteract", "", "&a&oRight click with this item"));
 
     public static final RecipeType HEATED_PRESSURE_CHAMBER = new RecipeType(
             new NamespacedKey(Slimefun.instance(), "heated_pressure_chamber"), SlimefunItems.HEATED_PRESSURE_CHAMBER);
@@ -168,7 +165,7 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(NamespacedKey key, ItemStack item, BiConsumer<ItemStack[], ItemStack> callback, String... lore) {
-        this.item = ItemStackFactory.create(item, null, lore);
+        this.item = new CustomItemStack(item, null, lore);
         this.key = key;
         this.registerConsumer = callback;
 
@@ -185,7 +182,7 @@ public class RecipeType implements Keyed {
             BiConsumer<ItemStack[], ItemStack> registerCallback,
             BiConsumer<ItemStack[], ItemStack> unregisterCallback,
             String... lore) {
-        this.item = ItemStackFactory.create(item, null, lore);
+        this.item = new CustomItemStack(item, null, lore);
         this.key = key;
         this.registerConsumer = registerCallback;
         this.unregisterConsumer = unregisterCallback;

@@ -1,25 +1,21 @@
 package io.github.thebusybiscuit.slimefun4.core.guide.options;
 
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
-import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
 
@@ -56,15 +52,20 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
             }
 
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "guide.modes.selected") +
-                    ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "guide.modes." + selectedMode.name()));
+            meta.setDisplayName(ChatColor.GRAY
+                    + Slimefun.getLocalization().getMessage(p, "guide.modes.selected")
+                    + ChatColor.YELLOW
+                    + Slimefun.getLocalization().getMessage(p, "guide.modes." + selectedMode.name()));
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add((selectedMode == SlimefunGuideMode.SURVIVAL_MODE ? ChatColor.GREEN : ChatColor.GRAY) + Slimefun.getLocalization().getMessage(p, "guide.modes.SURVIVAL_MODE"));
-            lore.add((selectedMode == SlimefunGuideMode.CHEAT_MODE ? ChatColor.GREEN : ChatColor.GRAY) + Slimefun.getLocalization().getMessage(p, "guide.modes.CHEAT_MODE"));
+            lore.add((selectedMode == SlimefunGuideMode.SURVIVAL_MODE ? ChatColor.GREEN : ChatColor.GRAY)
+                    + Slimefun.getLocalization().getMessage(p, "guide.modes.SURVIVAL_MODE"));
+            lore.add((selectedMode == SlimefunGuideMode.CHEAT_MODE ? ChatColor.GREEN : ChatColor.GRAY)
+                    + Slimefun.getLocalization().getMessage(p, "guide.modes.CHEAT_MODE"));
 
             lore.add("");
-            lore.add(ChatColor.GRAY + "\u21E8 " + ChatColor.YELLOW + Slimefun.getLocalization().getMessage(p, "guide.modes.change"));
+            lore.add(ChatColor.GRAY + "\u21E8 " + ChatColor.YELLOW
+                    + Slimefun.getLocalization().getMessage(p, "guide.modes.change"));
             meta.setLore(lore);
             item.setItemMeta(meta);
 
@@ -114,5 +115,4 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
     public void setSelectedOption(Player p, ItemStack guide, SlimefunGuideMode value) {
         guide.setItemMeta(SlimefunGuide.getItem(value).getItemMeta());
     }
-
 }

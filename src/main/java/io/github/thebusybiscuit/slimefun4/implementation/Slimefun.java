@@ -1,50 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.Recipe;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
-import org.bukkit.scheduler.BukkitTask;
-
-import net.guizhanss.slimefun4.updater.AutoUpdateTask;
-import io.github.bakedlibs.dough.config.Config;
-import io.github.bakedlibs.dough.protection.ProtectionManager;
-
+import city.norain.slimefun4.ServerVersion;
 import city.norain.slimefun4.SlimefunExtended;
 import city.norain.slimefun4.timings.SQLProfiler;
 import com.xzavier0722.mc.plugin.slimefun4.chat.PlayerChatCatcher;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.BlockStorageMigrator;
 import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.PlayerProfileMigrator;
 import com.xzavier0722.mc.plugin.slimefuncomplib.ICompatibleSlimefun;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.bakedlibs.dough.protection.ProtectionManager;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.gps.GPSNetwork;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
@@ -57,6 +26,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.BackupService;
 import io.github.thebusybiscuit.slimefun4.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun4.core.services.CustomTextureService;
+import io.github.thebusybiscuit.slimefun4.core.services.ItemStackService;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun4.core.services.MinecraftRecipeService;
@@ -141,7 +111,32 @@ import io.github.thebusybiscuit.slimefun4.integrations.IntegrationsManager;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuListener;
+import net.guizhanss.slimefun4.updater.AutoUpdateTask;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.command.Command;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.bukkit.scheduler.BukkitTask;
 
 /**
  * This is the main class of Slimefun.
@@ -199,6 +194,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     private final SoundService soundService = new SoundService(this);
     private final ThreadService threadService = new ThreadService(this);
     private final AnalyticsService analyticsService = new AnalyticsService(this);
+    private final ItemStackService itemStackService = new ItemStackService();
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -365,7 +361,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
 
         // Make sure that the network size is a valid input
         if (networkSize < 1) {
-            logger.log(Level.WARNING, "'networks.max-size' is configured incorrectly! It must be greater than 1, but you set it to: {0}", networkSize);
+            logger.log(
+                    Level.WARNING,
+                    "'networks.max-size' is configured incorrectly! It must be greater than 1, but you set it to: {0}",
+                    networkSize);
             networkSize = 1;
         }
 
@@ -610,40 +609,43 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             }
 
             // Now check the actual Version of Minecraft
-            int version = PaperLib.getMinecraftVersion();
-            int patchVersion = PaperLib.getMinecraftPatchVersion();
+            // the Minecraft version id (e.g. "1.20.4", "1.20.2-pre2", "23w31a")
+            ServerVersion serverVerDetail = SlimefunExtended.getServerVerDetail(getServer());
 
-            if (version > 0) {
-                // Check all supported versions of Minecraft
-                for (MinecraftVersion supportedVersion : MinecraftVersion.values()) {
-                    if (supportedVersion.isMinecraftVersion(version, patchVersion)) {
-                        minecraftVersion = supportedVersion;
-                        return false;
-                    }
-                }
-
-                // Looks like you are using an unsupported Minecraft Version
-                StartupWarnings.invalidMinecraftVersion(
-                        getLogger(), version, getDescription().getVersion());
-                return true;
-            } else {
-                getLogger().log(Level.WARNING, "We could not recognize your Minecraft version (1.{0}.x)", version);
-
-                /*
-                 * If we are unsure about it, we will assume "supported".
-                 * They could be using a non-Bukkit based Software which still
-                 * might support Bukkit-based plugins.
-                 * Use at your own risk in this case.
-                 */
+            if (serverVerDetail == null) {
+                getLogger()
+                        .log(
+                                Level.WARNING,
+                                "我们无法识别你正在使用的 Minecraft 版本 ({0})",
+                                getServer().getMinecraftVersion());
                 return false;
             }
+
+            int major = serverVerDetail.getMajor();
+            int minor = serverVerDetail.getMinor();
+            int patch = serverVerDetail.getPatch();
+
+            // Check all supported versions of Minecraft
+            for (MinecraftVersion supportedVersion : MinecraftVersion.values()) {
+                if (supportedVersion.isMinecraftVersion(major, minor, patch)) {
+                    minecraftVersion = supportedVersion;
+                    return false;
+                }
+            }
+
+            // Looks like you are using an unsupported Minecraft Version
+            StartupWarnings.invalidMinecraftVersion(
+                    getLogger(),
+                    getServer().getMinecraftVersion(),
+                    getDescription().getVersion());
+            return true;
         } catch (Exception | LinkageError x) {
             getLogger()
-            .log(
-                Level.SEVERE,
-                x,
-                () -> "error: Could not recognize server Minecraft version, Slimefun v"
-                    + getDescription().getVersion());
+                    .log(
+                            Level.SEVERE,
+                            x,
+                            () -> "error: Could not recognize server Minecraft version, Slimefun v"
+                                    + getDescription().getVersion());
 
             // We assume "unsupported" if something went wrong.
             return true;
@@ -678,8 +680,8 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      * This method creates all necessary directories (and sub directories) for Slimefun.
      */
     private void createDirectories() {
-        String[] storageFolders = { "waypoints", "block-backups" };
-        String[] pluginFolders = { "scripts", "error-reports", "cache/github", "world-settings" };
+        String[] storageFolders = {"waypoints", "block-backups"};
+        String[] pluginFolders = {"scripts", "error-reports", "cache/github", "world-settings"};
 
         for (String folder : storageFolders) {
             File file = new File("data-storage/Slimefun", folder);
@@ -742,7 +744,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         new SoulboundListener(this);
         new AutoCrafterListener(this);
         new SlimefunItemHitListener(this);
-        if (SlimefunExtended.getMinecraftVersion().isAtLeast(1, 21, 5)) {
+        if (SlimefunExtended.isAtLeast(1, 21, 5)) {
             new VersionedMiddleClickListener(this);
         } else {
             new MiddleClickListener(this);
@@ -937,11 +939,14 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         return instance.blockDataService;
     }
 
+    public static @Nonnull ItemStackService getItemStackService() {
+        validateInstance();
+        return instance.itemStackService;
+    }
+
     /**
-     * This method returns out world settings service.
-     * That service is responsible for managing item settings per
-     * {@link World}, such as disabling a {@link SlimefunItem} in a
-     * specific {@link World}.
+     * This returns our instance of {@link IntegrationsManager}.
+     * This is responsible for managing any integrations with third party {@link Plugin plugins}.
      *
      * @return Our instance of {@link PerWorldSettingsService}
      */
@@ -1043,7 +1048,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      *
      * @return Our {@link NetworkManager} instance
      */
-
     public static @Nonnull NetworkManager getNetworkManager() {
         validateInstance();
         return instance.networkManager;

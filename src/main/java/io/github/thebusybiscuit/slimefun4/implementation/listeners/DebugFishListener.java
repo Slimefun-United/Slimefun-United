@@ -1,12 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import city.norain.slimefun4.utils.TaskUtil;
+import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.Utils;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,28 +37,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import io.github.bakedlibs.dough.common.ChatColors;
-
-import city.norain.slimefun4.utils.TaskUtil;
-import com.xzavier0722.mc.plugin.slimefun4.storage.callback.IAsyncReadCallback;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.EnergyRegulator;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import io.github.thebusybiscuit.slimefun4.utils.Utils;
 
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
@@ -106,7 +102,10 @@ public class DebugFishListener implements Listener {
                         Block block = b.getRelative(face);
                         block.setType(Material.PLAYER_HEAD);
 
-                Utils.applyHeadHashToBlock(block, HeadTexture.MISSING_TEXTURE.getTextureHash(), HeadTexture.MISSING_TEXTURE.getUniqueId());
+                        Utils.applyHeadHashToBlock(
+                                block,
+                                HeadTexture.MISSING_TEXTURE.getTextureHash(),
+                                HeadTexture.MISSING_TEXTURE.getUniqueId());
                         SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
                     },
                     2L);
@@ -122,8 +121,10 @@ public class DebugFishListener implements Listener {
                             .getUniversalDataUUID(b)
                             .ifPresentOrElse(
                                     (uuid) -> {
-                    p.sendMessage(ChatColors.color(
-                        "&cDetected a corrupted universal data item. UUID: " + uuid + ". Please check whether the corresponding record exists in the database!"));
+                                        p.sendMessage(
+                                                ChatColors.color(
+                                                        "&cDetected a corrupted universal data item. UUID: " + uuid
+                                                                + ". Please check whether the corresponding record exists in the database!"));
                                         sendVanillaInfo(p, b);
                                     },
                                     () -> sendVanillaInfo(p, b)));

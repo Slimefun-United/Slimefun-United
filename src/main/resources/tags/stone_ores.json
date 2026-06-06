@@ -1,10 +1,10 @@
 {
-  "values" : [
+  "values": [
     "minecraft:coal_ore",
     "minecraft:iron_ore",
     {
-      "id" : "minecraft:copper_ore",
-      "required" : false
+      "id": "minecraft:copper_ore",
+      "required": false
     },
     "minecraft:gold_ore",
     "minecraft:redstone_ore",

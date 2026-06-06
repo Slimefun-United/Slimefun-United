@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
@@ -214,7 +214,7 @@ public class ItemGroup implements Keyed {
      * @return A localized display item for this {@link ItemGroup}
      */
     public @Nonnull ItemStack getItem(@Nonnull Player p) {
-        return ItemStackFactory.create(item, meta -> {
+        return new CustomItemStack(item, meta -> {
             String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
             if (name == null) {

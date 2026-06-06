@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -85,7 +85,7 @@ public class HeatedPressureChamber extends AContainer {
     @Override
     protected void registerDefaultRecipes() {
         registerRecipe(45, new ItemStack[] {SlimefunItems.OIL_BUCKET}, new ItemStack[] {
-            ItemStackFactory.create(SlimefunItems.PLASTIC_SHEET, 8)
+            new CustomItemStack(SlimefunItems.PLASTIC_SHEET, 8)
         });
         registerRecipe(30, new ItemStack[] {SlimefunItems.GOLD_24K, SlimefunItems.URANIUM}, new ItemStack[] {
             SlimefunItems.BLISTERING_INGOT
@@ -101,10 +101,10 @@ public class HeatedPressureChamber extends AContainer {
             SlimefunItems.BOOSTED_URANIUM
         });
         registerRecipe(60, new ItemStack[] {SlimefunItems.NETHER_ICE, SlimefunItems.PLUTONIUM}, new ItemStack[] {
-            ItemStackFactory.create(SlimefunItems.ENRICHED_NETHER_ICE, 4)
+            new CustomItemStack(SlimefunItems.ENRICHED_NETHER_ICE, 4)
         });
         registerRecipe(45, new ItemStack[] {SlimefunItems.ENRICHED_NETHER_ICE}, new ItemStack[] {
-            ItemStackFactory.create(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)
+            new CustomItemStack(SlimefunItems.NETHER_ICE_COOLANT_CELL, 8)
         });
         registerRecipe(8, new ItemStack[] {SlimefunItems.MAGNESIUM_DUST, SlimefunItems.SALT}, new ItemStack[] {
             SlimefunItems.MAGNESIUM_SALT

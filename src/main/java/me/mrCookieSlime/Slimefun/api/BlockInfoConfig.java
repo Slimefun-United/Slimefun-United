@@ -1,18 +1,15 @@
 package me.mrCookieSlime.Slimefun.api;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nonnull;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 /**
  * This class is used to speed up parsing of a {@link JsonObject} that is stored at

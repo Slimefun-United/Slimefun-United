@@ -1,19 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.tools;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.blocks.Vein;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
@@ -24,6 +12,15 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link PickaxeOfVeinMining} is a powerful tool which allows you to mine an entire vein of ores
@@ -47,7 +44,10 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
     public @Nonnull ToolUseHandler getItemHandler() {
         return (e, tool, fortune, drops) -> {
             if (SlimefunTag.PICKAXE_OF_VEIN_MINING_BLOCKS.isTagged(e.getBlock().getType())) {
-                List<Block> blocks = Vein.find(e.getBlock(), maxBlocks.getValue(), b -> SlimefunTag.PICKAXE_OF_VEIN_MINING_BLOCKS.isTagged(b.getType()));
+                List<Block> blocks = Vein.find(
+                        e.getBlock(),
+                        maxBlocks.getValue(),
+                        b -> SlimefunTag.PICKAXE_OF_VEIN_MINING_BLOCKS.isTagged(b.getType()));
                 breakBlocks(e.getPlayer(), blocks, fortune, tool);
             }
         };
@@ -63,7 +63,10 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
                     b.getWorld().dropItemNaturally(b.getLocation(), new ItemStack(b.getType()));
                 } else {
                     for (ItemStack drop : b.getDrops(tool)) {
-                        b.getWorld().dropItemNaturally(b.getLocation(), drop.getType().isBlock() ? drop : ItemStackFactory.create(drop, fortune));
+                        b.getWorld()
+                                .dropItemNaturally(
+                                        b.getLocation(),
+                                        drop.getType().isBlock() ? drop : new CustomItemStack(drop, fortune));
                     }
                 }
 
@@ -71,5 +74,4 @@ public class PickaxeOfVeinMining extends SimpleSlimefunItem<ToolUseHandler> {
             }
         }
     }
-
 }

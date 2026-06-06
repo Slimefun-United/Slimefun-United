@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
 import javax.annotation.Nonnull;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -9,7 +8,7 @@ import org.bukkit.event.HandlerList;
 
 /**
  * The {@link RadiationDamageEvent} is called when a player takes radiation damage.
- * 
+ *
  * @author HoosierTransfer
  */
 public class RadiationDamageEvent extends Event implements Cancellable {
@@ -21,7 +20,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
 
     /**
      * This constructs a new {@link RadiationDamageEvent}.
-     * 
+     *
      * @param player The {@link Player} who took radiation damage
      * @param exposure The amount of radiation exposure
      */
@@ -32,7 +31,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
 
     /**
      * This returns the {@link Player} who took radiation damage.
-     * 
+     *
      * @return The {@link Player} who took radiation damage
      */
     public @Nonnull Player getPlayer() {
@@ -41,7 +40,7 @@ public class RadiationDamageEvent extends Event implements Cancellable {
 
     /**
      * This returns the amount of radiation exposure.
-     * 
+     *
      * @return The amount of radiation exposure
      */
     public int getExposure() {

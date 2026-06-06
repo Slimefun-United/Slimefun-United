@@ -1,16 +1,22 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.api.items.virtual.VirtualItemHandler.InventoryContext;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
 import java.util.UUID;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -22,18 +28,6 @@ import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.bakedlibs.dough.scheduling.TaskQueue;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.compatibility.VersionedParticle;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
  * This represents a running instance of an {@link IndustrialMiner}.
@@ -279,13 +273,13 @@ class MiningTask implements Runnable {
         // Check if there is enough fuel to run
         if (fuelLevel > 0) {
             if (chest.getType() == Material.CHEST) {
-                BlockState state = PaperLib.getBlockState(chest, false).getState();
+                BlockState state = chest.getState(false);
 
                 if (state instanceof Chest chestState) {
                     Inventory inv = chestState.getBlockInventory();
 
-                    if (InvUtils.fits(inv, item)) {
-                        inv.addItem(item);
+                    if (Slimefun.getItemStackService().fits(inv, item, InventoryContext.OUTPUT_CHEST)) {
+                        Slimefun.getItemStackService().addItem(inv, item, InventoryContext.OUTPUT_CHEST);
                         return true;
                     } else {
                         stop(MinerStoppingReason.CHEST_FULL);
@@ -310,7 +304,7 @@ class MiningTask implements Runnable {
      */
     private void consumeFuel() {
         if (chest.getType() == Material.CHEST) {
-            BlockState state = PaperLib.getBlockState(chest, false).getState();
+            BlockState state = chest.getState(false);
 
             if (state instanceof Chest chestState) {
                 Inventory inv = chestState.getBlockInventory();

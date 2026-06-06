@@ -63,8 +63,10 @@ class BlockDataCommand extends SubCommand {
         switch (args[1]) {
             case "get" -> {
                 String value = blockData.getData(key);
-                ChatUtils.sendMessage(player, "&aThe value of &b%key% &afor this block is: &e%value%", msg -> msg.replace("%key%", key)
-                        .replace("%value%", value == null ? "null" : value));
+                ChatUtils.sendMessage(
+                        player,
+                        "&aThe value of &b%key% &afor this block is: &e%value%",
+                        msg -> msg.replace("%key%", key).replace("%value%", value == null ? "null" : value));
             }
             case "set" -> {
                 if (args.length < 4) {
@@ -85,8 +87,10 @@ class BlockDataCommand extends SubCommand {
                 String value = args[3];
 
                 blockData.setData(key, value);
-                ChatUtils.sendMessage(player, "&aSet the value of &b%key% &afor this block to: &e%value%", msg -> msg.replace("%key%", key)
-                        .replace("%value%", value));
+                ChatUtils.sendMessage(
+                        player,
+                        "&aSet the value of &b%key% &afor this block to: &e%value%",
+                        msg -> msg.replace("%key%", key).replace("%value%", value));
             }
             case "remove" -> {
                 if (key.equalsIgnoreCase("id")) {
@@ -95,7 +99,8 @@ class BlockDataCommand extends SubCommand {
                 }
 
                 blockData.removeData(key);
-                ChatUtils.sendMessage(player, "&aRemoved the value of &b%key% &afor this block", msg -> msg.replace("%key%", key));
+                ChatUtils.sendMessage(
+                        player, "&aRemoved the value of &b%key% &afor this block", msg -> msg.replace("%key%", key));
             }
             default -> {
                 Slimefun.getLocalization()

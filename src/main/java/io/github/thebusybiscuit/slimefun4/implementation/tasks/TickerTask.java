@@ -1,5 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.attributes.UniversalBlock;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.bakedlibs.dough.blocks.ChunkPosition;
+import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.ticker.TickLocation;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,30 +19,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import lombok.Setter;
+import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.apache.commons.lang.Validate;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitScheduler;
-
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.blocks.ChunkPosition;
-
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ASlimefunDataContainer;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunUniversalData;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.attributes.UniversalBlock;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.ticker.TickLocation;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 
 /**
  * The {@link TickerTask} is responsible for ticking every {@link BlockTicker},
@@ -264,9 +260,18 @@ public class TickerTask implements Runnable {
             Slimefun.logger().log(Level.SEVERE, "X: {0} Y: {1} Z: {2} ({3})", new Object[] {
                 l.getBlockX(), l.getBlockY(), l.getBlockZ(), item.getId()
             });
-            Slimefun.logger().log(Level.SEVERE, "Multiple errors occurred in the past 4 ticks, the machine at this block has been disabled.");
-            Slimefun.logger().log(Level.SEVERE, "Please check the error details in the /plugins/Slimefun/error-reports/ folder.");
-            Slimefun.logger().log(Level.SEVERE, "If you want to report this error, send the above error report file to others, not a screenshot of this window.");
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            "Multiple errors occurred in the past 4 ticks, the machine at this block has been disabled.");
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            "Please check the error details in the /plugins/Slimefun/error-reports/ folder.");
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            "If you want to report this error, send the above error report file to others, not a screenshot of this window.");
             Slimefun.logger().log(Level.SEVERE, " ");
             bugs.remove(position);
 
@@ -303,9 +308,11 @@ public class TickerTask implements Runnable {
     @Nonnull
     public Map<ChunkPosition, Set<Location>> getLocations() {
         return tickingLocations.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().stream()
-                        .map(TickLocation::getLocation)
-                        .collect(Collectors.toUnmodifiableSet())));
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().stream()
+                                .map(TickLocation::getLocation)
+                                .collect(Collectors.toUnmodifiableSet())));
     }
 
     /**

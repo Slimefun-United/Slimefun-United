@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack;
 public class TrashCan extends SlimefunItem implements InventoryBlock, NotRotatable {
 
     private final int[] border = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-    private final ItemStack background = ItemStackFactory.create(Material.RED_STAINED_GLASS_PANE, " ");
+    private final ItemStack background = new CustomItemStack(Material.RED_STAINED_GLASS_PANE, " ");
 
     @ParametersAreNonnullByDefault
     public TrashCan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {

@@ -12,8 +12,9 @@ This SOP will go over updating Slimefun to the newest Minecraft version, most of
 ### Updating Paper
 
 The first step is just updating Paper in the pom.xml. This should only be done in 2 cases:
-* There's a new major version (well, MC major - 1.19 -> 1.20 is a major)
-* There was a change within MC or Paper that broke the API
+
+- There's a new major version (well, MC major - 1.19 -> 1.20 is a major)
+- There was a change within MC or Paper that broke the API
 
 To update the Paper version, you will need to go to the `pom.xml` and find the `spigot.version` property, this will be within the `properties` property. Simply make this the MC version (e.g. `1.20` or in the case of minor `1.20.4`).
 
@@ -34,18 +35,19 @@ Once all the tests are passed, check to see if there's a new version of [MockBuk
 The final and most important step is testing this in game. While I'd love for our tests to be perfect, they are not (especially if MockBukkit hasn't had an update yet). We need to ensure that everything is working in-game before we can ship a new version release.
 
 To do this, you will need to build the plugin with `mvn clean package` and then copy the jar from `target/` to your server's `plugins/` folder. Once you've done this, start the server. You will want to test various things but the things we always want covered are:
-* Commands, verify running a few commands work
-  * `/sf versions`
-  * `/sf cheat`
-  * `/sf search`
-* Items, verify you can use a few items (you can grab these from `/sf cheat`)
-  * Wind staff
-  * One of the talismans
-  * One of the backpacks
-* Blocks, verify you can place, break and ensure they all work
-  * Ancient altar
-  * Ore washer
-  * Coal generator
+
+- Commands, verify running a few commands work
+  - `/sf versions`
+  - `/sf cheat`
+  - `/sf search`
+- Items, verify you can use a few items (you can grab these from `/sf cheat`)
+  - Wind staff
+  - One of the talismans
+  - One of the backpacks
+- Blocks, verify you can place, break and ensure they all work
+  - Ancient altar
+  - Ore washer
+  - Coal generator
 
 It is important to verify heads are still working (part of the energy network and the coal generator). If head skins are not loading, consider it as a bug: try figuring out what the issue is, and ask in the [Discord](https://discord.gg/C8M6nPyDu6) if you are not sure what the cause may be.
 

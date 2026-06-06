@@ -1,8 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.apache.commons.lang.Validate;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
@@ -11,14 +12,11 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
-
 /**
  * This {@link Event} is fired whenever a {@link BlockPlacer} wants to place a {@link Block}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  */
 public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
@@ -32,7 +30,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This creates a new {@link BlockPlacerPlaceEvent}.
-     * 
+     *
      * @param blockPlacer
      *            The {@link BlockPlacer}
      * @param placedItem
@@ -60,7 +58,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This returns the placed {@link ItemStack}.
-     * 
+     *
      * @return The placed {@link ItemStack}
      */
     @Nonnull
@@ -70,7 +68,7 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
 
     /**
      * This sets the placed {@link ItemStack}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to be placed
      */
@@ -80,7 +78,8 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
         if (!locked) {
             this.placedItem = item;
         } else {
-            SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
+            SlimefunItem.getByItem(placedItem)
+                    .warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
         }
     }
 
@@ -94,7 +93,8 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
         if (!locked) {
             cancelled = cancel;
         } else {
-            SlimefunItem.getByItem(placedItem).warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
+            SlimefunItem.getByItem(placedItem)
+                    .warn("A BlockPlacerPlaceEvent cannot be modified from within a BlockPlaceHandler!");
         }
     }
 
@@ -115,5 +115,4 @@ public class BlockPlacerPlaceEvent extends BlockEvent implements Cancellable {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-
 }

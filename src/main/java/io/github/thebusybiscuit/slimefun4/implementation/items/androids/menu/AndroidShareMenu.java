@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.androids.menu;
 
-import io.github.bakedlibs.dough.items.ItemStackFactory;
+import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.ProgrammableAndroid;
@@ -73,7 +73,7 @@ public final class AndroidShareMenu {
         // Add trusted player slot
         menu.addItem(
                 0,
-                ItemStackFactory.create(
+                new CustomItemStack(
                         HeadTexture.SCRIPT_UP.getAsItemStack(),
                         Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player-title"),
                         Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player")));
@@ -110,7 +110,7 @@ public final class AndroidShareMenu {
                 OfflinePlayer current = Bukkit.getOfflinePlayer(UUID.fromString(users.get(index)));
                 menu.addItem(
                         slot,
-                        ItemStackFactory.create(
+                        new CustomItemStack(
                                 PlayerHead.getItemStack(current),
                                 "&b" + current.getName(),
                                 Slimefun.getLocalization().getMessage("android.access-manager.menu.delete-player")));
